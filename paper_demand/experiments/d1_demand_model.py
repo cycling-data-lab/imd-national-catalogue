@@ -16,6 +16,7 @@ Metric : R^2, MAE, RMSE on test set (in trips units after expm1)
 from __future__ import annotations
 
 import json
+import os
 import time
 from pathlib import Path
 
@@ -24,8 +25,13 @@ import pandas as pd
 import lightgbm as lgb
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
-DATA_ROOT = Path("/home/rohanfosse/Bureau/Recherche/bikeshare-data-explorer/data")
-OUT_DIR = Path("/home/rohanfosse/Bureau/Recherche/imd-national-catalogue/paper_demand/experiments/outputs")
+DATA_ROOT = Path(
+    os.environ.get(
+        "BIKESHARE_DATA_ROOT",
+        str(Path(__file__).resolve().parents[3] / "bikeshare-data-explorer" / "data"),
+    )
+)
+OUT_DIR = Path(__file__).resolve().parents[0] / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

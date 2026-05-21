@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 import warnings
 from pathlib import Path
@@ -33,8 +34,13 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 warnings.filterwarnings("ignore")
 
-ROOT = Path("/home/rohanfosse/Bureau/Recherche/imd-national-catalogue/paper_demand")
-SNAPSHOTS = Path("/home/rohanfosse/Bureau/Recherche/bikeshare-data-explorer/data/status_snapshots")
+ROOT = Path(__file__).resolve().parents[1]   # paper_demand/
+SNAPSHOTS = Path(
+    os.environ.get(
+        "GBFS_SNAPSHOTS",
+        str(ROOT.parents[1] / "bikeshare-data-explorer" / "data" / "status_snapshots"),
+    )
+)
 IMD_INTL_DIR = ROOT / "data_collection" / "imd_international"
 OUT_DIR = ROOT / "experiments" / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)

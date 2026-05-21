@@ -31,7 +31,7 @@ from pandas.api.types import is_numeric_dtype
 
 warnings.filterwarnings("ignore")
 
-ROOT = Path("/home/rohanfosse/Bureau/Recherche/imd-national-catalogue/paper_demand")
+ROOT = Path(__file__).resolve().parents[1]   # paper_demand/
 TIER1_DIR = ROOT / "data_collection" / "tier1_trip_logs"
 IMD_INTL_DIR = ROOT / "data_collection" / "imd_international"
 OUT_DIR = ROOT / "experiments" / "outputs"

@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import r2_score
 
-OUT = Path("/home/rohanfosse/Bureau/Recherche/imd-national-catalogue/paper_demand/experiments/outputs")
+OUT = Path(__file__).resolve().parents[0] / "outputs"
 B = 500
 SEED = 42
 
