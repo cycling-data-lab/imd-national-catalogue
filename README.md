@@ -16,7 +16,7 @@
 ## Quick start (local, no Hugging Face yet)
 
 ```bash
-git clone https://github.com/rohanfosse/imd-national-catalogue.git
+git clone https://github.com/cycling-data-lab/imd-national-catalogue.git
 cd imd-national-catalogue
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[test]"
@@ -99,7 +99,7 @@ deserts = imd[imd["double_penalty"]].sort_values("IMD4_national")
 
 | Resource | Where |
 | --- | --- |
-| Sister catalogue (stations, Paper 01) | [github.com/rohanfosse/gbfs-audit-catalogue](https://github.com/rohanfosse/gbfs-audit-catalogue) |
+| Sister catalogue (stations, Paper 01) | [github.com/cycling-data-lab/gbfs-audit-catalogue](https://github.com/cycling-data-lab/gbfs-audit-catalogue) |
 | Manuscript (LaTeX) | [`paper/`](paper/) — Paper 04 of the BikeShare-ICT series |
 | Bayesian methodology (Paper 03) | upstream calibration; weights ingested by `imd_pipeline/` |
 | Dataset card + full schema | _coming with v1.0.0 on Hugging Face_ |
@@ -124,19 +124,30 @@ deserts = imd[imd["double_penalty"]].sort_values("IMD4_national")
 * **Phase 5 — Zenodo.** `v1.0.0` tag, archived DOI, cite-as updated
   across the paper, the dataset card and `CITATION.cff`.
 
-## Relation to the BikeShare-ICT series
+## Relation to the cycling-data-lab series
 
-This repository is the data-release companion of **Paper 04** of the
-BikeShare-ICT series (CESI LINEACT, 2025–2026). The four-paper series:
+This repository is one of five sibling repositories under the
+[cycling-data-lab](https://github.com/cycling-data-lab) GitHub
+organisation, each packaging one publication-grade contribution
+to cycling-data research (CESI LINEACT, 2025–2026). The five-repo
+series:
 
-1. **Paper 01** — GBFS audit & infrastructure
-   → [`gbfs-audit-catalogue`](https://github.com/rohanfosse/gbfs-audit-catalogue).
-2. **Paper 02** — original IMD/IES exploratory draft (superseded
-   by Paper 04).
-3. **Paper 03** — station-level Bayesian methodology (weights
-   producer).
-4. **Paper 04** — national application on 34,858 communes (this
-   repository's release).
+1. **[gbfs-audit-catalogue](https://github.com/cycling-data-lab/gbfs-audit-catalogue)**
+   — 1,509-feed GBFS infrastructure audit (the certified station
+   inventory).
+2. **[imd-national-catalogue](https://github.com/cycling-data-lab/imd-national-catalogue)** (this repo)
+   — IMD-4 + IES on 34,858 French communes (the supply-side
+   indicator substrate).
+3. **[bikeshare-demand-forecasting](https://github.com/cycling-data-lab/bikeshare-demand-forecasting)**
+   — IMD-augmented spatio-temporal forecasting on 27 networks +
+   leave-station-out spatial generalisation on 9 networks.
+4. **[bikeshare-gsp-tools](https://github.com/cycling-data-lab/bikeshare-gsp-tools)**
+   — graph-signal-processing companion (spectral bounds, D-optimal
+   siting, learning curves). *Working draft.*
+5. **[penality-analysis](https://github.com/cycling-data-lab/penality-analysis)**
+   — triple-penalty mobility-justice diagnostic (cycling-poverty
+   deserts at the intersection of cycling-environment deprivation,
+   monetary poverty and structural geographic vulnerability).
 
 ## Citation
 
@@ -167,4 +178,4 @@ Code under [MIT](LICENSE); data (once released) under
 **Gaël Pallares** — CESI LINEACT (EA 7527), Montpellier.
 
 Issues and contributions are welcome on the
-[issue tracker](https://github.com/rohanfosse/imd-national-catalogue/issues).
+[issue tracker](https://github.com/cycling-data-lab/imd-national-catalogue/issues).

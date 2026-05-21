@@ -12,7 +12,7 @@ authors:
   - family-names: Pallares
     given-names: Gaël
     affiliation: CESI LINEACT (EA 7527), Montpellier, France
-repository-code: "https://github.com/rohanfosse/imd-national-catalogue"
+repository-code: "https://github.com/cycling-data-lab/imd-national-catalogue"
 abstract: >-
   A commune-resolution reference dataset for the Indice de Mobilité
   Douce (IMD) and the Indice d'Équité Sociale (IES), covering 34,858
