@@ -1,0 +1,6 @@
+city,slug,N,K_imd_axes,R2_imd_subspace,R2_optimal_at_K_axes,K_star_match_imd_optimal,K_star_match_imd_lowfreq,elbow_K
+Bluebikes Boston,boston_bluebikes,493,4,0.10627328969103848,0.2685141902908902,1,7,22
+Capital Bikeshare DC,dc_capitalbikeshare,765,4,0.26798120707588863,0.30100731949801063,3,22,22
+Divvy Chicago,chicago_divvy,1337,4,0.3169825371438143,0.3964611753996786,3,17,10
+Bay Wheels SF,sf_baywheels,552,4,0.15409801726094965,0.3202640901198896,2,2,21
+BIXI Montréal,montreal_bixi,717,4,0.22484330191812538,0.2040341111218025,5,15,19

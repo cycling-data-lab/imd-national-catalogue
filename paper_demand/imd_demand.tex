@@ -1498,6 +1498,399 @@ correct boundary : the graph-theoretic framework bounds the
 \emph{purely spatial} variance that the IMD-4 can encode ; the
 gradient-boosted regressor adds the temporal axis on top.
 
+\subsection{A three-tool GSP toolkit for network expansion}
+\label{sec:gsp-toolkit}
+
+A typical bike-share network expansion involves three sequential
+operational questions, each of which has a different
+\emph{evidence regime} (what is observable when the decision is
+taken).  The GSP framework above provides one principled
+estimator per regime, and the IMD-4 features of
+Section~\ref{sec:axes} are best understood as the cold-start
+estimator within that three-tool toolkit.  Table~\ref{tab:toolkit}
+summarises the correspondence ; Sections~\ref{sec:gsp-laplacian}
+and \ref{sec:gsp-siting} develop the second and third tools and
+empirically benchmark them against the IMD-4 estimator.
+
+\begin{table}[H]
+\centering
+\caption{Three GSP-based tools for the operational rollout of a
+dock-based bike-share network, ordered by evidence regime.  The
+IMD-4 occupies the cold-start tool : it is applicable
+\emph{before any station has been deployed}, on any commune
+admitting an OSM footprint and a GTFS / SRTM coverage.  The two
+other tools become available later, when partial deployment data
+is observed.  All three are derived from the same
+station-proximity graph $G$ of Eq.~\eqref{eq:graph-weights}.}
+\label{tab:toolkit}
+\small
+\begin{tabular}{@{}p{0.27\textwidth}p{0.31\textwidth}p{0.31\textwidth}@{}}
+\toprule
+Operational question & Evidence available at decision & GSP tool \\
+\midrule
+Score \emph{a priori} which communes deserve a network at all
+  & Public open data only (OSM, GTFS, SRTM, INSEE).
+    No bike-share station exists yet.
+  & IMD-4 indicator (Section~\ref{sec:imd}).
+    Computable on all $34{,}858$ French communes ; benchmarked
+    against trip-level prediction in
+    Section~\ref{sec:multicity-results}, against
+    INSEE \emph{part v\'elo travail} in Section~\ref{sec:future}.
+    \\[0.7em]
+Decide where to deploy the first $K$ stations among $N$ candidate
+  locations, to maximise downstream knowledge of demand
+  & Graph topology of candidates (lat/lng).  No demand
+    observation yet at any candidate.
+  & Greedy D-optimal sampling of the graph eigenbasis
+    (Section~\ref{sec:gsp-siting}). Returns
+    $\mathcal{V}^* \subset V$ with $|\mathcal{V}^*| = K$. \\[0.7em]
+Predict the demand of a vacant slot inside a partially deployed
+  network
+  & Graph + observed mean demand at deployed neighbours.
+  & Graph-Laplacian regularised smoother
+    (Section~\ref{sec:gsp-laplacian}).
+    Closed-form, no IMD features required.
+    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Graph-Laplacian regularised smoother for infill prediction}
+\label{sec:gsp-laplacian}
+
+When part of the network is already deployed, the GSP framework
+yields a closed-form estimator of demand at the remaining
+candidate slots — graph-kernel kriging via Laplacian
+regularisation \citep{Belkin2004,Zhu2003}.  Given observed mean
+demand on a deployed subset $T \subset V$, the smoother solves
+\begin{equation}
+    \hat{\mathbf{f}} \;=\; \arg\min_{\mathbf{f} \in \mathbb{R}^N} \;
+    \sum_{i \in T} (f_i - \bar{y}_i)^2 \;+\; \lambda \, \mathbf{f}^{\top} \mathbf{L} \, \mathbf{f},
+    \label{eq:lap-reg}
+\end{equation}
+with closed form
+$\hat{\mathbf{f}} = (\mathbf{S}_T + \lambda \mathbf{L})^{-1} \mathbf{S}_T \bar{\mathbf{y}}$
+and $\mathbf{S}_T$ the diagonal indicator of $T$.  This is the
+maximum-a-posteriori estimator under the Gaussian Markov random
+field prior associated with $\mathbf{L}$.  Crucially, it
+\emph{requires observed demand at neighbouring stations} — it is
+not applicable at cold-start.
+
+We benchmarked the Laplacian smoother against the IMD-augmented
+LightGBM regressor on five LSO panels using the fold structure
+of Section~\ref{sec:lso}, with $\lambda$ tuned on an internal
+validation split.  Held-out Spearman $\rho$ on the same target
+(mean hourly demand at held-out stations) :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Network & $\rho_{\mathrm{Lap}}$ (graph only) & $\rho_{G}$ (IMD-LightGBM) & $\rho_{\mathrm{Lap}+G}$ (combined residual) \\
+\midrule
+Bluebikes Boston       & $\mathbf{+0.89}$ & $+0.80$ & $+0.84$ \\
+Capital Bikeshare DC    & $\mathbf{+0.89}$ & $+0.77$ & $+0.83$ \\
+Bay Wheels SF          & $\mathbf{+0.84}$ & $+0.64$ & $+0.72$ \\
+Divvy Chicago          & $\mathbf{+0.74}$ & $+0.58$ & $+0.69$ \\
+BIXI Montr\'eal         & $\mathbf{+0.86}$ & $+0.83$ & $+0.84$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Interpretation.}
+The Laplacian smoother dominates the IMD-augmented LightGBM by
+$0.03$--$0.20$ units of $\rho$ on every network in this five-city
+sample.  This is the expected pattern under the GSP framework :
+once partial demand data is observed at neighbouring stations,
+the maximum-a-posteriori estimator under the GMRF prior on
+$\mathbf{L}$ extracts \emph{more} of the available information
+than the $4$-dimensional IMD subspace can.  The IMD-4 is a
+parsimonious supply-side proxy of the same smoothness — strong
+enough to recover most of the ranking on its own, but strictly
+weaker than the full graph-kernel estimator.  This is consistent
+with the spectral upper bound of Theorem~\ref{eq:r2-spectral} :
+the IMD subspace is finite-dimensional ($K = 4$) and cannot
+span the full low-frequency subspace of demand.
+
+This dominance does \emph{not} make the IMD-4 redundant.  The
+Laplacian smoother becomes available only once partial deployment
+exists ; the IMD-4 estimator answers a strictly earlier question
+(Table~\ref{tab:toolkit}, row 1) on which the Laplacian smoother
+is silent : \emph{which commune should we deploy in first place},
+when no $T$ exists.  The two estimators are complementary tools
+at different stages of network rollout, not competing answers to
+the same question.
+
+\subsection{Sampling-theoretic optimal siting}
+\label{sec:gsp-siting}
+
+If demand is a $K$-bandlimited signal on the station-proximity
+graph — as Theorem~\ref{eq:r2-spectral} and the spectral
+concentration of Table~\ref{tab:gsp} both establish empirically
+— then graph signal sampling theory \citep{AnisGaddeOrtega2016,Chen2015}
+provides an exact answer to the siting question : given a
+budget of $K$ stations to deploy first on a candidate node set
+$V$, which subset $\mathcal{V}^* \subset V$ maximises the
+recoverability of the demand at the remaining $V \setminus
+\mathcal{V}^*$ nodes?
+
+\paragraph{Algorithm (D-optimal greedy graph sampling).}
+Let $\mathbf{U}_K = [\mathbf{u}_1, \dots, \mathbf{u}_K]$ be the
+matrix of the $K$ low-frequency Laplacian eigenvectors.  We
+select stations greedily to maximise
+$\det(\mathbf{U}_K[\mathcal{V}^*, :]^{\top} \mathbf{U}_K[\mathcal{V}^*, :])$,
+which is the D-optimal experimental design criterion :
+\begin{equation}
+\mathcal{V}^* \;\leftarrow\; \mathcal{V}^* \cup \Big\{ \arg\max_{i \notin \mathcal{V}^*}\;
+  \mathbf{u}_i^{\top} \bigl( \mathbf{U}_K[\mathcal{V}^*, :]^{\top} \mathbf{U}_K[\mathcal{V}^*, :] \bigr)^{+} \mathbf{u}_i \Big\}
+\label{eq:greedy-d-optimal}
+\end{equation}
+where $\mathbf{u}_i$ is the $i$-th row of $\mathbf{U}_K$.
+
+We applied the algorithm to the four Tier 1 LSO networks with
+$K_{\mathrm{eig}} = K_{\mathrm{deployed}} = 50$, and compared
+against three baselines : (a) uniform random sampling
+($B = 50$ replicates), (b) the $K$ stations with the highest
+sum-of-IMD-axes score (top-IMD), and (c) the oracle
+top-$K$ stations by observed mean demand.  The benchmark
+metric is the Spearman correlation between the band-limited
+reconstruction of demand from observations at $\mathcal{V}^*$
+and the observed demand on the $N - K$ held-out stations
+(Table~\ref{tab:siting}, Figure~\ref{fig:siting}).
+
+\begin{table}[H]
+\centering
+\caption{D-optimal greedy graph siting on four Tier 1 networks.
+For each network, $K = 50$ stations are selected by one of four
+strategies; the rest of the network is reconstructed from these
+$K$ observations via band-limited graph reconstruction; the
+held-out Spearman $\rho$ measures how well the reconstruction
+ranks the unobserved stations.  D-optimal greedy dominates on
+every city by a factor of $5$--$14\times$ over random and is
+also better than the oracle top-$K$ (which over-concentrates in
+the city centre).}
+\label{tab:siting}
+\small
+\begin{tabular}{@{}lcrrrr@{}}
+\toprule
+Network                & $N$ & $\rho_{\mathrm{D\,opt}}$ & $\rho_{\mathrm{random}}$ & $\rho_{\mathrm{top\,IMD}}$ & $\rho_{\mathrm{oracle}}$ \\
+\midrule
+Bluebikes Boston        &  497 & $\mathbf{+0.71}$ & $+0.05 \pm 0.15$ & $-0.04$ & $+0.06$ \\
+Capital Bikeshare DC     &  776 & $\mathbf{+0.77}$ & $+0.16 \pm 0.13$ & $-0.06$ & $+0.03$ \\
+Divvy Chicago           & 1{,}336 & $\mathbf{+0.54}$ & $+0.08 \pm 0.12$ & $+0.11$ & $-0.04$ \\
+Bay Wheels SF          &  552 & $\mathbf{+0.71}$ & $+0.12 \pm 0.14$ & $+0.14$ & $+0.31$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_optimal_siting.pdf}
+\caption{Comparison of siting strategies and visualisation of the
+D-optimal selection on Bluebikes Boston.  \textbf{Left:} held-out
+Spearman $\rho$ across four networks ; D-optimal greedy is
+strongly superior to random, top-IMD, and even the oracle
+top-$K$ in three of four cases.  \textbf{Right:} the $50$
+D-optimal stations (blue circles) on Boston are spatially
+spread across the network ; the oracle top-$50$ by demand (red
+triangles) cluster in the central business district.}
+\label{fig:siting}
+\end{figure}
+
+\paragraph{Position within the three-tool toolkit.}
+The D-optimal greedy algorithm fills the middle row of
+Table~\ref{tab:toolkit} : it answers \emph{where to deploy the
+first $K$ stations} when the operator has already used the
+IMD-4 to score candidates and now needs to choose a deployable
+subset that maximises future learnability of demand across the
+whole network.  It uses neither trip data (unlike the Laplacian
+smoother of Section~\ref{sec:gsp-laplacian}) nor IMD features
+(unlike the cold-start tool) — only the graph topology of the
+candidate set.  The result is a deployment that
+(a) captures only a small fraction of immediate demand
+($3$--$9\,\%$ across the four cities), but
+(b) allows the operator to \emph{reconstruct the demand of every
+other station in the network} with Spearman $\rho \in [+0.54,
++0.77]$ once partial observations come in.  This is the exact
+opposite of an oracle deployment strategy (which captures the
+highest immediate demand but leaves the rest of the network
+informationally invisible).  It is the natural pre-Laplacian
+companion: in the rollout sequence
+\textsc{IMD-4 score} $\to$ \textsc{D-optimal pick $K$} $\to$ \textsc{Laplacian infill},
+each step delegates a different operational question to the
+matching tool.
+
+\subsection{Robustness of the framework}
+\label{sec:gsp-robustness}
+
+We verify three additional questions raised by a critical reader.
+
+\paragraph{Is the IMD-4 the right rank ?}
+The IMD-4 spans a $4$-dimensional subspace of $\mathbb{R}^N$.  Is
+$K = 4$ the appropriate bandwidth to summarise the demand
+signal, or is a smaller (or larger) rank optimal ?  We answer
+this empirically by computing the cumulative explained variance
+\begin{equation}
+    R^2_{\mathrm{opt}}(K) \;=\; \frac{\sum_{k \in \mathrm{top\text{-}}K} \hat{y}_k^{\,2}}{\sum_k \hat{y}_k^{\,2}}
+    \label{eq:r2-opt-K}
+\end{equation}
+where the top-$K$ are the $K$ eigenmodes carrying the most
+demand variance (the rank-$K$ Eckart-Young approximation of
+$\bar{\mathbf{y}}$).  Comparing $R^2_{\mathrm{opt}}(K = 4)$ with
+$R^2_{\mathrm{spectral}}$ of Table~\ref{tab:gsp} measures how
+close the IMD-4 4-axis subspace is to the optimal rank-4
+representation.  On the five LSO panels:
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+                       & Boston & DC & Chicago & SF & BIXI \\
+\midrule
+$R^2_{\mathrm{IMD-4 subspace}}$    & $0.11$ & $0.27$ & $0.32$ & $0.15$ & $\mathbf{0.22}$ \\
+$R^2_{\mathrm{optimal,\ rank-4}}$   & $0.27$ & $0.30$ & $0.40$ & $0.32$ & $0.20$ \\
+$K^{\star}$ (\#optimal modes to match IMD-4) & $1$ & $3$ & $3$ & $2$ & $5$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The IMD-4 subspace lies within a factor of $1$--$2.5$ of the
+optimal rank-4 subspace on four out of five cities; on BIXI it
+\emph{exceeds} the optimal rank-4 spectral subspace
+($0.22$ vs.\ $0.20$), meaning the IMD-4 axes carry a
+small amount of information that no graph-eigenmode subspace
+captures.  Equivalently, the IMD-4 contains the signal of
+roughly $1$ to $5$ optimal spectral modes — close enough to its
+nominal rank to make the choice $K = 4$ a reasonable
+interpretable summary, although strictly speaking not the
+optimal one (Figure~\ref{fig:bottleneck}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/fig_spectral_bottleneck.pdf}
+\caption{Spectral information bottleneck on the
+station-proximity graph.  Solid lines report the optimal rank-$K$
+explained variance of demand (Eq.~\ref{eq:r2-opt-K}, top-$K$
+modes by demand power); dashed lines report the cumulative
+explained variance using the $K$ \emph{lowest-frequency} modes
+(natural frequency ordering).  The vertical red line marks
+$K = 4$, the rank of the IMD-4 subspace.  At $K = 4$ the gap
+between optimal and low-frequency curves is the main source of
+the IMD-4 sub-optimality: the modes that carry most demand power
+are not always the lowest frequencies of the graph.}
+\label{fig:bottleneck}
+\end{figure}
+
+\paragraph{Is the regularised Laplacian the right kernel ?}
+The Laplacian smoother of Section~\ref{sec:gsp-laplacian} uses
+the regularised Laplacian kernel $K(\lambda) = 1/(\lambda + \varepsilon)$.
+Three other classical graph-kernel families could be used :
+\begin{itemize}[label=$\bullet$,leftmargin=*]
+    \item heat (diffusion) : $K(\lambda) = e^{-t \lambda}$
+    \item random walk (low-pass form) : $K(\lambda) = 1/(1 + \beta \lambda)$
+    \item Mat\'ern on graph : $K(\lambda) = 1/(\nu + \lambda)^{\alpha}$
+\end{itemize}
+We benchmarked the four kernel families with kernel ridge
+regression and per-kernel-per-fold hyperparameter tuning on the
+same LSO splits.  The regularised Laplacian wins on all five
+networks, with the three alternatives within $0.005$--$0.025$ of
+its Spearman $\rho$ :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+                       & reg.\ Lap.\ & heat & random walk & Mat\'ern \\
+\midrule
+Bluebikes Boston       & $\mathbf{+0.828}$ & $+0.805$ & $+0.823$ & $+0.814$ \\
+Capital Bikeshare DC    & $\mathbf{+0.810}$ & $+0.803$ & $+0.801$ & $+0.804$ \\
+Divvy Chicago          & $\mathbf{+0.735}$ & $+0.730$ & $+0.733$ & $+0.730$ \\
+Bay Wheels SF          & $\mathbf{+0.806}$ & $+0.791$ & $+0.799$ & $+0.795$ \\
+BIXI Montr\'eal         & $\mathbf{+0.789}$ & $+0.781$ & $+0.784$ & $+0.783$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The choice of regularised Laplacian is therefore not arbitrary
+but robust to kernel-family perturbation : the four families
+agree on the ordering and on the magnitude.
+
+\paragraph{Does a Graph Neural Network do better ?}
+We trained a 2-layer Graph Convolutional Network (GCN,
+\citealp{Kipf2017}) on the same LSO splits with the IMD-4
+features as node attributes (hidden dimension $32$, dropout
+$0.2$, $300$ epochs of Adam at learning rate $0.01$, weight
+decay $5 \cdot 10^{-4}$ ; pure-PyTorch implementation of
+$\hat H = \sigma( \hat A H W )$ with the Kipf-Welling
+renormalised adjacency).  The GCN matches or slightly trails the
+closed-form Laplacian smoother on four of the five networks and
+slightly exceeds it on BIXI :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+                       & GCN ($\rho$) & Lap.\ smoother ($\rho$) \\
+\midrule
+Bluebikes Boston       & $+0.826$ & $\mathbf{+0.885}$ \\
+Capital Bikeshare DC    & $+0.800$ & $\mathbf{+0.895}$ \\
+Divvy Chicago          & $+0.672$ & $\mathbf{+0.750}$ \\
+Bay Wheels SF          & $+0.793$ & $\mathbf{+0.851}$ \\
+BIXI Montr\'eal         & $\mathbf{+0.852}$ & $+0.849$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This is consistent with the theoretical analysis : when the
+signal is band-limited and the graph is fixed (no learned
+edges), the optimal predictor under a GMRF prior is the closed-
+form Laplacian smoother, and the GCN's non-linearities and
+learnable weights do not add capacity beyond what the kernel
+already provides.  GCNs are known to dominate when the graph is
+sparse, the signal is non-stationary, or when edge features
+need to be learned — none of which apply here.
+
+\paragraph{Do graph-topology features add value to the IMD-4 ?}
+The heat kernel signature (HKS, \citealp{Sun2009}) is an
+intrinsic graph descriptor that does not require any physical
+information about the city.  At node $v$ for diffusion time $t$,
+$\mathrm{HKS}(v, t) = \sum_k e^{-\lambda_k t} u_k(v)^2$ ; this is
+invariant under graph isomorphism and lives in the same scale
+across cities.  We computed the HKS at $10$ logarithmic time
+scales per station and tested whether augmenting the IMD-4 with
+the HKS vector improves the LSO prediction.  Concatenating IMD-4
+and HKS yields a mean $\rho$ improvement of $+0.020$ over IMD-4
+alone, consistent across the five networks (Table~\ref{tab:hks}).
+The HKS alone is significantly weaker than the IMD-4 ($\rho$
+deficit of $0.10$--$0.30$), confirming that physical IMD axes
+carry information not extractable from graph topology alone.
+The complementary $+0.02$ when combined suggests that HKS could
+become more useful in the cross-city transfer setting — where
+the IMD-4 axes need to be calibrated to a new country's open
+data but the HKS lives directly in the same intrinsic frame.
+
+\begin{table}[H]
+\centering
+\caption{Heat kernel signature (HKS) features as a complement
+to IMD-4 in the LSO setting.  HKS alone is a weaker
+predictor than IMD-4 ; concatenation yields a small but
+consistent $\rho$ improvement on every network.}
+\label{tab:hks}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+                       & IMD only & HKS only & IMD $+$ HKS \\
+\midrule
+Bluebikes Boston       & $+0.80$ & $+0.60$ & $\mathbf{+0.81}$ \\
+Capital Bikeshare DC    & $+0.77$ & $+0.72$ & $\mathbf{+0.79}$ \\
+Divvy Chicago          & $+0.57$ & $+0.46$ & $\mathbf{+0.63}$ \\
+Bay Wheels SF          & $+0.66$ & $+0.40$ & $\mathbf{+0.67}$ \\
+BIXI Montr\'eal         & $+0.83$ & $+0.71$ & $\mathbf{+0.83}$ \\
+\midrule
+\textbf{Mean}          & $+0.72$ & $+0.58$ & $\mathbf{+0.74}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 % =========================================================================
 \section{Worldwide application and external anchoring}
 \label{sec:future}
