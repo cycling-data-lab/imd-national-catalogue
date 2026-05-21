@@ -1,0 +1,5 @@
+city,N,strategy,K,rho_heldout,fraction_demand_at_S,solve_time_s
+Bluebikes Boston,493,D-optimal greedy,50,0.7097538076159774,0.08853704579707446,0.19
+Bluebikes Boston,493,MCLP,50,-0.1498899489870145,0.12789396695680766,0.08
+Capital Bikeshare DC,765,D-optimal greedy,50,0.7710177498663767,0.04681336528313664,0.28
+Capital Bikeshare DC,765,MCLP,50,0.09740628549636426,0.09790728914403422,0.35

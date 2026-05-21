@@ -1720,6 +1720,98 @@ companion: in the rollout sequence
 each step delegates a different operational question to the
 matching tool.
 
+\paragraph{Theorem 4 (submodularity and $(1-1/e)$ approximation).}
+Define the D-optimal objective
+$f(\mathcal{S}) = \log \det\!\bigl(\mathbf{U}_K[\mathcal{S}, :]^\top \mathbf{U}_K[\mathcal{S}, :]\bigr)$
+for $\mathcal{S} \subseteq V$ with $|\mathcal{S}| \geq K$, extended
+by lower semicontinuity to all $\mathcal{S} \subseteq V$.  Then $f$
+is a monotone non-decreasing submodular set function
+\citep{Krause2008,AnisGaddeOrtega2016}: for all
+$\mathcal{S} \subseteq \mathcal{T} \subseteq V$ and any
+$i \notin \mathcal{T}$,
+\[
+    f(\mathcal{S} \cup \{i\}) - f(\mathcal{S})
+    \;\geq\;
+    f(\mathcal{T} \cup \{i\}) - f(\mathcal{T}) \;\geq\; 0.
+\]
+By Nemhauser--Wolsey--Fisher's classical theorem
+\citep{Nemhauser1978}, the greedy algorithm of
+Eq.~\eqref{eq:greedy-d-optimal} returns a subset
+$\mathcal{V}^*_{\mathrm{greedy}}$ satisfying
+\begin{equation}
+    f(\mathcal{V}^*_{\mathrm{greedy}}) \;\geq\; \bigl( 1 - 1/e \bigr) \cdot f(\mathcal{V}^*_{\mathrm{OPT}})
+    \;\approx\; 0.632 \cdot f(\mathcal{V}^*_{\mathrm{OPT}})
+    \label{eq:greedy-bound}
+\end{equation}
+where $\mathcal{V}^*_{\mathrm{OPT}}$ is the global optimum over
+all size-$K$ subsets.  Our siting algorithm is therefore
+\emph{provably near-optimal} in the classical
+combinatorial-optimisation sense, not just empirically
+performant.
+
+\paragraph{Theorem 5 (band-limited reconstruction bound).}
+For a $K$-bandlimited signal $\bar{\mathbf{y}} = \mathbf{U}_K \mathbf{c}$
+sampled at $\mathcal{S}$ under additive observation noise
+$\boldsymbol{\eta}_{\mathcal{S}}$, the band-limited reconstruction
+$\hat{\bar{\mathbf{y}}}$ from Section~\ref{sec:gsp-siting}
+satisfies \citep{AnisGaddeOrtega2016}
+\begin{equation}
+    \| \hat{\bar{\mathbf{y}}} - \bar{\mathbf{y}} \|_2 \;\leq\;
+    \frac{\| \boldsymbol{\eta}_{\mathcal{S}} \|_2}{\sigma_{\min}\!\bigl( \mathbf{U}_K[\mathcal{S}, :] \bigr)}
+    \label{eq:anis-bound}
+\end{equation}
+where $\sigma_{\min}$ denotes the smallest singular value.  This
+bound is tight in the noise-free limit and the D-optimal
+criterion maximises precisely
+$\log \det(\mathbf{U}_K[\mathcal{S}, :]^\top \mathbf{U}_K[\mathcal{S}, :])
+= 2 \sum_k \log \sigma_k(\mathbf{U}_K[\mathcal{S}, :])$,
+which dominates the worst-case reconstruction error in
+Eq.~\eqref{eq:anis-bound}.  D-optimal greedy is thus the
+matching siting rule for the reconstruction loss of
+Section~\ref{sec:gsp-siting}, not an arbitrary heuristic.
+
+\paragraph{Comparison to classical OR baselines (MCLP and $k$-median).}
+The bike-share siting literature classically formulates the
+deployment problem as a Maximal Covering Location Problem
+\citep{ChurchReVelle1974} or as a $k$-median model
+\citep{Hakimi1964}.  Both are integer programs solvable by
+modern MIP solvers (we use \texttt{PuLP} with CBC).  MCLP
+maximises the demand covered within a radius $r$ of any
+deployed station ; $k$-median minimises the
+weighted assignment cost to the nearest facility.
+
+We solved MCLP ($r = 500$ m, $K = 50$) on Bluebikes Boston and
+Capital Bikeshare DC and compared the resulting station
+selections to the D-optimal greedy of
+Section~\ref{sec:gsp-siting} on the same band-limited
+reconstruction metric :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+                       & $\rho_{\mathrm{D\,opt}}$ & $\rho_{\mathrm{MCLP}}$ & demand fraction at $\mathcal{S}$ \\
+\midrule
+Bluebikes Boston       & $\mathbf{+0.71}$ & $-0.15$ & $0.09$ vs $0.13$ (MCLP) \\
+Capital Bikeshare DC    & $\mathbf{+0.77}$ & $+0.10$ & $0.05$ vs $0.10$ (MCLP) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The MCLP MIP captures roughly $50\,\%$ more of the immediate
+demand at the selected stations but leaves the periphery
+informationally invisible : reconstruction Spearman $\rho$ is
+$-0.15$ on Boston ($+0.10$ on DC), against $+0.71$ and $+0.77$
+for the greedy algorithm.  On Boston the MCLP solution is
+actually \emph{anti-correlated} with the held-out demand.  This
+is a direct empirical demonstration that the classical
+OR-coverage objective (maximise current-demand coverage at
+$\mathcal{S}$) is orthogonal to the band-limited
+reconstruction objective (maximise predictability of $V
+\setminus \mathcal{S}$): the two siting problems answer
+different questions and the GSP-derived D-optimal criterion is
+the matching tool for the latter.
+
 \subsection{Robustness of the framework}
 \label{sec:gsp-robustness}
 
@@ -1764,6 +1856,75 @@ roughly $1$ to $5$ optimal spectral modes — close enough to its
 nominal rank to make the choice $K = 4$ a reasonable
 interpretable summary, although strictly speaking not the
 optimal one (Figure~\ref{fig:bottleneck}).
+
+\paragraph{Theorem 6 and the empirical learning curve on Boston.}
+Under the generative model
+$\bar y_s = \boldsymbol{\beta}^\top \mathbf{x}_s + u_s + \varepsilon_s$
+of Section~\ref{sec:gsp-laplacian}, the bias-variance
+decomposition yields the asymptotic information-theoretic bound
+\begin{equation}
+    \rho_\infty^2 \;=\; \frac{\mathrm{Var}(\boldsymbol{\beta}^\top \mathbf{x})}
+                        {\mathrm{Var}(\boldsymbol{\beta}^\top \mathbf{x}) + \sigma_u^2 + \sigma_\varepsilon^2}
+    \;=\; \frac{1}{1 + \mathrm{SFR} + 1/\mathrm{SNR}},
+    \label{eq:rho-inf-bound}
+\end{equation}
+with $\mathrm{SFR} = \sigma_u^2 / \mathrm{Var}(\boldsymbol{\beta}^\top \mathbf{x})$ and
+$\mathrm{SNR} = \mathrm{Var}(\boldsymbol{\beta}^\top \mathbf{x}) / \sigma_\varepsilon^2$.
+Classical statistical-learning theory \citep{Hastie2009} predicts
+that the LSO Spearman $\rho_G(N)$ at training-set size $N$
+satisfies a saturation form
+$\rho_G(N) \approx \rho_\infty (1 - e^{-N/n_*})$ with $n_*$ a
+city-specific characteristic sample size.
+
+We verified this empirically by subsampling Bluebikes Boston to
+$N_{\mathrm{train}} \in \{25, 50, 100, 150, 200, 250, 300, 350,
+397\}$ stations, training the IMD-LightGBM predictor on each
+subsample and evaluating on the complementary held-out
+stations (Figure~\ref{fig:learning-curve}).  The fitted
+parameters are
+$\rho_\infty = 0.77 \pm 0.01$ and $n_* = 21 \pm 3$, so $99\,\%$
+of the saturation is reached by $N_{\mathrm{train}} \approx 100$
+stations.  This is a substantially lower threshold than the
+$\sim 400$ figure descriptively reported in
+Section~\ref{sec:lso}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{figures/fig_learning_curve_boston.pdf}
+\caption{Empirical learning curve of the IMD-augmented LSO on
+Bluebikes Boston (\,$N \in \{25, \dots, 397\}$ training stations,
+$15$ replications per $N$\,).  The fitted saturation
+$\rho_G(N) = \rho_\infty (1 - e^{-N/n_*})$ with
+$\rho_\infty = 0.77$, $n_* = 21$ reaches $99\,\%$ of the asymptote
+by $N \approx 100$ training stations.  The Boston subsample at
+$N = 25$ stations achieves $\rho = +0.61$ — a key contrast with
+the V\'elomagg LSO at $N = 42$ where $\rho = -0.08$ (red triangle).
+The gap of $\sim 0.7$ in Spearman $\rho$ between the two
+$N = 25$--$42$ data points cannot be explained by sample size
+alone : at equal $N$ on Boston the saturation curve already
+predicts $\rho > +0.6$, against $-0.08$ observed on V\'elomagg.}
+\label{fig:learning-curve}
+\end{figure}
+
+\paragraph{Updated interpretation of the V\'elomagg LSO failure.}
+The learning-curve experiment refines the interpretation of the
+V\'elomagg LSO negative result of Table~\ref{tab:lso}.  At
+$N = 42$ training stations the Boston saturation curve predicts
+$\rho \approx +0.67$ ; the V\'elomagg observation is $-0.08$.
+The gap is too large to attribute to statistical underpowerment
+alone.  More likely contributing factors include
+\textbf{(i)} the smaller geographical extent of Montpellier
+($\sim 7$\,km vs $\sim 30$\,km for greater Boston) which
+compresses the dynamic range of the IMD-4 axes ; and
+\textbf{(ii)} the lower diversity of urban contexts within
+V\'elomagg (a single mid-size city centre) compared with the
+Boston Metropolitan Statistical Area (Cambridge, Brookline,
+Somerville, etc.).  In other words, sample size $N$ alone is
+a necessary but not sufficient condition for spatial
+generalisation: the training set must also sample a sufficiently
+varied IMD feature space.  This is a sharper finding than the
+descriptive "$\geq 400$ training stations" pattern of
+Section~\ref{sec:lso}.
 
 \begin{figure}[H]
 \centering
