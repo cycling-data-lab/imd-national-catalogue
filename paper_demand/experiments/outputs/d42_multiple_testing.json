@@ -1,0 +1,46 @@
+{
+  "n_tests": 34,
+  "alpha": 0.05,
+  "alpha_bonf": 0.0014705882352941176,
+  "n_sig_raw": 23,
+  "n_sig_bonf": 21,
+  "n_sig_bh": 23,
+  "by_test_type": {
+    "P@10_vs_null": {
+      "n": 4,
+      "n_raw_sig": 0,
+      "n_bonf_sig": 0,
+      "n_bh_sig": 0
+    },
+    "P@20_vs_null": {
+      "n": 4,
+      "n_raw_sig": 1,
+      "n_bonf_sig": 0,
+      "n_bh_sig": 1
+    },
+    "P@50_vs_null": {
+      "n": 4,
+      "n_raw_sig": 4,
+      "n_bonf_sig": 3,
+      "n_bh_sig": 4
+    },
+    "P@5_vs_null": {
+      "n": 4,
+      "n_raw_sig": 0,
+      "n_bonf_sig": 0,
+      "n_bh_sig": 0
+    },
+    "delta_rho_imd_vs_Gfe": {
+      "n": 9,
+      "n_raw_sig": 9,
+      "n_bonf_sig": 9,
+      "n_bh_sig": 9
+    },
+    "delta_rho_imd_vs_Gminus": {
+      "n": 9,
+      "n_raw_sig": 9,
+      "n_bonf_sig": 9,
+      "n_bh_sig": 9
+    }
+  }
+}

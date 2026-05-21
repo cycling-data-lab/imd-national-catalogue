@@ -1,0 +1,6 @@
+city,slug,N,rho_gcn
+Bluebikes Boston,boston_bluebikes,493,0.8260772769999505
+Capital Bikeshare DC,dc_capitalbikeshare,765,0.8004693976509354
+Divvy Chicago,chicago_divvy,1337,0.6721438382264161
+Bay Wheels SF,sf_baywheels,552,0.7934839968001632
+BIXI Montréal,montreal_bixi,717,0.8522700676161111

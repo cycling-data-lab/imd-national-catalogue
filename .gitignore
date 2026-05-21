@@ -77,3 +77,24 @@ paper_demand/data_collection/_cache_osm/
 
 # Vacation orchestrator runtime logs (regenerable; can be huge)
 paper_demand/scripts/_vacation_logs/
+paper_demand/scripts/_polling_logs/
+
+# Big experiment outputs (regenerable from scripts; pushes too large for GitHub free)
+paper_demand/experiments/outputs/*.parquet
+paper_demand/data_collection/imd_international/imd_international_backup.tar.gz
+
+# Paper B / paper_gsp_companion LaTeX build artefacts + companion-extracted §8
+paper_gsp_companion/*.aux
+paper_gsp_companion/*.log
+paper_gsp_companion/*.out
+paper_gsp_companion/*.bbl
+paper_gsp_companion/*.blg
+paper_gsp_companion/*.bcf
+paper_gsp_companion/*.run.xml
+paper_gsp_companion/*.synctex.gz
+paper_gsp_companion/*.toc
+paper_gsp_companion/*.fdb_latexmk
+paper_gsp_companion/*.fls
+
+# Claude Code agent state (per-machine, not for sharing)
+.claude/

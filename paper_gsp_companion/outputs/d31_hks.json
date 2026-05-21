@@ -1,0 +1,57 @@
+{
+  "cities": [
+    {
+      "rho_imd_only": 0.8003242391687498,
+      "rho_hks_only": 0.599645781314357,
+      "rho_imd_hks": 0.8073738370564019,
+      "city": "Bluebikes Boston",
+      "slug": "boston_bluebikes",
+      "N": 493
+    },
+    {
+      "rho_imd_only": 0.7729636988288725,
+      "rho_hks_only": 0.7233752582256181,
+      "rho_imd_hks": 0.791245527110211,
+      "city": "Capital Bikeshare DC",
+      "slug": "dc_capitalbikeshare",
+      "N": 765
+    },
+    {
+      "rho_imd_only": 0.5699004618117752,
+      "rho_hks_only": 0.4575183282477771,
+      "rho_imd_hks": 0.6264321652679725,
+      "city": "Divvy Chicago",
+      "slug": "chicago_divvy",
+      "N": 1337
+    },
+    {
+      "rho_imd_only": 0.6558695934608308,
+      "rho_hks_only": 0.39523470624996737,
+      "rho_imd_hks": 0.6701264149782357,
+      "city": "Bay Wheels SF",
+      "slug": "sf_baywheels",
+      "N": 552
+    },
+    {
+      "rho_imd_only": 0.8251093025198368,
+      "rho_hks_only": 0.7125718895457324,
+      "rho_imd_hks": 0.8312897499867801,
+      "city": "BIXI Montr\u00e9al",
+      "slug": "montreal_bixi",
+      "N": 717
+    }
+  ],
+  "hks_times": [
+    0.01,
+    0.024484367468222266,
+    0.05994842503189409,
+    0.14677992676220697,
+    0.35938136638046275,
+    0.8799225435691069,
+    2.1544346900318843,
+    5.27499706370262,
+    12.91549665014884,
+    31.622776601683793
+  ],
+  "wall_time_s": 79.4
+}

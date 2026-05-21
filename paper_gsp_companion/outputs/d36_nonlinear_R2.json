@@ -1,0 +1,85 @@
+{
+  "rows": [
+    {
+      "city": "Bluebikes Boston",
+      "slug": "boston_bluebikes",
+      "N": 493,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.10627328969103848,
+      "R2_nonlinear_insample": 0.97580115366656,
+      "R2_nonlinear_5fold_cv": -0.18507413032809383
+    },
+    {
+      "city": "Capital Bikeshare DC",
+      "slug": "dc_capitalbikeshare",
+      "N": 765,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.26798120707588863,
+      "R2_nonlinear_insample": 0.979499377235284,
+      "R2_nonlinear_5fold_cv": 0.13530647094383363
+    },
+    {
+      "city": "Divvy Chicago",
+      "slug": "chicago_divvy",
+      "N": 1337,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.3169825371438143,
+      "R2_nonlinear_insample": 0.849333501634483,
+      "R2_nonlinear_5fold_cv": 0.17329389537436213
+    },
+    {
+      "city": "Bay Wheels SF",
+      "slug": "sf_baywheels",
+      "N": 552,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.15409801726094965,
+      "R2_nonlinear_insample": 0.9854725172945752,
+      "R2_nonlinear_5fold_cv": 0.08834211249053603
+    },
+    {
+      "city": "BIXI Montr\u00e9al",
+      "slug": "montreal_bixi",
+      "N": 717,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.22484330191812538,
+      "R2_nonlinear_insample": 0.9796517641813115,
+      "R2_nonlinear_5fold_cv": 0.16296152354864268
+    },
+    {
+      "city": "Santander Cycles London",
+      "slug": "london_tfl",
+      "N": 788,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.12634998548328966,
+      "R2_nonlinear_insample": 0.9544798181563264,
+      "R2_nonlinear_5fold_cv": -0.2096537043992115
+    },
+    {
+      "city": "V\u00e9lib Paris",
+      "slug": "paris",
+      "N": 1361,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.1772717827340645,
+      "R2_nonlinear_insample": 0.9046670057841357,
+      "R2_nonlinear_5fold_cv": 0.06667434172310271
+    },
+    {
+      "city": "V\u00e9lo'v Lyon",
+      "slug": "lyon",
+      "N": 462,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.19874589842626833,
+      "R2_nonlinear_insample": 0.9737315833441608,
+      "R2_nonlinear_5fold_cv": 0.030715771962419702
+    },
+    {
+      "city": "V\u00e9L\u00d4 Toulouse",
+      "slug": "toulouse",
+      "N": 448,
+      "n_axes": 4,
+      "R2_linear_subspace": 0.1746020178778931,
+      "R2_nonlinear_insample": 0.9869772762015205,
+      "R2_nonlinear_5fold_cv": -0.15058657095928862
+    }
+  ]
+}

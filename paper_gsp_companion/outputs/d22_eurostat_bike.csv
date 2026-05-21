@@ -1,0 +1,572 @@
+city_name,country,bike_pct,year,cities\TIME_PERIOD
+Wien (greater city),AT,1.71,2001.0,AT001C
+Graz,AT,19.0,2008.0,AT002C
+Linz (greater city),AT,2.25,2001.0,AT003C
+Bruxelles/Brussel (greater city),BE,1.9,2011.0,BE001C
+Antwerpen (greater city),BE,13.04,2008.0,BE002C
+Gent,BE,12.55,2008.0,BE003C
+Charleroi (greater city),BE,0.6,2008.0,BE004C
+Liège (greater city),BE,1.13,2011.0,BE005C
+Brugge,BE,24.71,2011.0,BE006C
+Namur,BE,1.08,2011.0,BE007C
+Leuven,BE,15.26,2011.0,BE008C
+Mons (greater city),BE,1.57,2011.0,BE009C
+Kortrijk (greater city),BE,15.74,2011.0,BE010C
+Oostende (greater city),BE,20.1,2011.0,BE011C
+Sofia,BG,12.0,2011.0,BG001C
+Plovdiv,BG,8.0,2011.0,BG002C
+Varna,BG,9.0,2011.0,BG003C
+Burgas,BG,13.0,2011.0,BG004C
+Pleven,BG,15.0,2011.0,BG005C
+Ruse,BG,12.0,2011.0,BG006C
+Vidin,BG,14.0,2011.0,BG007C
+Stara Zagora,BG,17.0,2011.0,BG008C
+Sliven,BG,15.0,2011.0,BG009C
+Dobrich,BG,16.0,2011.0,BG010C
+Shumen,BG,16.0,2011.0,BG011C
+Pernik,BG,12.0,2011.0,BG012C
+Yambol,BG,18.0,2011.0,BG013C
+Haskovo,BG,18.0,2011.0,BG014C
+Pazardzhik,BG,18.0,2011.0,BG015C
+Blagoevgrad,BG,17.0,2011.0,BG016C
+Veliko Tarnovo,BG,9.0,2011.0,BG017C
+Vratsa,BG,16.0,2011.0,BG018C
+Bern (greater city),CH,11.94,2024.0,CH001C
+Zurich (greater city),CH,6.77,2024.0,CH002C
+Geneva (greater city),CH,11.71,2024.0,CH003C
+Basel (greater city),CH,19.34,2024.0,CH004C
+Lausanne (greater city),CH,4.62,2024.0,CH005C
+Lucerne (greater city),CH,13.98,2024.0,CH006C
+Winterthur,CH,15.31,2024.0,CH007C
+Lugano (greater city),CH,4.99,2024.0,CH008C
+St. Gallen (greater city),CH,6.46,2024.0,CH009C
+Biel/Bienne (greater city),CH,11.85,2024.0,CH010C
+Lefkosia (greater city),CY,13.0,2003.0,CY001C
+Praha,CZ,0.3,2001.0,CZ001C
+Brno,CZ,0.6,2001.0,CZ002C
+Ostrava,CZ,1.0,2001.0,CZ003C
+Plzeň,CZ,0.8,2001.0,CZ004C
+Ústí nad Labem,CZ,1.0,2001.0,CZ005C
+Berlin,DE,12.8,2016.0,DE001C
+Hamburg,DE,11.6,2016.0,DE002C
+München,DE,12.8,2016.0,DE003C
+Köln,DE,13.6,2016.0,DE004C
+Frankfurt am Main,DE,11.3,2016.0,DE005C
+Essen,DE,2.6,2016.0,DE006C
+Stuttgart,DE,5.1,2016.0,DE007C
+Leipzig,DE,16.4,2016.0,DE008C
+Dresden,DE,15.0,2016.0,DE009C
+Dortmund,DE,3.6,2016.0,DE010C
+Düsseldorf,DE,9.6,2016.0,DE011C
+Bremen,DE,21.3,2016.0,DE012C
+Hannover,DE,18.9,2016.0,DE013C
+Nürnberg,DE,8.8,2016.0,DE014C
+Bochum,DE,2.5,2016.0,DE015C
+Bielefeld,DE,6.9,2016.0,DE016C
+Halle an der Saale,DE,12.9,2016.0,DE017C
+Magdeburg,DE,11.5,2016.0,DE018C
+Wiesbaden,DE,4.3,2016.0,DE019C
+Göttingen,DE,26.2,2016.0,DE020C
+Mülheim a.d.Ruhr,DE,3.0,2016.0,DE021C
+Moers,DE,8.1,2016.0,DE022C
+Darmstadt,DE,19.5,2016.0,DE023C
+Trier,DE,8.8,2016.0,DE024C
+Freiburg im Breisgau,DE,29.9,2016.0,DE025C
+Regensburg,DE,19.3,2016.0,DE026C
+Frankfurt (Oder),DE,8.4,2016.0,DE027C
+Weimar,DE,7.5,2016.0,DE028C
+Schwerin,DE,12.1,2016.0,DE029C
+Erfurt,DE,11.2,2016.0,DE030C
+Augsburg,DE,13.9,2016.0,DE031C
+Bonn,DE,17.4,2016.0,DE032C
+Karlsruhe,DE,21.8,2016.0,DE033C
+Mönchengladbach,DE,5.0,2016.0,DE034C
+Mainz,DE,8.7,2016.0,DE035C
+Kiel,DE,21.9,2016.0,DE036C
+Saarbrücken,DE,3.7,2016.0,DE037C
+Potsdam,DE,18.9,2016.0,DE038C
+Koblenz,DE,9.6,2016.0,DE039C
+Rostock,DE,19.9,2016.0,DE040C
+Kaiserslautern,DE,4.0,2016.0,DE041C
+Iserlohn,DE,1.2,2016.0,DE042C
+Esslingen am Neckar (greater city),DE,6.7,2016.0,DE043C
+Hanau,DE,5.7,2016.0,DE044C
+Wilhelmshaven,DE,19.4,2016.0,DE045C
+Ludwigsburg (greater city),DE,3.9,2016.0,DE046C
+Tübingen,DE,19.0,2016.0,DE047C
+Villingen-Schwenningen,DE,5.3,2016.0,DE048C
+Flensburg,DE,10.9,2016.0,DE049C
+Marburg,DE,9.8,2016.0,DE050C
+Konstanz,DE,26.2,2016.0,DE051C
+Neumünster,DE,15.4,2016.0,DE052C
+Brandenburg an der Havel,DE,19.5,2016.0,DE053C
+Gießen,DE,15.0,2016.0,DE054C
+Lüneburg,DE,25.3,2016.0,DE055C
+Bayreuth,DE,18.5,2016.0,DE056C
+Celle,DE,25.9,2016.0,DE057C
+Aschaffenburg,DE,9.2,2016.0,DE058C
+Bamberg,DE,23.2,2016.0,DE059C
+Plauen,DE,2.7,2016.0,DE060C
+Neubrandenburg,DE,15.9,2016.0,DE061C
+Fulda,DE,5.3,2016.0,DE062C
+Kempten (Allgäu),DE,9.4,2016.0,DE063C
+Landshut,DE,11.8,2016.0,DE064C
+Sindelfingen,DE,9.7,2016.0,DE065C
+Rosenheim,DE,25.8,2016.0,DE066C
+Frankenthal (Pfalz),DE,11.5,2016.0,DE067C
+Stralsund,DE,21.7,2016.0,DE068C
+Friedrichshafen,DE,16.6,2016.0,DE069C
+Offenburg,DE,20.2,2016.0,DE070C
+Görlitz,DE,7.9,2016.0,DE071C
+Sankt Augustin,DE,6.1,2016.0,DE072C
+Neu-Ulm,DE,10.0,2016.0,DE073C
+Schweinfurt,DE,10.4,2016.0,DE074C
+Greifswald,DE,38.1,2016.0,DE075C
+Wetzlar,DE,3.2,2016.0,DE076C
+Speyer,DE,16.6,2016.0,DE077C
+Passau,DE,4.2,2016.0,DE078C
+Dessau-Roßlau,DE,20.1,2016.0,DE079C
+Duisburg,DE,5.9,2016.0,DE080C
+Mannheim,DE,12.0,2016.0,DE081C
+Gelsenkirchen,DE,4.3,2016.0,DE082C
+Münster,DE,36.6,2016.0,DE083C
+Chemnitz,DE,5.8,2016.0,DE084C
+Braunschweig,DE,19.4,2016.0,DE085C
+Aachen,DE,10.5,2016.0,DE086C
+Krefeld,DE,12.1,2016.0,DE087C
+Oberhausen,DE,4.1,2016.0,DE088C
+Lübeck,DE,22.8,2016.0,DE089C
+Hagen,DE,1.3,2016.0,DE090C
+Kassel,DE,8.7,2016.0,DE091C
+Hamm,DE,10.9,2016.0,DE092C
+Herne,DE,4.8,2016.0,DE093C
+Solingen,DE,1.9,2016.0,DE094C
+Osnabrück,DE,17.9,2016.0,DE095C
+Ludwigshafen am Rhein,DE,12.2,2016.0,DE096C
+Leverkusen,DE,10.3,2016.0,DE097C
+Oldenburg (Oldenburg),DE,29.9,2016.0,DE098C
+Neuss,DE,6.9,2016.0,DE099C
+Heidelberg,DE,25.2,2016.0,DE100C
+Paderborn,DE,13.0,2016.0,DE101C
+Würzburg,DE,14.6,2016.0,DE102C
+Recklinghausen,DE,6.4,2016.0,DE103C
+Wolfsburg,DE,11.2,2016.0,DE104C
+Bremerhaven,DE,12.5,2016.0,DE105C
+Bottrop,DE,4.3,2016.0,DE106C
+Heilbronn,DE,5.9,2016.0,DE107C
+Remscheid,DE,0.0,2016.0,DE108C
+Offenbach am Main,DE,9.4,2016.0,DE109C
+Ulm,DE,11.2,2016.0,DE110C
+Pforzheim,DE,1.1,2016.0,DE111C
+Ingolstadt,DE,20.5,2016.0,DE112C
+Gera,DE,4.9,2016.0,DE113C
+Salzgitter,DE,6.0,2016.0,DE114C
+Reutlingen,DE,7.7,2016.0,DE115C
+Fürth,DE,5.9,2016.0,DE116C
+Cottbus,DE,24.4,2016.0,DE117C
+Siegen,DE,1.6,2016.0,DE118C
+Bergisch Gladbach,DE,4.3,2016.0,DE119C
+Hildesheim,DE,16.4,2016.0,DE120C
+Witten,DE,2.9,2016.0,DE121C
+Zwickau,DE,4.5,2016.0,DE122C
+Erlangen,DE,29.2,2016.0,DE123C
+Wuppertal,DE,1.6,2016.0,DE124C
+Jena,DE,16.1,2016.0,DE125C
+Düren,DE,6.8,2016.0,DE126C
+Bocholt,DE,34.1,2016.0,DE127C
+København (greater city),DK,19.73,2003.0,DK001C
+Århus,DK,26.98,2003.0,DK002C
+Odense,DK,33.74,2003.0,DK003C
+Aalborg,DK,21.39,2003.0,DK004C
+Tallinn,EE,1.2,2018.0,EE001C
+Tartu,EE,5.5,2018.0,EE002C
+Madrid (greater city),ES,0.2,2008.0,ES001C
+Barcelona (greater city),ES,1.72,2011.0,ES002C
+Zaragoza,ES,0.44,2008.0,ES005C
+Málaga,ES,0.31,2008.0,ES006C
+Murcia,ES,1.52,2008.0,ES007C
+"Palmas de Gran Canaria, Las",ES,0.22,2008.0,ES008C
+Valladolid (greater city),ES,0.66,2008.0,ES009C
+Palma de Mallorca,ES,0.71,2008.0,ES010C
+Santiago de Compostela,ES,0.1,2008.0,ES011C
+Vitoria-Gasteiz,ES,1.58,2008.0,ES012C
+Oviedo,ES,0.1,2008.0,ES013C
+Santander,ES,0.13,2008.0,ES015C
+Toledo,ES,0.21,2008.0,ES016C
+Badajoz,ES,0.6,2008.0,ES017C
+Logroño,ES,0.5,2008.0,ES018C
+Córdoba,ES,1.0,2008.0,ES020C
+Alicante/Alacant (greater city),ES,0.39,2008.0,ES021C
+Vigo,ES,0.07,2008.0,ES022C
+Gijón,ES,0.5,2008.0,ES023C
+A Coruña (greater city),ES,0.1,2008.0,ES025C
+Helsinki/Helsingfors,FI,14.0,2018.0,FI001C
+Tampere/Tammerfors,FI,14.0,2018.0,FI002C
+Turku/Åbo,FI,15.5,2008.0,FI003C
+Oulu/Uleåborg,FI,24.0,2011.0,FI004C
+Espoo/Esbo,FI,10.0,2018.0,FI005C
+Vantaa/Vanda,FI,11.0,2018.0,FI006C
+Lahti/Lahtis,FI,17.0,2018.0,FI007C
+Kuopio,FI,35.6,2011.0,FI008C
+Paris (greater city),FR,3.4,2020.0,FR001C
+Lyon (greater city),FR,6.7,2020.0,FR002C
+Lille (greater city),FR,4.3,2020.0,FR003C
+Marseille (greater city),FR,2.0,2020.0,FR004C
+Bordeaux (greater city),FR,9.6,2020.0,FR005C
+Toulouse (greater city),FR,7.9,2020.0,FR006C
+Nantes (greater city),FR,9.8,2020.0,FR007C
+Nice (greater city),FR,2.5,2020.0,FR008C
+Strasbourg (greater city),FR,15.8,2020.0,FR009C
+Rouen (greater city),FR,3.0,2020.0,FR010C
+Montpellier (greater city),FR,8.6,2020.0,FR011C
+Grenoble (greater city),FR,13.5,2020.0,FR012C
+Tours (greater city),FR,6.5,2020.0,FR013C
+Cannes-Antibes (greater city),FR,1.8,2020.0,FR014C
+Toulon (greater city),FR,3.7,2020.0,FR015C
+Rennes (greater city),FR,10.7,2020.0,FR016C
+Reims (greater city),FR,3.8,2020.0,FR017C
+Orléans (greater city),FR,5.0,2020.0,FR018C
+Nancy (greater city),FR,4.1,2020.0,FR019C
+Dijon (greater city),FR,6.4,2020.0,FR020C
+Clermont-Ferrand (greater city),FR,4.1,2020.0,FR021C
+Le Havre (greater city),FR,3.0,2020.0,FR022C
+Saint-Étienne (greater city),FR,1.8,2020.0,FR023C
+Angers (greater city),FR,7.9,2020.0,FR024C
+Mulhouse (greater city),FR,3.3,2020.0,FR025C
+Lens (greater city),FR,1.4,2020.0,FR026C
+Metz (greater city),FR,2.7,2020.0,FR027C
+Nîmes,FR,5.0,2020.0,FR028C
+Le Mans (greater city),FR,5.8,2020.0,FR029C
+Saint-Denis,FR,1.9,2020.0,FR030C
+Caen (greater city),FR,5.5,2020.0,FR031C
+Limoges (greater city),FR,1.9,2020.0,FR032C
+Aix-en-Provence,FR,3.4,2020.0,FR033C
+Brest,FR,3.6,2020.0,FR034C
+Amiens (greater city),FR,5.6,2020.0,FR035C
+Dunkerque (greater city),FR,3.4,2020.0,FR036C
+Perpignan (greater city),FR,2.7,2020.0,FR037C
+Annecy (greater city),FR,7.5,2020.0,FR038C
+Besançon,FR,5.8,2020.0,FR039C
+Bayonne (greater city),FR,2.9,2020.0,FR040C
+La Seyne-sur-Mer (greater city),FR,2.6,2020.0,FR041C
+Pau (greater city),FR,5.3,2020.0,FR042C
+Avignon (greater city),FR,5.5,2020.0,FR043C
+Troyes (greater city),FR,4.5,2020.0,FR044C
+Valenciennes (greater city),FR,2.1,2020.0,FR045C
+Fort-de-France (greater city),FR,0.3,2020.0,FR046C
+Poitiers (greater city),FR,4.8,2020.0,FR047C
+Valence (greater city),FR,6.2,2020.0,FR048C
+Fréjus (greater city),FR,1.6,2020.0,FR049C
+Chambéry (greater city),FR,7.4,2020.0,FR050C
+Mantes-la-Jolie (greater city),FR,0.9,2020.0,FR051C
+Douai (greater city),FR,3.4,2020.0,FR052C
+Melun (greater city),FR,1.1,2020.0,FR053C
+La Rochelle (greater city),FR,13.2,2020.0,FR054C
+Lorient (greater city),FR,5.9,2020.0,FR055C
+Cherbourg-en-Cotentin,FR,5.1,2020.0,FR056C
+Béziers,FR,1.4,2020.0,FR057C
+Chartres (greater city),FR,4.5,2020.0,FR058C
+Creil (greater city),FR,1.4,2020.0,FR059C
+Boulogne-sur-Mer (greater city),FR,1.3,2020.0,FR060C
+Calais (greater city),FR,2.9,2020.0,FR061C
+Mamoudzou,FR,0.6,2017.0,FR062C
+Montbéliard (greater city),FR,1.9,2020.0,FR063C
+Arras (greater city),FR,2.7,2020.0,FR064C
+Colmar (greater city),FR,9.1,2020.0,FR065C
+Martigues (greater city),FR,0.4,2020.0,FR066C
+Meaux (greater city),FR,1.3,2020.0,FR067C
+Bourges,FR,4.5,2020.0,FR068C
+Saint-Brieuc (greater city),FR,3.6,2020.0,FR069C
+Quimper,FR,2.1,2020.0,FR070C
+Belfort (greater city),FR,4.0,2020.0,FR071C
+Cayenne,FR,3.6,2020.0,FR072C
+Hayange,FR,0.7,2020.0,FR073C
+Saint-Louis,FR,1.2,2020.0,FR074C
+Vannes,FR,5.4,2020.0,FR075C
+"Annemasse-Geneva, FR part (greater city)",FR,6.4,2020.0,FR076C
+"Saint-Louis-Bâle, FR part (greater city)",FR,10.7,2020.0,FR077C
+Dublin (greater city),IE,5.3,2011.0,IE001C
+Cork (greater city),IE,2.9,2011.0,IE002C
+Limerick (greater city),IE,2.8,2011.0,IE003C
+Galway (greater city),IE,5.0,2011.0,IE004C
+Waterford (greater city),IE,2.0,2011.0,IE005C
+Roma,IT,0.5,2011.0,IT001C
+Milano (greater city),IT,4.75,2011.0,IT002C
+Napoli (greater city),IT,0.99,2011.0,IT003C
+Torino,IT,2.65,2011.0,IT004C
+Palermo,IT,1.51,2011.0,IT005C
+Genova,IT,0.31,2011.0,IT006C
+Firenze,IT,6.26,2011.0,IT007C
+Bari,IT,1.6,2011.0,IT008C
+Bologna,IT,5.17,2011.0,IT009C
+Catania (greater city),IT,0.32,2011.0,IT010C
+Venezia,IT,5.92,2011.0,IT011C
+Verona,IT,6.38,2011.0,IT012C
+Cremona,IT,13.99,2011.0,IT013C
+Trento,IT,5.31,2011.0,IT014C
+Trieste,IT,0.71,2011.0,IT015C
+Perugia,IT,0.17,2011.0,IT016C
+Ancona,IT,0.21,2011.0,IT017C
+Pescara (greater city),IT,3.37,2011.0,IT018C
+Campobasso,IT,0.04,2011.0,IT019C
+Caserta  (greater city),IT,3.01,2011.0,IT020C
+Taranto,IT,0.78,2011.0,IT021C
+Potenza,IT,0.07,2011.0,IT022C
+Catanzaro,IT,0.06,2011.0,IT023C
+Reggio di Calabria,IT,0.19,2011.0,IT024C
+Sassari,IT,0.29,2011.0,IT025C
+Cagliari (greater city),IT,0.34,2011.0,IT026C
+Padova,IT,9.54,2011.0,IT027C
+Brescia,IT,4.62,2011.0,IT028C
+Modena,IT,8.19,2011.0,IT029C
+Foggia,IT,1.94,2011.0,IT030C
+Salerno,IT,0.64,2011.0,IT031C
+Piacenza,IT,11.52,2011.0,IT032C
+Bolzano,IT,22.25,2011.0,IT033C
+Udine,IT,8.74,2011.0,IT034C
+La Spezia,IT,2.3,2011.0,IT035C
+Lecce,IT,3.65,2011.0,IT036C
+Barletta,IT,4.08,2011.0,IT037C
+Pesaro,IT,10.45,2011.0,IT038C
+Como,IT,3.6,2011.0,IT039C
+Pisa,IT,6.53,2011.0,IT040C
+Treviso,IT,10.61,2011.0,IT041C
+Varese,IT,1.4,2011.0,IT042C
+Asti,IT,1.56,2011.0,IT043C
+Pavia,IT,7.6,2011.0,IT044C
+Massa,IT,3.64,2011.0,IT045C
+Cosenza (greater city),IT,0.28,2011.0,IT046C
+Savona,IT,1.78,2011.0,IT047C
+Matera,IT,0.34,2011.0,IT048C
+Acireale (greater city),IT,0.26,2011.0,IT049C
+Avellino,IT,0.29,2011.0,IT050C
+Pordenone,IT,8.55,2011.0,IT051C
+Lecco,IT,1.59,2011.0,IT052C
+Altamura,IT,0.58,2011.0,IT053C
+Bitonto,IT,2.72,2011.0,IT054C
+Molfetta,IT,0.64,2011.0,IT055C
+Battipaglia,IT,1.16,2011.0,IT056C
+Bisceglie,IT,2.53,2011.0,IT057C
+Carpi,IT,10.78,2011.0,IT058C
+Cerignola,IT,1.74,2011.0,IT059C
+Gela,IT,0.56,2011.0,IT060C
+Bagheria,IT,0.71,2011.0,IT061C
+Anzio (greater city),IT,1.68,2011.0,IT062C
+Sassuolo,IT,3.27,2011.0,IT063C
+Messina,IT,0.42,2011.0,IT064C
+Prato,IT,3.6,2011.0,IT065C
+Parma,IT,12.3,2011.0,IT066C
+Livorno,IT,8.94,2011.0,IT067C
+Reggio nell'Emilia,IT,8.84,2011.0,IT068C
+Ravenna,IT,11.82,2011.0,IT069C
+Ferrara,IT,17.26,2011.0,IT070C
+Rimini,IT,12.1,2011.0,IT071C
+Siracusa,IT,0.53,2011.0,IT072C
+Bergamo (greater city),IT,4.52,2011.0,IT073C
+Forlì,IT,9.85,2011.0,IT074C
+Latina,IT,1.48,2011.0,IT075C
+Vicenza,IT,8.48,2011.0,IT076C
+Terni,IT,4.02,2011.0,IT077C
+Novara,IT,9.82,2011.0,IT078C
+Alessandria,IT,6.77,2011.0,IT079C
+Arezzo,IT,3.32,2011.0,IT080C
+Grosseto,IT,7.48,2011.0,IT081C
+Brindisi,IT,0.97,2011.0,IT082C
+Trapani,IT,1.95,2011.0,IT083C
+Ragusa,IT,0.18,2011.0,IT084C
+Andria,IT,3.69,2011.0,IT085C
+Trani,IT,3.15,2011.0,IT086C
+L'Aquila,IT,0.11,2011.0,IT087C
+Luxembourg (greater city),LU,1.1,2001.0,LU001C
+Rīga,LV,4.7,2017.0,LV001C
+Greater Valletta,MT,0.0,2003.0,MT001C
+Amsterdam (greater city),NL,22.0,2003.0,NL001C
+Alkmaar (greater city),NL,33.0,2003.0,NL002C
+Almelo,NL,28.0,2003.0,NL003C
+Almere,NL,14.0,2003.0,NL004C
+Amersfoort,NL,25.0,2003.0,NL006C
+Apeldoorn,NL,29.0,2003.0,NL007C
+Arnhem,NL,19.0,2003.0,NL008C
+Breda,NL,23.0,2003.0,NL011C
+Deventer,NL,30.0,2003.0,NL012C
+Ede,NL,25.0,2003.0,NL013C
+Eindhoven (greater city),NL,24.0,2003.0,NL014C
+Enschede,NL,31.0,2003.0,NL015C
+'s-Gravenhage (greater city),NL,22.0,2003.0,NL017C
+Groningen,NL,37.0,2003.0,NL018C
+Haarlem (greater city),NL,29.0,2003.0,NL019C
+Heerlen (greater city),NL,10.0,2003.0,NL022C
+Helmond,NL,26.0,2003.0,NL023C
+Hengelo,NL,32.0,2003.0,NL024C
+'s-Hertogenbosch,NL,17.0,2003.0,NL025C
+Leeuwarden,NL,32.0,2003.0,NL028C
+Leiden (greater city),NL,35.0,2003.0,NL029C
+Lelystad,NL,18.0,2003.0,NL030C
+Maastricht,NL,23.0,2003.0,NL031C
+Nijmegen,NL,25.0,2003.0,NL033C
+Rotterdam (greater city),NL,14.0,2003.0,NL037C
+Tilburg (greater city),NL,28.0,2003.0,NL041C
+Utrecht (greater city),NL,21.0,2003.0,NL042C
+Venlo,NL,30.0,2003.0,NL044C
+Zaanstad (greater city),NL,26.0,2003.0,NL045C
+Zwolle,NL,31.0,2003.0,NL047C
+Oslo (greater city),NO,8.0,2009.0,NO001C
+Bergen,NO,5.0,2009.0,NO002C
+Trondheim,NO,16.0,2009.0,NO003C
+Stavanger (greater city),NO,12.0,2009.0,NO004C
+Lisboa (greater city),PT,0.18,2011.0,PT001C
+Porto (greater city),PT,0.29,2011.0,PT002C
+Braga (greater city),PT,0.21,2011.0,PT003C
+Funchal (greater city),PT,0.02,2011.0,PT004C
+Coimbra (greater city),PT,0.2,2011.0,PT005C
+Setúbal (greater city),PT,0.46,2011.0,PT006C
+Ponta Delgada (greater city),PT,0.17,2011.0,PT007C
+Aveiro (greater city),PT,2.76,2011.0,PT008C
+Faro (greater city),PT,0.77,2011.0,PT009C
+Viseu (greater city),PT,0.3,2011.0,PT010C
+Viana do Castelo (greater city),PT,0.86,2011.0,PT011C
+Paredes (greater city),PT,0.41,2011.0,PT012C
+Póvoa de Varzim (greater city),PT,2.21,2011.0,PT013C
+Sintra (greater city),PT,0.29,2011.0,PT014C
+Guimarães (greater city),PT,0.17,2011.0,PT015C
+Vila Franca de Xira (greater city),PT,0.27,2011.0,PT016C
+Stockholm (greater city),SE,6.0,2005.0,SE001C
+Göteborg (greater city),SE,14.0,2005.0,SE002C
+Malmö,SE,24.0,2005.0,SE003C
+Jönköping,SE,8.0,2005.0,SE004C
+Umeå,SE,26.0,2005.0,SE005C
+Uppsala,SE,17.0,2005.0,SE006C
+Linköping,SE,16.0,2005.0,SE007C
+Örebro,SE,20.0,2005.0,SE008C
+Bratislava (greater city),SK,0.0,2008.0,SK001C
+Košice (greater city),SK,1.0,2008.0,SK002C
+Banská Bystrica,SK,3.0,2008.0,SK003C
+Nitra,SK,7.0,2008.0,SK004C
+Prešov,SK,2.4,2008.0,SK005C
+Žilina,SK,3.6,2008.0,SK006C
+Trnava,SK,6.6,2008.0,SK007C
+Trenčín,SK,3.1,2008.0,SK008C
+London,UK,4.3,2011.0,UK001C
+Birmingham,UK,1.6,2011.0,UK002C
+Leeds,UK,1.9,2011.0,UK003C
+Glasgow,UK,1.82,2011.0,UK004C
+Bradford,UK,0.8,2011.0,UK005C
+Liverpool,UK,2.1,2011.0,UK006C
+Edinburgh,UK,4.79,2011.0,UK007C
+Manchester,UK,4.2,2011.0,UK008C
+Cardiff,UK,3.8,2011.0,UK009C
+Sheffield,UK,1.9,2011.0,UK010C
+Bristol,UK,8.1,2011.0,UK011C
+Newcastle upon Tyne,UK,2.9,2011.0,UK013C
+Leicester,UK,3.8,2011.0,UK014C
+Aberdeen,UK,2.0,2011.0,UK015C
+Cambridge,UK,31.9,2011.0,UK016C
+Exeter,UK,6.6,2011.0,UK017C
+Lincoln,UK,6.3,2011.0,UK018C
+Gravesham,UK,1.0,2011.0,UK019C
+Stevenage,UK,2.5,2011.0,UK020C
+Wrexham,UK,1.4,2011.0,UK021C
+Portsmouth,UK,7.7,2011.0,UK022C
+Worcester,UK,4.4,2011.0,UK023C
+Coventry,UK,2.7,2011.0,UK024C
+Kingston-upon-Hull,UK,8.3,2011.0,UK025C
+Stoke-on-Trent,UK,1.5,2011.0,UK026C
+Wolverhampton,UK,2.2,2011.0,UK027C
+Nottingham,UK,3.7,2011.0,UK028C
+Wirral,UK,1.7,2011.0,UK029C
+Bath and North East Somerset,UK,3.2,2011.0,UK030C
+Thurrock,UK,1.5,2011.0,UK031C
+Guildford,UK,2.8,2011.0,UK032C
+Thanet,UK,2.7,2011.0,UK033C
+Nuneaton and Bedworth,UK,2.2,2011.0,UK034C
+Tunbridge Wells,UK,1.3,2011.0,UK035C
+Ashford,UK,2.7,2011.0,UK036C
+East Staffordshire,UK,3.4,2011.0,UK037C
+Darlington,UK,2.5,2011.0,UK038C
+Worthing,UK,5.5,2011.0,UK039C
+Mansfield,UK,1.5,2011.0,UK040C
+Chesterfield,UK,1.1,2011.0,UK041C
+Burnley,UK,1.1,2011.0,UK042C
+Great Yarmouth,UK,4.4,2011.0,UK043C
+Woking,UK,2.9,2011.0,UK044C
+Hartlepool,UK,2.0,2011.0,UK045C
+Cannock Chase,UK,1.4,2011.0,UK046C
+Eastbourne,UK,3.2,2011.0,UK047C
+Hastings,UK,1.6,2011.0,UK048C
+Hyndburn,UK,1.2,2011.0,UK049C
+Redditch,UK,1.6,2011.0,UK050C
+Tamworth,UK,2.3,2011.0,UK051C
+Harlow,UK,2.6,2011.0,UK052C
+Halton,UK,2.2,2011.0,UK053C
+Kirklees,UK,1.0,2011.0,UK054C
+North Lanarkshire (Airdrie/Bellshill/Coatbridge/Motherwell),UK,0.33,2011.0,UK055C
+Wakefield,UK,1.3,2011.0,UK056C
+Dudley,UK,1.3,2011.0,UK057C
+Wigan,UK,1.7,2011.0,UK058C
+Doncaster,UK,2.6,2011.0,UK059C
+Stockport,UK,2.2,2011.0,UK060C
+Sefton,UK,2.8,2011.0,UK061C
+Sandwell,UK,1.6,2011.0,UK062C
+Sunderland,UK,1.4,2011.0,UK063C
+Bolton,UK,1.1,2011.0,UK064C
+Walsall,UK,1.6,2011.0,UK065C
+Medway,UK,1.2,2011.0,UK066C
+Rotherham,UK,0.9,2011.0,UK067C
+Brighton and Hove,UK,5.3,2011.0,UK068C
+Plymouth,UK,2.7,2011.0,UK069C
+Swansea,UK,1.5,2011.0,UK070C
+Derby,UK,3.9,2011.0,UK071C
+Barnsley,UK,0.7,2011.0,UK072C
+Southampton,UK,4.8,2011.0,UK073C
+Oldham,UK,1.1,2011.0,UK074C
+Salford,UK,2.5,2011.0,UK075C
+Tameside,UK,1.4,2011.0,UK076C
+Trafford,UK,3.3,2011.0,UK077C
+Milton Keynes,UK,3.0,2011.0,UK078C
+Rochdale,UK,1.1,2011.0,UK079C
+Solihull,UK,1.5,2011.0,UK080C
+Northampton,UK,2.7,2011.0,UK081C
+North Tyneside,UK,2.6,2011.0,UK082C
+Gateshead,UK,1.5,2011.0,UK083C
+Warrington,UK,2.7,2011.0,UK084C
+Luton,UK,1.4,2011.0,UK085C
+York,UK,12.1,2011.0,UK086C
+Bury,UK,1.4,2011.0,UK087C
+Swindon,UK,4.4,2011.0,UK088C
+Stockton-on-Tees,UK,2.0,2011.0,UK089C
+St. Helens,UK,1.5,2011.0,UK090C
+Basildon,UK,1.8,2011.0,UK091C
+Bournemouth,UK,5.0,2011.0,UK092C
+Southend-on-Sea,UK,3.0,2011.0,UK093C
+Telford and Wrekin,UK,2.2,2011.0,UK094C
+North East Lincolnshire,UK,5.6,2011.0,UK095C
+Chelmsford,UK,3.1,2011.0,UK096C
+Peterborough,UK,6.0,2011.0,UK097C
+Colchester,UK,4.2,2011.0,UK098C
+South Tyneside,UK,2.3,2011.0,UK099C
+Basingstoke and Deane,UK,2.3,2011.0,UK100C
+Bedford,UK,4.1,2011.0,UK101C
+Dundee City,UK,1.39,2011.0,UK102C
+Falkirk,UK,1.09,2011.0,UK103C
+Reading,UK,4.4,2011.0,UK104C
+Blackpool,UK,3.4,2011.0,UK105C
+Maidstone,UK,1.3,2011.0,UK106C
+Dacorum,UK,1.2,2011.0,UK107C
+Blackburn with Darwen,UK,1.0,2011.0,UK108C
+Newport,UK,1.5,2011.0,UK109C
+Middlesbrough,UK,2.6,2011.0,UK110C
+Oxford,UK,18.7,2011.0,UK111C
+Torbay,UK,1.5,2011.0,UK112C
+Preston,UK,2.4,2011.0,UK113C
+St Albans,UK,1.9,2011.0,UK114C
+Warwick,UK,3.4,2011.0,UK115C
+Newcastle-under-Lyme,UK,1.2,2011.0,UK116C
+Norwich,UK,9.3,2011.0,UK117C
+Slough,UK,2.5,2011.0,UK118C
+Cheshire West and Chester,UK,2.8,2011.0,UK119C
+Ipswich,UK,4.9,2011.0,UK120C
+Cheltenham,UK,7.0,2011.0,UK121C
+Gloucester,UK,5.2,2011.0,UK122C
+Bracknell Forest,UK,2.4,2011.0,UK123C
+Carlisle,UK,2.8,2011.0,UK124C
+Crawley,UK,2.6,2011.0,UK125C

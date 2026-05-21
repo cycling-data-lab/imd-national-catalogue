@@ -1,0 +1,190 @@
+{
+  "results": [
+    {
+      "index": "Copenhagenize 2019",
+      "n_matched": 10,
+      "spearman_rho": 0.14589733048321551,
+      "spearman_p": 0.6875567115411833,
+      "spearman_ci_lo": -0.6155063291139241,
+      "spearman_ci_hi": 0.9200519480519479,
+      "pearson_r": -0.01993038554376103,
+      "pearson_p": 0.956419595393376,
+      "matches": [
+        {
+          "country_u": "DE",
+          "city_ext": "Berlin",
+          "score_cop": 51.8,
+          "imd4_mean": 1.286233866191068
+        },
+        {
+          "country_u": "JP",
+          "city_ext": "Tokyo",
+          "score_cop": 50.9,
+          "imd4_mean": 1.1975813012604986
+        },
+        {
+          "country_u": "BE",
+          "city_ext": "Antwerp",
+          "score_cop": 73.2,
+          "imd4_mean": 0.7949897061673192
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Bremen",
+          "score_cop": 58.0,
+          "imd4_mean": 0.4353484667714784
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Strasbourg",
+          "score_cop": 71.4,
+          "imd4_mean": 0.4306151966671893
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Bordeaux",
+          "score_cop": 70.5,
+          "imd4_mean": 0.2885061685812903
+        },
+        {
+          "country_u": "ES",
+          "city_ext": "Barcelona",
+          "score_cop": 53.6,
+          "imd4_mean": 0.2770319181211286
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Berlin",
+          "score_cop": 51.8,
+          "imd4_mean": 0.2746745965239248
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Paris",
+          "score_cop": 64.3,
+          "imd4_mean": 0.2347122451292887
+        },
+        {
+          "country_u": "CA",
+          "city_ext": "Montreal",
+          "score_cop": 48.2,
+          "imd4_mean": -0.2509450417979125
+        }
+      ]
+    },
+    {
+      "index": "ECF Cycling 2019",
+      "n_matched": 17,
+      "spearman_rho": -0.2170447986127191,
+      "spearman_p": 0.40271743527084625,
+      "spearman_ci_lo": -0.621756993719925,
+      "spearman_ci_hi": 0.3784786098122686,
+      "pearson_r": -0.33388097808210726,
+      "pearson_p": 0.1902846258856178,
+      "matches": [
+        {
+          "country_u": "IT",
+          "city_ext": "Milan",
+          "score_ecf": 53,
+          "imd4_mean": 1.800578586657744
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Berlin",
+          "score_ecf": 61,
+          "imd4_mean": 1.286233866191068
+        },
+        {
+          "country_u": "CZ",
+          "city_ext": "Prague",
+          "score_ecf": 48,
+          "imd4_mean": 0.9580719343602552
+        },
+        {
+          "country_u": "BE",
+          "city_ext": "Antwerp",
+          "score_ecf": 72,
+          "imd4_mean": 0.7949897061673192
+        },
+        {
+          "country_u": "BE",
+          "city_ext": "Brussels",
+          "score_ecf": 58,
+          "imd4_mean": 0.6716580835634044
+        },
+        {
+          "country_u": "PL",
+          "city_ext": "Warsaw",
+          "score_ecf": 52,
+          "imd4_mean": 0.4712865921345712
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Bremen",
+          "score_ecf": 84,
+          "imd4_mean": 0.4353484667714784
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Strasbourg",
+          "score_ecf": 76,
+          "imd4_mean": 0.4306151966671893
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Nantes",
+          "score_ecf": 63,
+          "imd4_mean": 0.3831236972388033
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Freiburg",
+          "score_ecf": 78,
+          "imd4_mean": 0.3766147460630821
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Bordeaux",
+          "score_ecf": 70,
+          "imd4_mean": 0.2885061685812903
+        },
+        {
+          "country_u": "ES",
+          "city_ext": "Barcelona",
+          "score_ecf": 65,
+          "imd4_mean": 0.2770319181211286
+        },
+        {
+          "country_u": "DE",
+          "city_ext": "Berlin",
+          "score_ecf": 61,
+          "imd4_mean": 0.2746745965239248
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Paris",
+          "score_ecf": 62,
+          "imd4_mean": 0.2347122451292887
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Lyon",
+          "score_ecf": 60,
+          "imd4_mean": 0.1434527650572681
+        },
+        {
+          "country_u": "FR",
+          "city_ext": "Toulouse",
+          "score_ecf": 57,
+          "imd4_mean": -0.0955763174857191
+        },
+        {
+          "country_u": "ES",
+          "city_ext": "Seville",
+          "score_ecf": 71,
+          "imd4_mean": -0.2245699857500463
+        }
+      ]
+    }
+  ]
+}

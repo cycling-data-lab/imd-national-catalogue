@@ -1,0 +1,16 @@
+{
+  "city": "V\u00e9lib Paris",
+  "N": 1361,
+  "n_axes_used": 4,
+  "axes_used": [
+    "gtfs_heavy_stops_300m",
+    "infra_cyclable_features_300m",
+    "elevation_m",
+    "topography_roughness_index"
+  ],
+  "degenerate_axes": [],
+  "smoothness": 0.5486979571774063,
+  "K_90pct": 1003,
+  "K_90pct_frac": 0.7369581190301249,
+  "R2_spectral": 0.1772717827340645
+}
