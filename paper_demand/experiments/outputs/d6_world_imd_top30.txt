@@ -1,0 +1,47 @@
+WORLD IMD-4 RANKING (French-calibrated weights)
+183 cities, 41872 stations total
+
+ rk    IMD-4  cn  stns  city
+------------------------------------------------------------
+  1   +1.801  IT   318  milan_bikemi
+  2   +1.286  DE    89  movemix_bike
+  3   +1.198  JP    24  cyclocity
+  4   +1.087  DE    65  nextbike_kassel
+  5   +0.958  CZ  1489  nextbike_praha
+  6   +0.884  AT    55  stadtrad_innsbruck_austria
+  7   +0.823  FR    52  v_lomagg
+  8   +0.795  BE   321  velo_antwerpen
+  9   +0.672  BE   348  villo
+ 10   +0.614  CA  1033  bike_share_toronto
+ 11   +0.542  DE   279  die_gr_ne_flotte
+ 12   +0.499  CH  1634  velospot
+ 13   +0.471  PL   344  veturilo_3_0
+ 14   +0.469  FR    21  montenv_lo
+ 15   +0.468  DE   527  swabi_augsburg
+ 16   +0.466  CZ    51  nextbike_liberec
+ 17   +0.440  AT    50  city_bike_linz
+ 18   +0.435  DE   108  bre_bike
+ 19   +0.431  FR    39  v_lhop_strasbourg
+ 20   +0.417  PL   263  wrm_nextbike_poland
+ 21   +0.383  FR   123  naolib
+ 22   +0.377  DE   161  frelo
+ 23   +0.320  HR   201  bajs_zagreb_croatia
+ 24   +0.299  FR    52  v_lo_fluo_grand_est
+ 25   +0.295  ES    48  bilbao_bizi
+ 26   +0.289  FR   228  le_v_lo_par_tbm
+ 27   +0.277  ES   545  bicing
+ 28   +0.275  DE  1456  nextbike_berlin
+ 29   +0.235  FR  1511  v_lib_metropole
+ 30   +0.206  US    41  tugo
+
+BOTTOM 10:
+174   -0.441  CZ    20  nextbike_umperk
+175   -0.443  GB    73  beryl_hereford
+176   -0.444  RO    57  sibiu_bikecity
+177   -0.449  US    43  bike_chattanooga
+178   -0.457  US    23  hibike
+179   -0.463  FR    80  vel_in
+180   -0.474  RO    49  buzau_velocity
+181   -0.475  AR    99  mibicitubici
+182   -0.486  BR    90  bike_ita_pernambuco
+183   -0.521  AR    21  bike_nordelta

@@ -1,0 +1,28 @@
+{
+  "city": "nyc_citibike",
+  "n_total": 24217741,
+  "n_stations": 2230,
+  "n_train": 19374192,
+  "n_test": 4843549,
+  "no_imd": {
+    "model": "nyc_citibike_G_minus_temporal",
+    "n_test": 4843549,
+    "r2_log": 0.13068838019076046,
+    "r2_trips": 0.003076159615976626,
+    "mae_trips": 4.051620213603009,
+    "rmse_trips": 7.203682749002627,
+    "fit_seconds": 33.5
+  },
+  "imd_augmented": {
+    "model": "nyc_citibike_G_plus_imd",
+    "n_test": 4843549,
+    "r2_log": 0.6303639104300911,
+    "r2_trips": 0.5310443470016724,
+    "mae_trips": 2.661126118299333,
+    "rmse_trips": 4.940711270779716,
+    "fit_seconds": 68.2
+  },
+  "delta_r2_trips": 0.5279681873856957,
+  "delta_mae_trips": 1.390494095303676,
+  "wall_time_s": 272.5
+}
