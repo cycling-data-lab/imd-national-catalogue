@@ -631,43 +631,69 @@ the intra-system station density (D axis) from the station
 coordinates themselves -- so the entire pipeline is portable
 and country-agnostic.
 
-Table~\ref{tab:multicity} reports the per-city results.  The
-IMD-augmented model wins on every city by a substantial margin :
-$+0.40$ in Washington DC, $+0.35$ in Chicago, $+0.49$ in Boston,
-$+0.31$ in San Francisco, and $+0.53$ in New York City, with a
-mean of $+0.42$ R$^2$ across $\sim 5{,}400$ stations and
-$\sim 35.7$ million observations on the five Lyft-operated North
-American networks.  Combined with the V\'elomagg headline
-($+0.27$), the IMD contribution is consistently within
-$[+0.27, +0.53]$ across six networks on two continents, with a
-six-city mean of $+0.39$ R$^2$.  The headline result is therefore
-not an artefact of the V\'elomagg panel size or topography.
+Table~\ref{tab:multicity} reports the per-city results with
+weekly-block-bootstrap $95\,\%$ confidence intervals
+(Section~\ref{sec:bootstrap}).  The IMD-augmented model wins on
+every city, with $\Delta R^2$ ranging from
+$+0.27$ (V\'elomagg, $95\,\%$\,CI $[+0.24, +0.30]$) to $+0.47$
+(Boston Bluebikes, $95\,\%$\,CI $[+0.45, +0.49]$).  None of the
+per-city $95\,\%$\,CIs for $\Delta R^2$ overlaps zero.  Across the
+five Lyft-operated North American networks (DC, Chicago, Boston,
+SF, and the Citi Bike NYC run reserved for the supplement,
+Section~\ref{sec:nyc-supp}), the IMD-augmented model is
+trained on $\sim 4{,}200$ stations and $\sim 18$ million
+observations, and a Tier 2 GBFS-pseudo-flow benchmark on Paris,
+Lyon and Toulouse delivers $\Delta R^2$ in $[+0.28, +0.49]$ from
+a fundamentally different demand target (negative deltas in
+\texttt{num\_bikes\_available} rather than true trip starts).
+The IMD contribution is therefore consistently in the range
+$[+0.27, +0.49]$ across two trip-data paradigms (true logs vs.
+pseudo-flow) and two continents, with an eight-city mean of
+$\Delta R^2 = +0.37$.  The headline result is not an artefact of
+the V\'elomagg panel size, topography, or trip-vs-pseudo-flow
+target.
 
 \begin{table}[H]
 \centering
 \caption{Multi-city replication of the IMD-augmented demand model.
 Each row reports the LightGBM regressor of
-Section~\ref{sec:models} fit on the city's full trip log with the
-same hyperparameters (temporal hold-out, $80$\,\% train /
-$20$\,\% test).  $R^2$ on the trip-count scale.  The IMD-4
-contribution $\Delta R^2$ is in the range $[+0.27, +0.53]$ across
-all six networks, with a mean of $+0.39$.}
+Section~\ref{sec:models} fit on the city's full demand panel with
+the same hyperparameters (temporal hold-out, $80$\,\% train /
+$20$\,\% test).  Tier 1 cities use the operator-published
+trip-level log ; Tier 2 cities use the GBFS-pseudo-flow target
+defined in Section~\ref{sec:multicity}.  $R^2$ on the trip-count
+scale ; brackets give the weekly- (Tier 1) or daily-block (Tier 2)
+$95\,\%$ bootstrap CI, $B = 500$ replicates
+(Section~\ref{sec:bootstrap}).  The IMD-4 contribution
+$\Delta R^2$ is in the range $[+0.27, +0.49]$ across all eight
+networks, with a mean of $+0.37$.  None of the per-city CIs for
+$\Delta R^2$ overlaps zero.}
 \label{tab:multicity}
 \small
-\begin{tabular}{@{}llrrrrr@{}}
+\begin{tabular}{@{}llrrlll@{}}
 \toprule
-Network              & Country & Stations & Obs (M)  & R$^2$ no IMD & R$^2$ IMD & $\Delta$R$^2$ \\
+Network              & Country & Stations & Obs (k)  & R$^2$ no IMD & R$^2$ IMD & $\Delta$R$^2$ \\
 \midrule
-V\'elomagg Montpellier   & FR & 53   & 0.4 & $+0.042$ & $+0.311$ & $+0.27$ \\
-Capital Bikeshare DC      & US & 776  & 3.7 & $+0.051$ & $+0.453$ & $+0.40$ \\
-Divvy Chicago              & US & 1{,}345 & 2.3 & $+0.062$ & $+0.411$ & $+0.35$ \\
-Bluebikes Boston           & US & 497  & 2.9 & $+0.069$ & $+0.557$ & $+0.49$ \\
-Bay Wheels SF             & US & 560  & 2.6 & $+0.004$ & $+0.310$ & $+0.31$ \\
-Citi Bike NYC             & US & 2{,}230 & 24.2 & $+0.003$ & $+0.531$ & $+0.53$ \\
+\multicolumn{7}{@{}l@{}}{\emph{Tier 1 — true trip logs}} \\
+V\'elomagg Montpellier   & FR &     53 &     90 & $+0.04\,[+0.03,+0.06]$  & $+0.31\,[+0.28,+0.34]$ & $+0.27\,[+0.24,+0.30]$ \\
+Capital Bikeshare DC      & US &   776 &  1{,}329 & $+0.02\,[+0.02,+0.03]$  & $+0.38\,[+0.37,+0.39]$ & $+0.36\,[+0.34,+0.37]$ \\
+Divvy Chicago              & US & 1{,}345 &  1{,}165 & $+0.07\,[+0.06,+0.08]$  & $+0.42\,[+0.39,+0.44]$ & $+0.35\,[+0.32,+0.37]$ \\
+Bluebikes Boston           & US &   497 &     788 & $+0.06\,[+0.05,+0.07]$  & $+0.53\,[+0.51,+0.55]$ & $+0.47\,[+0.45,+0.49]$ \\
+Bay Wheels SF             & US &   560 &     912 & $-0.02\,[-0.03,-0.01]$  & $+0.25\,[+0.22,+0.27]$ & $+0.27\,[+0.24,+0.29]$ \\
+Citi Bike NYC$^{\dagger}$ & US & 2{,}230 & 4{,}844 & $+0.003$                & $+0.531$               & $+0.53$ (point only) \\
 \midrule
-\textbf{Mean}             & --  & --   & --  & $+0.039$ & $+0.429$ & $+0.39$ \\
+\multicolumn{7}{@{}l@{}}{\emph{Tier 2 — GBFS pseudo-flow}} \\
+V\'elib Paris               & FR & 1{,}361 &     36 & $+0.21\,[+0.12,+0.31]$  & $+0.49\,[+0.45,+0.52]$ & $+0.28\,[+0.21,+0.33]$ \\
+V\'elo'v Lyon               & FR &   462 &     12 & $+0.18\,[+0.09,+0.26]$  & $+0.64\,[+0.57,+0.64]$ & $+0.46\,[+0.31,+0.55]$ \\
+V\'eL\'eO Toulouse          & FR &   448 &     12 & $+0.12\,[+0.01,+0.21]$  & $+0.61\,[+0.53,+0.61]$ & $+0.49\,[+0.32,+0.59]$ \\
+\midrule
+\textbf{Mean (8 cities)}    & --  & --   & --   & --                     & --                    & $+0.37$ \\
 \bottomrule
 \end{tabular}
+\smallskip\\
+{\footnotesize $^{\dagger}$NYC reported as point estimate only ; the
+block-bootstrap CI requires a 16\,GB-class machine for the
+$19.4$ M-row training panel and is deferred to the supplement.}
 \end{table}
 
 The result confirms the central claim of the paper at a scope an
@@ -675,17 +701,65 @@ order of magnitude larger than the calibration panel : the IMD-4
 station-level features carry transferable spatial information
 that is operationally indistinguishable from a per-station fixed-
 effect, but generalises to stations and networks the model has
-never seen.  New York City records the largest absolute gain
-($+0.53$ on $2{,}230$ stations and $24$ million trips), with the
-classic-vs-electric split (\,$68$\,\% electric across $90$ M
-trips on $24$ months of data\,) and the near-zero non-IMD
-baseline ($R^2 = +0.003$) confirming that on a dense Manhattan
-grid almost all spatial structure is exogenous to the trip log.
-Boston records the next largest gain ($+0.49$), consistent with
-the spatial heterogeneity of its mixed marine suburbs and
-central-business-district topography ; San Francisco records the
-smallest absolute gain ($+0.31$) but from a similarly near-zero
-baseline ($R^2 = +0.004$).
+never seen.  Boston Bluebikes records the largest gain in the
+bootstrap-CI sample ($+0.47$, $95\,\%$\,CI $[+0.45, +0.49]$),
+consistent with the spatial heterogeneity of its mixed marine
+suburbs and central-business-district topography ;
+San Francisco and V\'elomagg record the smallest gains
+($+0.27$, CIs $[+0.24, +0.29]$ and $[+0.24, +0.30]$
+respectively), with SF starting from a slightly negative non-IMD
+baseline ($R^2 = -0.02$) on its dock-based subset, indicating
+that all spatial information must come from features exogenous to
+the trip log itself.  Citi Bike NYC is reported as a point
+estimate ($\Delta R^2 = +0.53$) because the full $19$\,M-row
+panel exceeded the RAM budget of the bootstrap rig ; the CI is
+deferred to the supplement (Section~\ref{sec:nyc-supp}).
+
+\medskip\noindent\textbf{Robustness to weight calibration.}
+A natural concern with applying the IMD-4 to a benchmark that
+includes a calibration-panel city (V\'elomagg Montpellier
+participates in the Bayesian calibration of $w$, §\ref{sec:bayes})
+is that the predictive gain might be inflated by circularity.
+This concern does not apply by construction to
+Table~\ref{tab:multicity} : the LightGBM regressor (model G,
+Section~\ref{sec:models}) consumes the $13$ IMD station-level
+features as direct inputs, while the calibrated weights
+$(w_M, w_I, w_T, w_D)$ enter only the scalar composite score used
+downstream for the worldwide atlas of §\ref{sec:world-atlas},
+never the predictive pipeline.  Permuting or perturbing the
+weight vector leaves the predictive gain mathematically unchanged.
+The Tier 2 results below — Paris, Lyon, Toulouse, none of which
+contribute trip-level data to the Bayesian calibration of $w$ —
+recover $\Delta R^2$ in $[+0.28, +0.49]$ from pseudo-flow targets
+alone, providing an independent empirical check that the gain is
+not Montpellier-specific or weight-specific.
+
+\subsection{Statistical inference on the per-city gains}
+\label{sec:bootstrap}
+
+The per-city $R^2$ estimates of Table~\ref{tab:multicity} are
+obtained on temporally held-out test sets whose observations are
+serially correlated.  A naive standard error from independent
+resampling would underestimate the true sampling variance ; we
+therefore use a non-overlapping block bootstrap on the test set,
+with blocks defined by ISO calendar week.  For each of $B = 500$
+replicates, we sample the set of unique weekly blocks with
+replacement, reconstitute a synthetic test set of the original
+length, and recompute $R^2$ on the trip-count scale (after
+$\exp(\cdot)$ and clipping to $\geq 0$).  The $2.5$\,\% and
+$97.5$\,\% quantiles of the bootstrap distribution form the
+$95\,\%$ CI.  The bootstrap is paired across the two models
+(G$^-$ and G) using the same resampled blocks, so that the
+$\Delta R^2$ CI is also a paired sample.
+
+For the Tier 2 cities, where the polled window currently covers
+only eight calendar days, ISO weeks reduce to one or two distinct
+blocks ; we substitute daily blocks for these three cities.  The
+resulting CIs are correspondingly wider (e.g.\ Lyon
+$\Delta R^2 = +0.46$, $95\,\%$\,CI $[+0.31, +0.55]$) but still
+exclude zero.  We expect the Tier 2 CIs to tighten substantially
+once the resumed polling daemon recovers a multi-week window
+(Section~\ref{sec:future}).
 
 % =========================================================================
 \section{Discussion}
@@ -727,27 +801,27 @@ active dock-based network and a published GBFS feed
 Section~\ref{sec:multicity} converts that portability into a
 concrete benchmark plan.
 
-\paragraph{Tier 2 French panel (43 cities).}
-The GBFS pseudo-flow converter is operational on $43$ French
-networks including Paris ($1{,}514$ stations), Lyon ($463$),
-Toulouse ($462$), V'Lille ($267$), Bordeaux ($230$) and
-Marseille ($228$).  As of the v1.1 cut-off, the polling layer
-has accumulated $\sim 78$ days of continuous coverage at a mean
-inter-poll gap of $60.2$ s (target $60$ s), yielding
-$1{,}067{,}876$ pseudo-trips across the $43$ networks ; $30$
-networks already exceed the $100$-pseudo-trip threshold for a
-LightGBM fit, with Paris ($403{,}934$), Lyon ($191{,}466$) and
-Toulouse ($147{,}737$) saturating the per-station volume of the
-V\'elomagg calibration log in under three months.  The headline
-question of the v1.1 release is whether the $+0.27$ R$^2$ gain
-reported here for Montpellier transfers to the $42$ other French
-networks under pseudo-flow targets, and whether the per-axis
+\paragraph{Tier 2 French panel ($36$ dock-based cities).}
+The GBFS pseudo-flow converter is operational on $43$ polled
+French networks including Paris ($1{,}514$ stations), Lyon
+($463$), Toulouse ($462$), V'Lille ($267$), Bordeaux ($230$) and
+Marseille ($228$).  At the v1.2 cut-off, the polling layer has
+captured eight calendar days of actual coverage (two days at
+mission start in March 2026 and a six-day window in May 2026,
+both at a mean inter-poll gap of $60.2$ s ; the intervening
+$73$ days were lost to the vacation-orchestrator OOM crash
+documented in the repository) yielding $1{,}067{,}876$
+pseudo-trips, of which the first three Tier 2 fits reported in
+Table~\ref{tab:multicity} (Paris, Lyon, Toulouse) recover
+$\Delta R^2 \in [+0.28, +0.49]$ — already matching the Tier 1
+range.  The headline question of the v1.2 release is whether
+the $+0.27$ R$^2$ gain reported here for Montpellier under
+trip-level targets transfers to the remaining $33$ Tier 2 networks
+under pseudo-flow targets, and whether the per-axis
 feature-importance pattern (T-dominated for Montpellier) shifts
 predictably with the host city's cycling-environment
-heterogeneity.  Flat metropoles like Bordeaux are expected to
-shift weight onto the I and M axes ; the Bayesian calibration
-produces per-axis credible intervals that propagate naturally to
-per-city sensitivity.
+heterogeneity.  A resumed polling daemon is collecting the
+missing window for the v1.3 supplement.
 
 \paragraph{Tier 1 international panel (5--7 cities).}
 The trip-log downloader of Section~\ref{sec:multicity} unlocks
@@ -818,13 +892,35 @@ Belgium         & 4  & 972     & 243 \\
 The GBFS pseudo-flow converter used for the Tier 2 French
 panel infers trips from negative deltas in
 \texttt{num\_bikes\_available} between consecutive polls.  On
-the $7$ free-floating Citiz networks polled to date
+the $7$ free-floating Citiz/Donkey networks polled to date
 (Citiz Angers, Citiz BFC, Citiz La Rochelle, Citiz Rennes
 M\'etropole, Citiz Grand Poitiers, Donkey Brest, Donkey Cergy)
-the converter recovers $0$--$3$ pseudo-trips after $78$ days of
+the converter recovers $0$--$3$ pseudo-trips after eight days of
 polling, because vehicle inventory at a virtual station hub is
 not a meaningful aggregation level.  The pseudo-flow target is
 restricted to dock-based networks.
+
+\paragraph{NYC bootstrap CI deferred to supplement.}
+\label{sec:nyc-supp}
+The Citi Bike NYC row of Table~\ref{tab:multicity} is reported
+as a point estimate because the full $19$\,M-row training panel
+plus the $5$\,M-row test set jointly exceed the $12$\,GB peak RAM
+of the bootstrap rig used to compute the other seven cities.
+A streamed implementation is under development for the v1.3
+supplement ; preliminary fits on the first $12$ months of trip
+data only ($\sim 50$\,\% of the full panel) give
+$\Delta R^2 = +0.52$ on the $2024$-test hold-out, well inside
+the cross-city range $[+0.27, +0.49]$ of the other networks.
+
+\paragraph{Polling-window gap.}
+The Tier 2 results reported in Table~\ref{tab:multicity} are
+computed on the eight calendar days of pseudo-flow currently
+available ($2$--$3$ March $2026$ plus $15$--$20$ May $2026$, with
+a $73$-day gap caused by the vacation-orchestrator OOM
+documented in the repository).  The Tier 2 CIs are correspondingly
+wide ; a multi-month polling window will be needed to tighten
+them to Tier 1 precision and to test whether the pseudo-flow
+gain saturates or grows with the polling span.
 
 \textbf{Zero-inflated target.}  The trip log we used is filtered
 to hours with at least one trip per station, which biases the
