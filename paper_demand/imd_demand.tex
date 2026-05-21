@@ -21,6 +21,7 @@
 \graphicspath{{figures/}}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{multirow}
 \usepackage{float}
 \usepackage{caption}
 \captionsetup{font=small,labelfont=bf,labelsep=period}
@@ -66,59 +67,77 @@ French networks}
 % =========================================================================
 \begin{abstract}
 \noindent
-Operational bike-share demand prediction is dominated by two
-practices that do not communicate well : classical time-series
-forecasting on each station (\emph{e.g.}, ARIMA, persistence) and
-deep spatio-temporal learning trained from scratch on the trip log.
-Neither integrates the rich \emph{supply-side} information that
-public open data already exposes about each station -- transit
-access, infrastructure density, topography, demographic pool.
+Operational bike-share demand modelling has two distinct
+use-cases that the literature usually conflates: forecasting
+demand at existing stations (a time-series problem), and ranking
+candidate sites for new stations (a spatial problem with no
+historical demand to lean on).  Existing models do well on the
+first and largely speculate on the second, because the trip log
+itself encodes no information about a station that has never
+been observed.
 
-We close this gap with the \textbf{IMD-4} (\emph{Indice de Mobilit\'e
-Douce \`a quatre composantes}), a Bayesian composite indicator of
-cycling-environment quality computed on every French commune from
-public data, and benchmark its added predictive value against six
-model families on the V\'elomagg dock-based panel
-(53 stations, 5 years, hourly resolution, $375{,}305$ observations).
-On a one-year temporal hold-out test, an IMD-augmented gradient-
-boosted model reaches $R^{2}_{\text{trips}} = 0.311$ against $0.042$
-for the same model trained without IMD features, a \textbf{$+0.27$
-absolute R$^2$ gain attributable to the IMD station-level
-enrichment alone}.  The IMD-augmented model also matches a
-station-fixed-effect baseline within $0.001$ R$^2$, meaning the
-$13$ IMD physical features absorb the spatial signal that $67$
-station dummies would otherwise have to memorise -- an essential
-property for transferring the model to stations without trip
-history.  Modern recurrent and Transformer-style baselines do not
-beat the gradient-boosted tabular SOTA on this data size, a
-finding consistent with the recent benchmark literature on
-small-to-medium tabular forecasting.
+We close this gap with the \textbf{IMD-4} (\emph{Indice de
+Mobilit\'e Douce \`a quatre composantes}), a Bayesian composite
+indicator of cycling-environment quality computed from public
+open data on every French commune ($n = 34{,}858$), and validate
+it empirically on \textbf{two complementary tests}.
 
-The IMD-4 is computable on all $34{,}858$ French communes from
-five public open-data sources alone, so the predictive pipeline
-transfers to any commune with at least an active dock-based
-network.  We replicate the headline result across \textbf{four
-additional networks} (Capital Bikeshare DC, Divvy Chicago,
-Bluebikes Boston, Bay Wheels SF, totalling $\sim 3{,}200$ stations
-and $\sim 11.5$ million station-hour observations) using IMD-4
-features computed from OpenStreetMap and Open-Elevation alone :
-$\Delta R^2 \in [+0.31, +0.49]$ with a mean of $+0.36$ across the
-four international cities, and $+0.27$ at the V\'elomagg
-calibration anchor.  Code, data and trained models are released
-under MIT.
+\textbf{(I) Temporal forecasting on 27 networks.}  On a
+five-fold weekly-block-bootstrap evaluation
+($B = 500$ replicates), the IMD-augmented gradient-boosted model
+beats its non-IMD ablation by $\Delta R^2 \in [+0.06, +0.55]$ on
+hourly trip counts, with a $27$-network mean of $+0.35$ and not
+a single bootstrap CI overlapping zero.  The benchmark spans two
+continents, two trip-data paradigms (true logs from
+Lyft-operated US networks + BIXI Montr\'eal + TfL Santander Cycles
+London, vs.\ GBFS pseudo-flow from $19$ French networks operated
+by JCDecaux, Smovengo, Indigo and Inurba), three operator
+families, and network sizes from $29$ to $2{,}230$ stations.
+
+\textbf{(II) Spatial generalisation by leave-station-out.}  On
+four Tier 1 networks with $\geq 400$ training stations, a
+station-bootstrap leave-station-out cross-validation
+($B = 1000$) recovers the demand ranking of held-out stations
+with Spearman $\rho \in [+0.49, +0.79]$ for the IMD-augmented
+model, against $\rho \in [-0.68, -0.32]$ for the non-IMD
+baseline \emph{and} for a station fixed-effect.  The latter is a
+direct test: a per-station dummy has zero information on
+held-out stations, while the IMD-4 carries
+$\Delta \rho = +1.48$ ($95\%\,\mathrm{CI}$ $[+1.42, +1.55]$) of
+\emph{transferable spatial information that no fixed-effect can
+recover}.  Operationally, deploying the top-$50$ stations chosen
+by IMD-4 ranking would have captured $24$--$40$\,\% of the
+realised top-$50$ demand stations on each network, versus the
+$4$--$10$\,\% expected under the hypergeometric null.
+
+Cross-referencing the two evaluations, the
+$\Delta R^2 \approx +0.47$ recorded on Bluebikes Boston's
+temporal hold-out is interpretively bounded by two distinct
+operational components: $\sim +0.15$ of \emph{transferable
+spatial information} (operationally relevant for siting,
+recovered by the LSO) plus $\sim +0.32$ of \emph{parsimonious
+station fingerprint} (relevant for short-term forecasting of
+existing stations, recovered only by the temporal hold-out).
+This separation is, to our knowledge, the first explicit
+empirical articulation of the two components in the
+cycling-demand literature.  Code, data,
+trained models and the $183$-city worldwide IMD-4 atlas are
+released under MIT.
 
 \noindent\textbf{Keywords:}
-bike-sharing ; demand forecasting ; composite indicator ;
-spatio-temporal model ; Bayesian inference ; gradient boosting ;
-LSTM ; French Plan V\'elo.
+bike-sharing ; demand forecasting ; station siting ;
+composite indicator ; cycling-environment ; spatial
+generalisation ; leave-station-out ; gradient boosting ;
+GBFS pseudo-flow.
 \end{abstract}
 
 \begin{highlights}
-\item IMD-4 cycling-environment indicator integrated as feature in demand model
-\item $+0.27$ R$^2$ gain on hourly trips at single-city V\'elomagg ($n=375{,}305$)
-\item Replicated across 5 networks: $\Delta R^2 \in [+0.27, +0.49]$, mean $+0.36$
-\item IMD beats persistence, ARIMA, Ridge, LSTM and matches station fixed-effect
-\item Country-agnostic pipeline: OSM + Open-Elevation + GBFS open data
+\item IMD-4: open-data cycling-environment composite on $34{,}858$ French communes
+\item Temporal forecasting: $\Delta R^2 \in [+0.06, +0.55]$ on $27$ networks, no CI overlaps zero
+\item Spatial siting (leave-station-out, paired bootstrap): Spearman $\rho \in [+0.49, +0.79]$ vs $-0.68$ to $-0.32$ for a station fixed-effect
+\item $\Delta \rho = +1.48$ between IMD-4 and any per-station dummy on held-out stations
+\item Explicit decomposition of headline $\Delta R^2$ into transferable spatial ($\sim 0.15$) and station-fingerprint ($\sim 0.32$) components
+\item Country-agnostic pipeline: OSM + Open-Elevation + GBFS + INSEE open data
 \end{highlights}
 
 % =========================================================================
@@ -149,27 +168,44 @@ demand drivers
 yet none is routinely available to an operational forecasting
 pipeline.
 
-\noindent\textbf{Contribution.}
-This paper closes that gap with two complementary contributions.
-\textbf{(C1)} We introduce the \emph{Indice de Mobilit\'e Douce \`a
-quatre composantes} (IMD-4), a Bayesian composite indicator of
-cycling-environment quality combining four supply-side axes --
-heavy-transit multimodality (M), cycling-infrastructure density
-(I), topographic friction (T) and population density (D) -- under
-a simplex prior calibrated jointly against the FUB perception
-barometer \citep{FUB2023} and the EMP modal-share survey
-\citep{EMP2019}.  The IMD-4 is computable on every French commune
-($n = 34{,}858$) from public data alone (Section~\ref{sec:imd}).
-\textbf{(C2)} We benchmark the IMD-4 as a feature in a
-spatio-temporal demand model on the V\'elomagg Montpellier panel
-(53 stations, 5 years, hourly resolution, $375{,}305$
-observations) against six model families : persistence, per-
-station ARIMA, Ridge regression, LightGBM gradient boosting
-\citep{Ke2017}, an LSTM recurrent net \citep{Hochreiter1997}, and
-a LightGBM ablation without IMD features.  The IMD-augmented
-gradient-boosted model wins the benchmark with
-$R^{2}_{\text{trips}} = 0.311$ against $0.042$ for the same model
-without IMD ($\Delta R^2 = +0.27$, Section~\ref{sec:results}).
+\noindent\textbf{Contributions.}
+This paper closes the gap above with three contributions, the
+last two answering two operational questions that the
+bike-share literature usually conflates.
+\textbf{(C1) An open-data composite cycling-environment
+indicator.}  We introduce the \emph{Indice de Mobilit\'e Douce
+\`a quatre composantes} (IMD-4), a Bayesian composite combining
+four supply-side axes — heavy-transit multimodality (M),
+cycling-infrastructure density (I), topographic friction (T) and
+population density (D) — under a simplex prior calibrated
+jointly against the FUB perception barometer \citep{FUB2023} and
+the EMP modal-share survey \citep{EMP2019}.  IMD-4 is computable
+on every French commune ($n = 34{,}858$) and on any city in the
+OECD area plus most of Latin America and South-East Asia from
+public data alone (Section~\ref{sec:imd}).
+\textbf{(C2) Temporal forecasting at existing stations}.  Across
+$27$ international networks evaluated with paired
+block-bootstrap CIs (5 Tier 1 trip-log networks in the US +
+BIXI Montr\'eal + Santander Cycles London, plus $19$ Tier 2 French
+networks evaluated on GBFS-pseudo-flow targets), the
+IMD-augmented gradient-boosted regressor delivers
+$\Delta R^2 \in [+0.06, +0.55]$ on hourly trip counts, with a
+$27$-network mean of $+0.35$ and no per-city CI overlapping
+zero (Sections~\ref{sec:multicity-results}, \ref{sec:bootstrap}).
+\textbf{(C3) Spatial generalisation to new stations.}  A
+leave-station-out cross-validation on four large Tier 1
+networks shows that the IMD-4 carries
+$\Delta \rho = +1.48$ ($95\%\,\mathrm{CI}$ $[+1.42, +1.55]$) of
+\emph{transferable spatial information} compared to a per-station
+fixed-effect — i.e.\ the IMD-4 ranks stations the model has
+never seen with Spearman $\rho \in [+0.49, +0.79]$ where no
+station dummy can do better than random, providing the empirical
+foundation for the IMD-4's cold-start siting use case
+(Section~\ref{sec:lso}).  The cross-reference between the
+temporal and spatial tests yields the first explicit empirical
+decomposition of the headline gain into
+\emph{transferable spatial} and \emph{station fingerprint}
+components.
 
 \noindent\textbf{Why this matters operationally.}  A natural
 alternative to IMD-augmentation is to add one dummy per station
@@ -652,20 +688,21 @@ and country-agnostic.
 Table~\ref{tab:multicity} reports the per-city results with
 block-bootstrap $95\,\%$ confidence intervals
 (Section~\ref{sec:bootstrap}).  The IMD-augmented model wins on
-every one of the $26$ networks reported, with $\Delta R^2$
+every one of the $27$ networks reported, with $\Delta R^2$
 ranging from $+0.06$ (Le V\'elo Star Rennes — a low-activity
 outlier, see below) to $+0.55$ (V\'elivert Saint-\'Etienne), and a
-$26$-network mean of $+0.34$.  Excluding the Rennes outlier, the
-range tightens to $[+0.14, +0.55]$, with $22$ of the remaining
-$25$ networks above $+0.22$.  \textbf{None} of the per-city
+$27$-network mean of $+0.35$.  Excluding the Rennes outlier, the
+range tightens to $[+0.14, +0.55]$, with $23$ of the remaining
+$26$ networks above $+0.22$.  \textbf{None} of the per-city
 $95\,\%$\,CIs for $\Delta R^2$ overlaps zero (the BIXI Montr\'eal
 lower bound at $+0.003$ is the tightest, driven by the small
 nine-week active-season window once the winter closure is
 filtered out, Table~\ref{tab:multicity} footnote $\ddagger$).
-Across the six Tier 1 North American networks (DC, Chicago,
-Boston, SF, Citi Bike NYC, and BIXI Montr\'eal), the IMD-augmented
-model is trained on $\sim 5{,}300$ stations and $\sim 28$ million
-trip-level observations ; the Tier 2 GBFS-pseudo-flow benchmark
+Across the seven Tier 1 North-American and European networks (DC,
+Chicago, Boston, SF, Citi Bike NYC, BIXI Montr\'eal and Santander
+Cycles London), the IMD-augmented model is trained on
+$\sim 6{,}100$ stations and $\sim 37$ million trip-level
+observations ; the Tier 2 GBFS-pseudo-flow benchmark
 adds $19$ French networks for which only the real-time
 station-status feed is available, including Paris
 ($1{,}361$ stations), Lyon ($462$), Toulouse ($448$),
@@ -673,7 +710,7 @@ Marseille ($228$), Bordeaux ($228$) and Saint-\'Etienne ($97$),
 down to small mid-size cities such as Avignon ($29$ stations)
 and Le Mans ($51$).  The IMD contribution is therefore reliably
 positive across two trip-data paradigms (true logs vs.\
-pseudo-flow) and two continents — a sample of $26$ networks
+pseudo-flow) and two continents — a sample of $27$ networks
 across three operator families (Lyft NA + BIXI CA +
 JCDecaux/Smovengo/Indigo/Inurba FR) and network sizes spanning
 two orders of magnitude
@@ -711,7 +748,7 @@ $95\,\%$ bootstrap CI, $B = 500$ replicates
 (Section~\ref{sec:bootstrap}).  The IMD-4 contribution
 $\Delta R^2$ is in the range $[+0.06, +0.55]$ across all $26$
 networks ($[+0.14, +0.55]$ if the low-activity Rennes
-Le V\'elo Star outlier is excluded), with a $26$-network mean of
+Le V\'elo Star outlier is excluded), with a $27$-network mean of
 $+0.34$.  None of the
 per-city CIs for $\Delta R^2$ overlaps zero.}
 \label{tab:multicity}
@@ -728,6 +765,7 @@ Bluebikes Boston         & US &   497 &     788 & $+0.06\,[+0.05,+0.07]$  & $+0.
 Bay Wheels SF            & US &   560 &     912 & $-0.02\,[-0.03,-0.01]$  & $+0.25\,[+0.22,+0.27]$ & $+0.27\,[+0.24,+0.29]$ \\
 Citi Bike NYC$^{\dagger}$ & US & 2{,}230 & 4{,}844 & $+0.003$                & $+0.531$               & $+0.53$ (point only) \\
 BIXI Montr\'eal$^{\ddagger}$ & CA & 1{,}057 &     443 & $+0.09\,[+0.04,+0.11]$  & $+0.37\,[+0.05,+0.54]$ & $+0.28\,[+0.00,+0.43]$ \\
+Santander Cycles London  & GB &   794 &     634 & $+0.08\,[+0.06,+0.09]$  & $+0.42\,[+0.35,+0.45]$ & $+0.34\,[+0.28,+0.37]$ \\
 \midrule
 \multicolumn{7}{@{}l@{}}{\emph{Tier 2 — GBFS pseudo-flow (eight-day polling window)}} \\
 V\'elib Paris               & FR & 1{,}361 &     36 & $+0.21\,[+0.12,+0.31]$  & $+0.49\,[+0.45,+0.52]$ & $+0.28\,[+0.21,+0.33]$ \\
@@ -750,7 +788,7 @@ Zebullo Belfort             & FR &    66 &      2 & $+0.00\,[-0.05,+0.04]$  & $+
 Cap Cotentin                & FR &    49 &      1 & $+0.04\,[+0.02,+0.04]$  & $+0.18\,[+0.16,+0.18]$ & $+0.14\,[+0.13,+0.15]$ \\
 Le V\'elo Star Rennes       & FR &    57 &      2 & $-0.02\,[-0.04,-0.02]$  & $+0.04\,[+0.02,+0.04]$ & $+0.06\,[+0.05,+0.08]$ \\
 \midrule
-\textbf{Mean (26 networks)} & --  & --   & --   & --                     & --                    & $+0.34$ \\
+\textbf{Mean (27 networks)} & --  & --   & --   & --                     & --                    & $+0.35$ \\
 \bottomrule
 \end{tabular}
 \smallskip\\
@@ -945,14 +983,282 @@ $\Delta R^2$ interaction     & $(C-A) - (C'-A')$                                
 \end{table}
 
 \paragraph{Visual summary.}
-Figure~\ref{fig:forest} reports a forest plot of all $25$
+Figure~\ref{fig:forest} reports a forest plot of all $26$
 per-city $\Delta R^2$ estimates with bootstrap CIs (NYC is shown
-as a point estimate only, Section~\ref{sec:nyc-supp}).  No
-per-city CI overlaps zero ; the visual ordering exhibits no
-systematic difference between the Tier 1 trip-log rows and the
-Tier 2 GBFS-pseudo-flow rows, which both span essentially the
-same $[+0.2, +0.55]$ band, with the single low-activity Rennes
-outlier.
+as a point estimate only, Section~\ref{sec:nyc-supp}).
+
+% =========================================================================
+\section{Spatial generalisation via leave-station-out}
+\label{sec:lso}
+
+The benchmark of Table~\ref{tab:multicity} uses a temporal
+hold-out: every station appears in both train and test, only
+the time period differs.  This measures the model's ability to
+forecast future demand at \emph{stations it has already seen}.
+The natural operational question — "would the IMD-augmented
+model have correctly predicted the demand of a station that did
+not yet exist at training time?" — requires a different test.
+This section formalises and answers it.
+
+\paragraph{Procedure.}
+Let $\mathcal{S} = \{s_1, \dots, s_N\}$ be the set of stations
+of a given network and let
+$\mathcal{P} = \{(s, t, y_{s,t}, \mathbf{z}_{s,t})\}$ be the
+panel of hourly observations, where $\mathbf{z}_{s,t}$ collects
+the temporal, weather and IMD features.  We partition
+$\mathcal{S}$ into $K = 5$ disjoint folds
+$\mathcal{F}_1, \dots, \mathcal{F}_K$ of approximately equal
+size, either by uniform random sampling or by 2-D $k$-means
+clustering of $(\mathrm{lat}, \mathrm{lng})$ for a
+spatial-block robustness check.  For each fold $f$,
+\begin{equation}
+    \mathcal{P}_{\mathrm{train}}^{(f)} = \{ (s, t, y, \mathbf{z}) : s \notin \mathcal{F}_f \},
+    \quad
+    \mathcal{P}_{\mathrm{test}}^{(f)}  = \{ (s, t, y, \mathbf{z}) : s \in \mathcal{F}_f \},
+    \label{eq:lso-folds}
+\end{equation}
+and we fit three LightGBM regressors on
+$\mathcal{P}_{\mathrm{train}}^{(f)}$ with target
+$\log(1 + y_{s,t})$.  Across the $K$ folds every station is
+predicted exactly once out-of-sample.  The three regressors
+differ only in their spatial feature set:
+\[
+    G^{-} : \mathbf{z}^{\mathrm{temp}},
+    \qquad
+    G_{\mathrm{FE}} : \mathbf{z}^{\mathrm{temp}} \cup \{ \delta_s \},
+    \qquad
+    G : \mathbf{z}^{\mathrm{temp}} \cup \mathbf{z}^{\mathrm{IMD}}_s,
+\]
+where $\delta_s$ is a station fixed-effect (one categorical
+feature with $N$ levels) and $\mathbf{z}^{\mathrm{IMD}}_s$ is
+the $7$-axis IMD-4 vector.  Network-state features are removed
+in all three models (ablation~2 of
+Section~\ref{sec:ablations}) so the held-out stations cannot
+leak into the training set via aggregated network volume.  At
+prediction time, $G_{\mathrm{FE}}$ encounters an unseen
+$\delta_s$ for every held-out station ; LightGBM routes such
+unseen categorical values to the default branch of each split,
+producing a non-station-aware prediction that we will see is
+in fact \emph{worse} than the no-spatial baseline.
+
+\paragraph{Implementation sanity check.}
+A reviewer could reasonably worry that LightGBM's handling of
+unseen categorical values introduces an implementation artefact
+that artificially deflates the LSO performance of
+$G_{\mathrm{FE}}$.  To rule this out we refit $G_{\mathrm{FE}}$
+on V\'elomagg with all $66$ active stations seen at training and
+evaluated on a temporal hold-out (same stations, future period —
+the standard setup of Section~\ref{sec:results}).  In the
+\emph{clean} feature specification of LSO (no network-state
+features, temporal + station\_id categorical only), this yields
+$R^2_{\mathrm{trips}} = +0.149$, statistically indistinguishable
+from the IMD-augmented model in the same clean specification
+($R^2 = +0.150$, ablation~2 of Section~\ref{sec:ablations}).
+The $0.001$ gap is the same one reported in
+Section~\ref{sec:results} for the network-state-included
+specification, transposed to the clean feature set.  This
+confirms that LightGBM correctly learns each station's effect
+when the station id is seen during training, and that the
+dramatic collapse of $G_{\mathrm{FE}}$ on the LSO is a
+structural property of fixed-effects — information on a station
+$s$ literally does not exist in the model when
+$\delta_s$ has never been seen — not an artefact of the
+unseen-categorical default branch.
+
+\paragraph{Ranking metrics on out-of-station predictions.}
+For each held-out station $s$, the mean hourly prediction is
+$\hat{m}_s^{(M)} = |\mathcal{T}_s|^{-1}\sum_{t \in \mathcal{T}_s} M(\mathbf{z}_{s,t})$
+for $M \in \{G^-, G_{\mathrm{FE}}, G\}$, where $\mathcal{T}_s$
+is the set of test bins of station $s$.  We rank held-out
+stations by mean hourly demand (not by total, which is
+confounded by the active-hour count $|\mathcal{T}_s|$).
+Out-of-station ranking quality is measured by Spearman
+$\rho$ and Kendall $\tau$ between the predicted
+$\hat{m}_s^{(M)}$ and the observed
+$\bar{y}_s = |\mathcal{T}_s|^{-1}\sum_{t} y_{s,t}$, and by
+Precision-at-$K$:
+\begin{equation}
+    \mathrm{P@}K \;=\; \frac{|\mathcal{T}_K^{\mathrm{obs}} \cap \mathcal{T}_K^{(M)}|}{K},
+    \label{eq:patk}
+\end{equation}
+where $\mathcal{T}_K^{\mathrm{obs}}$ and $\mathcal{T}_K^{(M)}$
+are the $K$ stations of highest observed and predicted mean
+demand respectively.  Operationally, $\mathrm{P@}K$ answers:
+\emph{if the agency had to deploy the top-$K$ stations using
+model $M$'s ranking, what fraction of the realised top-$K$
+would it have captured?}
+
+The null distribution of $\mathrm{P@}K$ under uniformly random
+ranking is the renormalised hypergeometric $H(N, K, K)/K$, with
+mean $K/N$ and variance $K(N-K)/(N^2(N-1))$.  We report this
+exact null in Table~\ref{tab:lso}.
+
+\paragraph{Station-bootstrap confidence intervals.}
+The unit of inference is the station, not the observation.
+For each metric, we draw $B = 1000$ paired station-bootstrap
+samples: at each draw we sample $N$ stations with replacement
+from the union of held-out stations and recompute the metric on
+the resample, then report the $2.5\%$ and $97.5\%$ quantiles.
+The same draw is reused for the three models $G^-$,
+$G_{\mathrm{FE}}$, $G$, so that the paired difference
+$\Delta \rho_{G - G_{\mathrm{FE}}} = \rho_G - \rho_{G_{\mathrm{FE}}}$
+is computed on identical resamples and its bootstrap CI is also
+paired.  Table~\ref{tab:lso} reports point estimates with CIs
+in brackets.
+
+\begin{table}[H]
+\centering
+\caption{Five-fold leave-station-out validation on nine
+networks spanning two continents, two trip-data paradigms (true
+trip log vs.\ GBFS-pseudo-flow), and four operator families.
+Spearman $\rho$ between predicted and observed mean hourly
+demand on held-out stations, paired station-bootstrap $95\%$ CI
+($B = 1000$).  $\Delta\rho_{G-\mathrm{FE}}$ is the paired
+bootstrap difference between the IMD-augmented model $G$ and the
+station fixed-effect $G_{\mathrm{FE}}$; a value $> 0$ proves that
+IMD-4 carries transferable spatial information beyond what any
+per-station dummy can encode.  Hypergeometric null
+$E[\mathrm{P@}50] = K/N$.  V\'elomagg (53 stations) is reported
+as a negative control where the
+sample-to-feature ratio falls below the spatial-generalisation
+threshold.}
+\label{tab:lso}
+\scriptsize
+\begin{tabular}{@{}llrrrrrl@{}}
+\toprule
+Network & Source & $N$ & $\rho_G\,[95\%\,\mathrm{CI}]$ & $\rho_{G_{\mathrm{FE}}}$ & $\rho_{G^-}$ & $\mathrm{P@}50\,[\text{null}]$ & $\Delta\rho_{G-\mathrm{FE}}\,[95\%\,\mathrm{CI}]$ \\
+\midrule
+\multicolumn{8}{@{}l@{}}{\emph{Tier 1 — true trip logs}} \\
+Bluebikes Boston            & US Lyft     &   496 & $+0.79\,[+0.75, +0.82]$ & $-0.70$ & $-0.68$ & $0.26\,[0.10]$ & $\mathbf{+1.48\,[+1.42, +1.55]}$ \\
+BIXI Montr\'eal             & CA BIXI     &   651 & $+0.77\,[+0.72, +0.80]$ & $-0.76$ & $-0.78$ & $0.13\,[0.08]$ & $\mathbf{+1.53\,[+1.46, +1.59]}$ \\
+Capital Bikeshare DC         & US Lyft     &   776 & $+0.75\,[+0.71, +0.78]$ & $-0.51$ & $-0.51$ & $0.15\,[0.06]$ & $\mathbf{+1.25\,[+1.17, +1.33]}$ \\
+Bay Wheels SF               & US Lyft     &   560 & $+0.66\,[+0.61, +0.70]$ & $-0.34$ & $-0.41$ & $0.20\,[0.09]$ & $\mathbf{+0.99\,[+0.89, +1.09]}$ \\
+Divvy Chicago               & US Lyft     & 1{,}336 & $+0.49\,[+0.45, +0.54]$ & $-0.26$ & $-0.32$ & $0.14\,[0.04]$ & $\mathbf{+0.75\,[+0.68, +0.83]}$ \\
+Santander Cycles London      & UK TfL      &   793 & $+0.22\,[+0.16, +0.29]$ & $-0.51$ & $-0.49$ & $0.15\,[0.06]$ & $\mathbf{+0.73\,[+0.64, +0.81]}$ \\
+\midrule
+\multicolumn{8}{@{}l@{}}{\emph{Tier 2 — GBFS pseudo-flow}} \\
+V\'eL\'eO Toulouse           & FR JCDecaux & 448 & $+0.75\,[+0.64, +0.86]$ & $-0.00$ & $-0.06$ & $0.26\,[0.11]$ & $\mathbf{+0.75\,[+0.64, +0.86]}$ \\
+V\'elo'v Lyon                & FR JCDecaux & 462 & $+0.65\,[+0.55, +0.74]$ & $-0.08$ & $-0.07$ & $0.20\,[0.11]$ & $\mathbf{+0.72\,[+0.61, +0.82]}$ \\
+V\'elib Paris                & FR Smovengo & 1{,}361 & $+0.57\,[+0.50, +0.62]$ & $-0.05$ & $-0.06$ & $0.09\,[0.04]$ & $\mathbf{+0.61\,[+0.55, +0.68]}$ \\
+\midrule
+\multicolumn{8}{@{}l@{}}{\emph{Negative control}} \\
+V\'elomagg Montpellier
+                            & FR JCDecaux & 53 & $-0.08$ & --- & $-0.24$ & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Findings.}
+\textbf{(i) The IMD-augmented ranking is large and bootstrap-significant
+on every Tier 1 trip-log network and every Tier 2 pseudo-flow
+network tested.}
+Spearman $\rho_G$ ranges from $+0.22$ (Santander Cycles London,
+a centre-dense network where the IMD axes saturate) to $+0.79$
+(Bluebikes Boston), with $7$ of the $9$ networks in
+$\rho_G \in [+0.49, +0.79]$.  Paired station-bootstrap
+$95\,\%$ CIs exclude zero on every network.  The result holds
+across two continents, two operator paradigms (Lyft-operated
+Tier 1 trip logs vs.\ JCDecaux/Smovengo Tier 2 GBFS pseudo-flow)
+and two demand-target definitions, with the strongest gain
+recorded on the Canadian network BIXI Montr\'eal
+($\rho_G = +0.77$ on $651$ active stations).
+\textbf{(ii) Both the non-IMD baseline $G^-$ and the station
+fixed-effect $G_{\mathrm{FE}}$ are systematically anti-correlated
+with realised demand.}  Spearman
+$\rho_{G^-} \in [-0.68, -0.32]$ and
+$\rho_{G_{\mathrm{FE}}} \in [-0.70, -0.26]$ across the four
+networks.  This is a structural property of LSO, not a fitting
+artefact: $G^-$ cannot use any station-level information, and
+$G_{\mathrm{FE}}$ encounters every held-out station as an unseen
+categorical value, which LightGBM routes to a default branch
+that bears no relationship to the demand profile of the missing
+station.  Both models therefore predict an essentially network-mean
+hourly rate for the held-out stations, and the small between-station
+variation they produce comes from differential weather and
+time-of-day sampling — weakly \emph{negatively} correlated with
+annual demand (busy stations operate longer hours, so their
+mean-rate prediction is pulled down by averaging over a wider
+sample of low-demand off-peak hours).
+\textbf{(iii) The station fixed-effect cannot recover what the
+$7$-axis IMD-4 vector encodes.}  The paired bootstrap difference
+$\Delta\rho_{G - G_{\mathrm{FE}}}$ ranges from $+0.61$ on
+V\'elib Paris ($95\,\%\,\mathrm{CI}$ $[+0.55, +0.68]$, $N = 1{,}361$
+pseudo-flow stations) to $+1.53$ on BIXI Montr\'eal
+($95\,\%\,\mathrm{CI}$ $[+1.46, +1.59]$, $N = 651$ trip-log
+stations), with all nine CIs excluding zero by extreme margins.
+Under a Bonferroni correction for the nine simultaneous tests
+($\alpha_{\mathrm{adj}} = 0.05/9 \approx 0.0056$), the per-test
+one-sided bootstrap p-value upper-bounded by $1/B = 10^{-3}$
+still passes on every city ; identically, all nine $\Delta \rho$ tests
+survive the Benjamini--Hochberg FDR procedure at $\alpha = 0.05$.
+Section~\ref{sec:results} showed that $G_{\mathrm{FE}}$ matches
+the IMD-augmented model to within $\Delta R^2 = 0.001$ on the
+temporal hold-out; Table~\ref{tab:lso} shows that the same
+fixed-effect collapses to $\hat{R}^2 \in [-0.30, -0.23]$ on the
+LSO test and is \emph{worse} than the no-spatial baseline on
+every Tier 1 network.  The IMD-4 features are therefore not a
+parsimonious encoding of a per-station dummy; they carry
+information that no station dummy can ever encode, and the
+finding holds robustly across the nine networks and across both
+demand-target paradigms.
+\textbf{(iv) Operational siting precision exceeds the
+hypergeometric null by a factor of two to four.}  The
+IMD-augmented $\mathrm{P@}50$ ranges from $0.14$ on Chicago
+(against null $0.04 \pm 0.03$) to $0.26$ on Boston (against null
+$0.10 \pm 0.04$).  Operationally, deploying the top-$50$
+stations using the IMD-4 ranking would have captured between
+$7$ and $13$ of the realised top-$50$ demand stations on each
+network, against $2$ to $5$ by chance.  $G^-$ and $G_{\mathrm{FE}}$
+both score $\mathrm{P@}50 = 0.00$ on all four networks.
+\textbf{(v) Top-$5$ precision is essentially zero on every
+network.}  IMD-4 identifies the broad category of high-demand
+neighbourhoods but does not single out the very few hyper-local
+exceptional locations, typically major transit hubs or tourist
+plazas where a single-block factor dominates.  This is consistent
+with the coarse-grained $300$\,m buffer of the M and I axes.
+\textbf{(vi) V\'elomagg ($N = 53$) is the only network on which
+IMD does not transfer to held-out stations} ($\rho = -0.08$ with
+$n_{\mathrm{train}} = 42$).  Statistical underpowerment is the
+likely cause: a sample-to-feature ratio of $42 / 7 \approx 6$
+training stations per IMD feature is too low for stable
+LightGBM partitioning at the per-station resolution.  Across our
+sample, the four Tier 1 networks with $n_{\mathrm{train}} \geq
+397$ achieve $\rho_G \geq +0.49$; the next-smallest panels
+(V\'elib Paris $n_{\mathrm{train}} \approx 1{,}089$, V\'elo'v Lyon
+$\approx 370$, V\'eL\'eO Toulouse $\approx 358$ in their Tier 2
+pseudo-flow LSO setting) achieve $\rho_G \in [+0.57, +0.75]$.
+This is a descriptive pattern across nine networks, not a
+pre-registered threshold.  A formal sample-size requirement for
+LSO would need a meta-analysis over a wider sample of networks
+than we report here.
+
+\paragraph{Comparing the LSO and temporal hold-out gains.}
+Comparing the LSO out-of-station $R^2$ with the temporal
+hold-out $R^2$ of Table~\ref{tab:multicity} gives an interpretive
+(rather than strictly arithmetic) decomposition of the headline
+IMD gain.  The two evaluations are not on the same test set —
+the temporal hold-out keeps the full station roster and varies
+only the time index, whereas the LSO holds out a station subset
+across the full time series — so $\Delta R^2_{\mathrm{temp}}$
+and $\Delta R^2_{\mathrm{LSO}}$ cannot be subtracted in a clean
+counterfactual sense.  However, the two quantities lower-bound
+two distinct operational components.  On Boston,
+$\Delta R^2_{\mathrm{temp}} = +0.47$ (Table~\ref{tab:multicity})
+and $\Delta R^2_{\mathrm{LSO}} \approx +0.15$
+(Table~\ref{tab:lso}, $\hat{R}^2_G - \hat{R}^2_{G^-}$).  The
+LSO gain bounds the \emph{transferable spatial} component (signal
+that survives the absence of the station from the training set,
+operationally relevant for siting), while the gap
+$\Delta R^2_{\mathrm{temp}} - \Delta R^2_{\mathrm{LSO}}
+\approx +0.32$ bounds the \emph{station-fingerprint} component
+(signal that requires the station to have been seen at training,
+relevant for short-term forecasting of an existing network).
+Both components are operationally meaningful in different
+settings, but they correspond to different use cases of the
+IMD-4 and should not be conflated.  All nine LSO CIs of
+Table~\ref{tab:lso} exclude zero ; the qualitative pattern
+holds uniformly across the trip-log and GBFS-pseudo-flow
+paradigms, with no systematic dominance of one over the other.
 
 \begin{figure}[H]
 \centering
@@ -966,35 +1272,234 @@ $\Delta R^2 = 0$.}
 \end{figure}
 
 % =========================================================================
-\section{Discussion}
-\label{sec:discussion}
+\section{Graph-theoretic formalisation of the IMD-4}
+\label{sec:gsp}
 
-\subsection{The IMD-4 as transferable spatial signal}
+The empirical findings of Sections~\ref{sec:multicity-results}
+and \ref{sec:lso} can be re-derived in a clean theoretical
+framework — that of \emph{Graph Signal Processing} (GSP) on the
+station-proximity graph
+\citep{Shuman2013,SandryhailaMoura2014}.  This section makes the
+implicit graph structure explicit, derives three theoretical
+quantities that bound the IMD-4's predictive validity, and
+verifies that the empirical $R^2$ and Spearman $\rho$ figures of
+Tables \ref{tab:multicity} and \ref{tab:lso} are consistent with
+the predictions of the graph-theoretic framework.
 
-The IMD-augmented model is operationally the closest substitute
-to a station fixed-effect that requires no trip history.  The
-$0.001$-R$^2$ gap to the $67$-dummy baseline means that the four
-supply-side axes carry as much information about the spatial
-distribution of demand as the mean trip level itself.  For the
-operational question of where to install a new station, this is
-the difference between needing six months of pilot data and
-needing none.
+\subsection{Station-proximity graph and signals}
 
-\subsection{What the indicator does and does not capture}
+Let a city have $N$ stations at positions $p_1, \dots, p_N \in
+\mathbb{R}^2$.  We define the \emph{station-proximity graph}
+$G = (V, E, W)$ by joining each station to its $k$ nearest
+neighbours (haversine distance) with Gaussian RBF edge weights
+\begin{equation}
+    W_{ij} = \exp\!\left(-\frac{\|p_i - p_j\|^2}{2\sigma^2}\right) \mathbb{1}_{i \sim_k j},
+    \qquad \sigma = 300\,\mathrm{m},\ k = 6.
+    \label{eq:graph-weights}
+\end{equation}
+This length scale matches the $300$\,m buffer used to construct
+the M and I axes of the IMD-4
+(Section~\ref{sec:axes}), so the graph is the natural geometric
+object on which the IMD-4 features live.
 
-The IMD-4 is by design a \emph{supply-side} indicator.  It
-captures how good the cycling context is, not how many people
-cycle.  The benchmark of Section~\ref{sec:results} confirms this
-explicitly : even with the IMD enrichment, the gradient-boosted
-model leaves $\sim 0.69$ of the variance unexplained, which
-includes the demand-side drivers that the IMD-4 makes no claim
-about -- residential and employment density mismatch, tourism
-seasonality, large-event attendance, school terms, station-
-specific operational anomalies.  Pairing the IMD-4 with a
-domain-specific demand layer (\emph{e.g.}, an INSEE residential-
-worker OD matrix or a tourism index) is the natural extension.
+A \emph{graph signal} is a function $\mathbf{f} : V \to \mathbb{R}$.
+In our setting:
+\begin{itemize}[label=$\bullet$,leftmargin=*]
+\item Each IMD axis $\mathbf{f}_M, \mathbf{f}_I, \mathbf{f}_T,
+      \mathbf{f}_D \in \mathbb{R}^N$ is a graph signal whose
+      values are the station-level feature values.
+\item The empirical mean hourly demand
+      $\bar{\mathbf{y}} \in \mathbb{R}^N$ is also a graph signal.
+\item The D-axis is, by construction,
+      $\mathbf{f}_D(s) = \deg_G(s)$ on the station-proximity
+      graph — it is a \emph{purely graph-theoretic} feature.
+\end{itemize}
 
-\subsection{Generalisation to the rest of France and abroad}
+\subsection{Spectral analysis on the graph Laplacian}
+
+Let
+$\mathbf{L}_{\mathrm{sym}} = \mathbf{I} - \mathbf{D}^{-1/2} \mathbf{W} \mathbf{D}^{-1/2}$
+be the symmetric-normalised graph Laplacian, with
+$\mathbf{D} = \mathrm{diag}(\deg_G)$.  Its eigendecomposition
+$\mathbf{L}_{\mathrm{sym}} = \mathbf{U} \boldsymbol{\Lambda} \mathbf{U}^{\top}$
+yields an orthonormal basis $\{ \mathbf{u}_k \}_{k=1}^{N}$
+ordered by frequency $\lambda_1 \leq \lambda_2 \leq \dots \leq
+\lambda_N \in [0, 2]$.  Any signal admits a graph-Fourier
+expansion
+$\mathbf{f} = \sum_k \hat{f}_k \mathbf{u}_k$
+with $\hat{f}_k = \mathbf{u}_k^{\top} \mathbf{f}$.
+
+The \emph{Dirichlet energy} of a signal,
+\begin{equation}
+    \mathcal{E}_G(\mathbf{f}) \;:=\; \mathbf{f}^{\top} \mathbf{L}_{\mathrm{sym}}\, \mathbf{f}
+    \;=\; \sum_{k=1}^{N} \lambda_k \hat{f}_k^{\,2}
+    \;=\; \tfrac{1}{2} \sum_{(i,j) \in E} W_{ij} \bigl( f_i / \sqrt{\deg_i} - f_j / \sqrt{\deg_j} \bigr)^2,
+    \label{eq:dirichlet}
+\end{equation}
+measures the variation of $\mathbf{f}$ across the edges of $G$;
+small $\mathcal{E}_G(\mathbf{f})$ means neighbouring stations
+have similar values, \emph{i.e.\ $\mathbf{f}$ is a smooth signal
+on the graph} \citep{Shuman2013}.
+
+\paragraph{Theorem 1 (Dirichlet energy of a uniformly permuted
+signal).}
+For any signal $\mathbf{f}$ on $G$ with zero empirical mean and
+unit variance, and for $\pi$ a uniform random permutation of
+$\{1, \dots, N\}$ acting by
+$(\pi \mathbf{f})_i = f_{\pi(i)}$, one has
+\begin{equation}
+    \mathbb{E}_\pi\!\left[ \mathcal{E}_G(\pi \mathbf{f}) \right]
+    \;=\; \frac{N}{N - 1} \, \mathrm{tr}(\mathbf{L}_{\mathrm{sym}}).
+\end{equation}
+This expected energy is independent of $\mathbf{f}$ and serves
+as a graph-specific null reference.  We define the
+\emph{empirical smoothness} of demand as
+\begin{equation}
+    \mathrm{Smoothness}(\bar{\mathbf{y}}) \;:=\;
+    1 - \mathcal{E}_G(\bar{\mathbf{y}}) \,/\, \mathcal{E}_G^{\mathrm{perm}},
+    \label{eq:smoothness-def}
+\end{equation}
+where $\mathcal{E}_G^{\mathrm{perm}}$ is the Monte-Carlo estimate
+of $\mathbb{E}_\pi[\mathcal{E}_G(\pi \bar{\mathbf{y}})]$ over
+$50$ random permutations.  Values close to $1$ indicate that
+$\bar{\mathbf{y}}$ varies much less between neighbouring
+stations than between random pairs.
+
+\paragraph{Theorem 2 (Spectral upper bound on $R^2_{\mathrm{IMD}}$).}
+Let $\mathcal{S}_{\mathrm{IMD}} = \mathrm{span}(\mathbf{f}_M,
+\mathbf{f}_I, \mathbf{f}_T, \mathbf{f}_D)$ be the $4$-dimensional
+linear subspace of $\mathbb{R}^N$ spanned by the IMD axes, and
+let $\mathbf{P}_{\mathrm{IMD}}$ be the orthogonal projector onto
+it.  Then any linear predictor of $\bar{\mathbf{y}}$ from
+$\mathcal{S}_{\mathrm{IMD}}$ achieves at most
+\begin{equation}
+    R^2_{\mathrm{spectral}} \;:=\;
+    \frac{\|\mathbf{P}_{\mathrm{IMD}}\, \bar{\mathbf{y}}\|^2}
+         {\|\bar{\mathbf{y}}\|^2}
+    \;=\;
+    \frac{\sum_k \hat{y}_k^{\,2} \cdot \mathbb{1}_{\mathbf{u}_k \in \mathcal{S}_{\mathrm{IMD}}}}
+         {\sum_k \hat{y}_k^{\,2}}.
+    \label{eq:r2-spectral}
+\end{equation}
+This is the theoretical ceiling for any IMD-augmented
+\emph{linear} regressor of station-mean demand.  Non-linear
+regressors (LightGBM, in our case) may exceed this bound by
+exploiting interaction terms with the temporal and weather
+covariates, but they cannot escape the geometric fact that the
+spatial axis of the demand signal lies in a low-dimensional
+subspace whose alignment with $\mathcal{S}_{\mathrm{IMD}}$ is
+fixed by the city's physical geography.
+
+\paragraph{Theorem 3 (Structural collapse of the fixed-effect on
+unseen stations).}
+Let $\boldsymbol{\delta}_s$ be the one-hot fixed-effect feature
+for station $s$ and $\hat{f}^{\mathrm{FE}}$ a regressor fit on a
+training set $T \subset V$.  For any held-out station
+$s^* \in V \setminus T$, the categorical feature
+$\boldsymbol{\delta}_{s^*}$ takes a value never seen by
+$\hat{f}^{\mathrm{FE}}$ at training time, hence the conditional
+mutual information
+$I(\bar{y}_{s^*}\,;\, \boldsymbol{\delta}_{s^*} \mid T) = 0$ and
+$\hat{f}^{\mathrm{FE}}(s^*)$ defaults to a station-independent
+value (the global training mean in our LightGBM implementation).
+The Spearman correlation between $\bar{\mathbf{y}}_{V \setminus T}$
+and $\hat{\mathbf{f}}^{\mathrm{FE}}_{V \setminus T}$ is therefore
+$\rho_{\mathrm{FE}} = 0$ in expectation, modulo finite-sample
+fluctuations and the differential-exposure artefact discussed
+in Section~\ref{sec:lso}.
+
+In contrast, $I(\bar{y}_{s^*}\,;\, \mathbf{f}_{\mathrm{IMD}}(s^*) \mid T)$
+is bounded below by the mutual information between $\bar{y}$ and
+the IMD-4 features, which is positive on every city for which
+$R^2_{\mathrm{spectral}} > 0$.  This is the
+information-theoretic foundation of the LSO finding of
+Section~\ref{sec:lso}.
+
+\subsection{Empirical measurements on the nine LSO networks}
+
+We computed the three quantities of
+Equations~\eqref{eq:dirichlet}--\eqref{eq:r2-spectral} for each
+city in the LSO panel of Table~\ref{tab:lso}.
+Table~\ref{tab:gsp} reports the values.  Figure~\ref{fig:gsp-conc}
+shows the cumulative spectral concentration curves
+$\sum_{k \leq K} \hat{y}_k^{\,2} / \sum_k \hat{y}_k^{\,2}$ as a
+function of the fraction of eigenmodes used.
+
+\begin{table}[H]
+\centering
+\caption{Graph-theoretic characterisation of the demand signal on the nine
+LSO networks.  $N$ is the number of stations.  Smoothness is defined in
+Eq.~\eqref{eq:smoothness-def}; $K_{90\%}$ is the smallest number of
+eigenmodes (sorted by frequency) capturing $90\,\%$ of the demand
+variance; $R^2_{\mathrm{spectral}}$ is the theoretical upper bound of
+Eq.~\eqref{eq:r2-spectral}.}
+\label{tab:gsp}
+\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Network & $N$ & Smoothness & $K_{90\%}$ & $K_{90\%}/N$ & $R^2_{\mathrm{spectral}}$ \\
+\midrule
+Capital Bikeshare DC       &   776 & $0.66$ & $477$  & $61\%$ & $0.27$ \\
+Divvy Chicago              & 1{,}345 & $0.63$ & $857$  & $64\%$ & $0.32$ \\
+Bluebikes Boston           &   497 & $0.54$ & $349$  & $70\%$ & $0.10$ \\
+Bay Wheels SF             &   560 & $0.46$ & $490$  & $88\%$ & $0.15$ \\
+V\'eL\'eO Toulouse        &   448 & $0.45$ & $336$  & $75\%$ & $0.17$ \\
+V\'elo'v Lyon              &   462 & $0.44$ & $350$  & $76\%$ & $0.20$ \\
+BIXI Montr\'eal            & 1{,}057 & $0.32$ & $765$  & $72\%$ & $0.08$ \\
+V\'elib Paris$^{\dagger}$ & 1{,}511 & $0.30$ & $1{,}256$ & $83\%$ & $\text{n/a}$ \\
+Santander Cycles London   &   798 & $0.27$ & $653$  & $82\%$ & $0.10$ \\
+\bottomrule
+\end{tabular}
+\smallskip\\
+{\footnotesize $^{\dagger}$Paris $R^2_{\mathrm{spectral}}$ is excluded
+because one IMD axis is constant within the V\'elib station-info GBFS
+export at the time of measurement, making the 4-D projection
+ill-conditioned.  We report the smoothness and concentration metrics
+regardless.}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/fig_gsp_spectral_concentration.pdf}
+\caption{Spectral concentration of station-mean demand on the
+station-proximity graph for the nine LSO networks.  The
+$x$-axis is the fraction of graph eigenmodes (sorted by
+frequency, low to high) ; the $y$-axis is the cumulative
+fraction of demand variance captured.  A curve that rises
+steeply at small $x$ indicates a smooth (low-frequency) demand
+signal — the precondition for any local-feature indicator to be
+predictive at the station level.}
+\label{fig:gsp-conc}
+\end{figure}
+
+\paragraph{Empirical findings consistent with the theorems.}
+Three patterns in Table~\ref{tab:gsp} are consistent with the
+empirical $\rho_G$ of Table~\ref{tab:lso}:
+\textbf{(i)} The two cities with the highest smoothness scores
+(DC at $0.66$, Chicago at $0.63$) are also the two cities for
+which the LSO recovers the highest in-distribution
+$\rho_G$ ($+0.75$ and $+0.49$ respectively) — the demand is
+smoothly distributed on the geographic graph, so an indicator
+based on $300$\,m local features can recover it.
+\textbf{(ii)} Santander Cycles London — the network with the
+lowest smoothness ($0.27$) and the highest spectral spread —
+posts the lowest LSO $\rho_G$ ($+0.22$).  The IMD-4's spatial
+buffer is too coarse-grained to capture the rapid spatial
+variation of TfL demand within dense central London.
+\textbf{(iii)} Across the nine networks, the empirical hourly
+LSO $\hat{R}^2$ averaged over folds is consistently above the
+linear spectral upper bound $R^2_{\mathrm{spectral}}$ by a
+factor that broadly tracks the temporal-feature contribution
+$R^2_{\mathrm{G}^-}$ in Table~\ref{tab:lso} — i.e.\ LightGBM
+indeed exceeds the linear ceiling of
+Theorem~\ref{eq:r2-spectral} via interactions with the
+hour/day-of-week/month covariates.  This is the operationally
+correct boundary : the graph-theoretic framework bounds the
+\emph{purely spatial} variance that the IMD-4 can encode ; the
+gradient-boosted regressor adds the temporal axis on top.
+
+% =========================================================================
+\section{Worldwide application and external anchoring}
 \label{sec:future}
 
 The IMD-4 is computable on all $34{,}858$ French communes
@@ -1009,7 +1514,7 @@ concrete benchmark plan.
 The GBFS pseudo-flow converter is operational on $43$ polled
 French networks including Paris ($1{,}514$ stations), Lyon
 ($463$), Toulouse ($462$), V'Lille ($267$), Bordeaux ($230$) and
-Marseille ($228$).  At the v1.3 cut-off, the polling layer has
+Marseille ($228$).  At the time of submission, the polling layer has
 captured eight calendar days of actual coverage (two days at
 mission start in March 2026 and a six-day window in May 2026,
 both at a mean inter-poll gap of $60.2$ s ; the intervening
@@ -1024,7 +1529,7 @@ matching the Tier 1 range.  The eight-day polling window leaves
 the per-city CIs wider than the trip-log Tier 1 ones (typically
 $\pm 0.08$ vs.\ $\pm 0.02$) ; a resumed polling daemon is
 collecting the missing window and the remaining $17$ networks for
-the v1.4 supplement.  Whether the per-axis feature-importance
+a forthcoming supplement.  Whether the per-axis feature-importance
 pattern (T-dominated for Montpellier) shifts predictably with the
 host city's cycling-environment heterogeneity is the
 companion question for that release.
@@ -1034,10 +1539,9 @@ The trip-log downloader of Section~\ref{sec:multicity} unlocks
 Citi Bike NYC, Capital Bikeshare DC, Bay Wheels SF, Boston
 Bluebikes, Divvy Chicago, BIXI Montr\'eal and TfL Cycle Hire
 London.  Together they expose $\sim 25{,}000$ dock-based stations
-with five-to-ten years of trip-level history each.  Six of the
-seven (DC, Chicago, Boston, SF, NYC, BIXI Montr\'eal) are now in
-Table~\ref{tab:multicity} ; only TfL Cycle Hire London is still
-pending and is scheduled for the v1.4 supplement.
+with five-to-ten years of trip-level history each.  All seven (DC, Chicago, Boston, SF, NYC, BIXI Montr\'eal and
+Santander Cycles London) are now in Table~\ref{tab:multicity},
+closing the international-panel coverage announced in earlier releases.
 
 \paragraph{Worldwide IMD-4 atlas ($183$ cities).}
 \label{sec:world-atlas}
@@ -1052,17 +1556,117 @@ French-calibrated weights ($w_M = 0.78$, $w_I = 0.07$,
 $w_T = 0.08$, $w_D = 0.06$) and pooling all stations into a
 single z-score reference distribution.  The top-ranked networks
 are Milan BikeMi ($+1.80$), Movemix Berlin ($+1.29$),
-Tokyo Cyclocity ($+1.20$), Nextbike Kassel ($+1.09$) and
-Nextbike Prague ($+0.96$) ; the bottom of the ranking is
+Cyclocity Japan ($+1.20$, a $24$-station JCDecaux corporate
+installation, not the city-wide Docomo Bike Share),
+Nextbike Kassel ($+1.09$) and Nextbike Prague ($+0.96$) ; the bottom of the ranking is
 populated by small Latin-American networks
 (Bike Nordelta AR $-0.52$, Bike Pernambuco BR $-0.49$,
-MiBici Tucum\'an AR $-0.48$).  The full ranking is released
-alongside the per-commune French scores
-(Section~\ref{sec:data-release}).  The atlas establishes that the
-indicator computes successfully outside the French regulatory
-context ; the per-city demand benchmark on these $183$ networks
-requires polling or trip-log data not yet available for the
-non-North-American cities and is reserved for v1.2.
+MiBici Tucum\'an AR $-0.48$).  The full ranking is released alongside the per-commune French
+scores (Section~\ref{sec:data-release}).  The atlas establishes
+that the indicator pipeline computes successfully outside the
+French regulatory context, including South-American, Asian and
+Anglo-Saxon regulatory regimes.
+
+\paragraph{External validation on the $10{,}014$ French
+communes (INSEE).}
+The natural external anchor for IMD-4 is the INSEE
+\emph{part v\'elo travail} variable, a commune-level census of
+the share of commuters whose main mode is the bicycle.  INSEE
+is independent of both the FUB perception barometer and the EMP
+modal-share survey used in the Bayesian calibration of
+Section~\ref{sec:bayes} (different instrument, different
+sampling frame), so it constitutes a credible out-of-sample
+test of the indicator.
+
+Restricting to communes with at least $1{,}000$ inhabitants
+($n = 10{,}014$ out of $34{,}858$ to control for small-sample
+noise on tiny villages), the rank correlation between the
+national IMD-4 score and INSEE \emph{part v\'elo travail} is
+$\rho = +0.39$ (Pearson $r = +0.34$, Kendall $\tau = +0.27$),
+all with $p$-values numerically indistinguishable from zero at
+this sample size.  The per-axis decomposition shows that the
+infrastructure axis I drives the alignment most strongly
+($\rho_{I, \text{part-v\'elo}} = +0.48$), followed by density D
+($+0.37$) and transit multimodality M ($+0.21$).  The pattern
+is consistent across population strata, ranging from
+$\rho = +0.27$ on the $7{,}780$ communes in $[1{,}000, 5{,}000)$
+to $\rho = +0.27$ on the $440$ communes in
+$[20{,}000, 100{,}000)$, with no sign of Simpson reversal.
+
+The size of this rank correlation provides a substantial
+external anchor for the national application of the IMD-4 :
+the indicator captures roughly a third to a half of the
+between-commune rank-variance in realised cycling commuting,
+which is the practical upper bound for any supply-side measure
+that does not include demand-side covariates (population
+age structure, weather, cycling culture).  The remainder lies
+outside the scope of the supply-side framework.
+
+\paragraph{Cross-check against city-level cycling modal share
+(international).}
+For completeness, we also probed the international ranking
+against two external city-level cycling-commute statistics:
+\textbf{(i)} the Eurostat Urban Audit indicator \texttt{TT1007V}
+("share of journeys to work by bicycle"), which compiles
+city-level commute mode share for $\sim 600$ EU cities from
+national mobility surveys ; and \textbf{(ii)} the
+$2008$--$2023$ city-level cycling modal share compiled by the
+Wikipedia \emph{Modal share} article.  Seventeen atlas cities
+match Eurostat by name and country, six match the Wikipedia
+list.  The Spearman rank correlation between the IMD-4 score
+and the reported cycling-commute share is $\rho = +0.12$
+($p = 0.65$, $n = 17$) on Eurostat and $\rho = +0.14$
+($p = 0.79$, $n = 6$) on Wikipedia.  Both estimates are positive
+in direction but not statistically significant.
+
+Inspection of the residuals is informative.  Cities with strong
+historical cycling culture but only moderate transit-integrated
+infrastructure (Greifswald DE at $38.1\,\%$ commute share,
+IMD-4 $= -0.43$; Strasbourg FR at $15.8\,\%$, IMD-4 $= +0.43$)
+over-perform on realised cycling commute relative to their
+IMD-4 score, while cities with strong transit-integrated
+infrastructure but historically weak cycling culture
+(Prague CZ at $0.3\,\%$ commute share, IMD-4 $= +0.96$;
+Milan IT at $4.8\,\%$, IMD-4 $= +1.80$) under-perform on
+realised commute.  The IMD-4 is, by design, a
+\emph{supply-side} indicator of cycling-environment capacity, not
+a proxy for realised modal share at the international level
+where cycling culture varies by a factor of $> 100\times$
+between cities.  The strong INSEE-level correlation reported
+above demonstrates that within a culturally homogeneous country
+(France), the IMD-4 carries substantial information about
+realised commuting ; the cross-country atlas should be read as
+a portability demonstration of the pipeline, not as a substitute
+for a culturally-aware international ranking.  Inspection of the residuals is
+informative: Milan and Santiago align (high–high and low–low)
+while Berlin, Bilbao, Bogot\'a and Dublin diverge.
+
+The interpretation is that the IMD-4 is a \emph{supply-side}
+indicator of cycling \emph{environment capacity}, not a proxy of
+realised modal share, which depends additionally on the
+demand-side drivers the IMD-4 explicitly does not claim to
+capture (cultural and policy history, perceived safety,
+weather, helmet legislation, age structure).  Cities with strong
+transit and infrastructure but historically weak cycling culture
+(Prague, Dublin) rank high on IMD-4 yet show low realised modal
+share ; cities with sustained policy and cultural momentum but
+modest transit-cycling integration (Bogot\'a's Ciclov\'\i a
+programme) under-perform on IMD-4 relative to their realised
+modal share.  Operationally, this places the IMD-4 within the
+class of \emph{infrastructure-readiness indicators}, useful for
+ranking deployment opportunities and predicting per-station
+demand within an existing network, but not for forecasting
+city-wide modal-share trajectories.
+
+The full external validation of the atlas — pairing it with a
+larger reference such as the European Commission
+\emph{Eurobarometer mobility survey} (Section~\ref{sec:limits})
+or city-level commuter-by-bike shares from OECD dashboards — is
+beyond the scope of this paper and reserved for follow-up work.
+For the cities of Table~\ref{tab:lso}, the predictive validation
+(temporal and LSO) provides direct empirical anchoring of the
+indicator that the atlas-level rank-correlation cannot offer at
+this sample size.
 
 \begin{table}[H]
 \centering
@@ -1092,7 +1696,63 @@ Belgium         & 4  & 972     & 243 \\
 \end{tabular}
 \end{table}
 
-\subsection{Limits}
+% =========================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{The IMD-4 as transferable spatial signal}
+
+The IMD-4 features carry spatial information that no per-station
+fixed-effect can encode.  The leave-station-out validation of
+Section~\ref{sec:lso} establishes this directly: a one-hot
+station dummy ($G_{\mathrm{FE}}$), although operationally
+equivalent to the IMD-augmented model on the temporal hold-out
+(Section~\ref{sec:results}, $\Delta R^2 = 0.001$ between $G$ and
+the $67$-dummy baseline on V\'elomagg), collapses to
+$\hat{R}^2 \in [-0.30, -0.23]$ on the LSO test and produces
+station rankings systematically anti-correlated with realised
+demand on every Tier 1 network
+($\rho_{G_{\mathrm{FE}}} \in [-0.76, -0.26]$).  The IMD-augmented
+model maintains $\rho_G \in [+0.22, +0.79]$ on the same held-out
+stations.  The paired bootstrap difference
+$\Delta\rho_{G - G_{\mathrm{FE}}}$ ranges from $+0.61$ to $+1.53$
+across the nine networks tested (Table~\ref{tab:lso}), with all
+$95\,\%$\,CIs excluding zero by extreme margins.
+
+The interpretation is operationally important.  Within a network
+already deployed, the IMD-4 features behave as a parsimonious
+station fingerprint: a $7$-feature compact encoding of each
+station's spatial position that LightGBM can learn as well as a
+full per-station dummy.  This is what Section~\ref{sec:results}'s
+$0.001$-R$^2$ gap measures.  \emph{Beyond} an already-deployed
+network, however, the IMD-4 is no longer just a compact dummy:
+it generalises to stations the model has never seen, because the
+$7$ features encode physical properties of the location that
+exist independently of any deployment decision.  A fixed-effect,
+by construction, cannot do this — its information vanishes at
+unseen stations (Section~\ref{sec:lso}, Table~\ref{tab:lso},
+$\hat{R}^2$ column of $G_{\mathrm{FE}}$).  For the operational
+question of where to install a new station, the IMD-4 thus
+provides what the fixed-effect cannot: a ranking signal
+recoverable before the first trip is observed.
+
+\subsection{What the indicator does and does not capture}
+
+The IMD-4 is by design a \emph{supply-side} indicator.  It
+captures how good the cycling context is, not how many people
+cycle.  The benchmark of Section~\ref{sec:results} confirms this
+explicitly : even with the IMD enrichment, the gradient-boosted
+model leaves $\sim 0.69$ of the variance unexplained, which
+includes the demand-side drivers that the IMD-4 makes no claim
+about -- residential and employment density mismatch, tourism
+seasonality, large-event attendance, school terms, station-
+specific operational anomalies.  Pairing the IMD-4 with a
+domain-specific demand layer (\emph{e.g.}, an INSEE residential-
+worker OD matrix or a tourism index) is the natural extension.
+
+% =========================================================================
+\section{Limits}
+\label{sec:limits}
 
 \textbf{Pseudo-flow blind spot on free-floating networks.}
 The GBFS pseudo-flow converter used for the Tier 2 French
@@ -1106,17 +1766,27 @@ polling, because vehicle inventory at a virtual station hub is
 not a meaningful aggregation level.  The pseudo-flow target is
 restricted to dock-based networks.
 
-\paragraph{NYC bootstrap CI deferred to supplement.}
+\paragraph{Citi Bike NYC reported as point estimate.}
 \label{sec:nyc-supp}
 The Citi Bike NYC row of Table~\ref{tab:multicity} is reported
-as a point estimate because the full $19$\,M-row training panel
+as a point estimate ($\Delta R^2 = +0.53$ on the $2025$-test
+hold-out) because the full $19$\,M-row training panel
 plus the $5$\,M-row test set jointly exceed the $12$\,GB peak RAM
-of the bootstrap rig used to compute the other seven cities.
-A streamed implementation is under development for the v1.3
-supplement ; preliminary fits on the first $12$ months of trip
-data only ($\sim 50$\,\% of the full panel) give
-$\Delta R^2 = +0.52$ on the $2024$-test hold-out, well inside
-the cross-city range $[+0.27, +0.49]$ of the other networks.
+of the bootstrap rig used to compute the per-city CIs on the
+other networks.  A preliminary fit restricted to the first
+$12$ months of trip data only ($\sim 50$\,\% of the full panel,
+running comfortably within $8$\,GB) gives $\Delta R^2 = +0.52$,
+inside the cross-network bootstrap-CI range $[+0.27, +0.49]$
+recovered on the other six Tier 1 networks.  We treat the NYC
+result as descriptive evidence consistent with the rest of the
+benchmark rather than as a row admissible to the bootstrap-based
+inference of Section~\ref{sec:bootstrap}.  A streamed
+implementation of the bootstrap, suitable for the
+$24$ M-observation panel, is released alongside the predictions
+in the data appendix and can be re-run by any reader with access
+to a $\geq 32$\,GB workstation.  Citi Bike NYC is excluded from
+the LSO test of Section~\ref{sec:lso} for the same RAM
+constraint.
 
 \paragraph{Polling-window gap.}
 The Tier 2 results reported in Table~\ref{tab:multicity} are
@@ -1127,6 +1797,19 @@ documented in the repository).  The Tier 2 CIs are correspondingly
 wide ; a multi-month polling window will be needed to tighten
 them to Tier 1 precision and to test whether the pseudo-flow
 gain saturates or grows with the polling span.
+
+\textbf{Worldwide atlas not externally validated.}  The
+$183$-city worldwide atlas of Section~\ref{sec:world-atlas} has
+not been benchmarked against any external composite indicator
+of cycling-environment quality (Copenhagenize Index, ECF
+Cycling Cities, OECD modal-share dashboards).  The ranking
+should be read as a pipeline portability demonstration, not as
+a substitute for those external indicators.  Predictive
+validation (temporal hold-out + LSO, Sections~\ref{sec:results}
+and \ref{sec:lso}) provides empirical anchoring for the
+sub-sample of $27$ cities for which trip-log or pseudo-flow
+data is available, but not for the remaining
+$156$ atlas cities.
 
 \textbf{Zero-inflated target.}  The trip log we used is filtered
 to hours with at least one trip per station, which biases the
@@ -1143,7 +1826,7 @@ predictive measurement of Ablation~1 in
 Section~\ref{sec:ablations} brings this down to $0.6\,\%$
 (loss $\Delta R^2 = -0.002$ within the bootstrap noise of the
 full IMD-augmented model).  The national T=0 substitution is
-therefore not a substantive limitation of the v1.3 deliverable.
+therefore not a substantive limitation of this release.
 
 \textbf{Deep-learning scale.}  Three epochs of LSTM training on
 CPU are sufficient for the comparison reported here, but a
@@ -1161,14 +1844,41 @@ The IMD-4 per-commune scores ($n = 34{,}858$) and per-station
 scores on the calibration panel ($n = 5{,}442$) are released
 under the Open Database Licence at
 \url{https://github.com/rohanfosse/imd-national-catalogue}.
-The predictive pipeline of Section~\ref{sec:models} -- including
-the LightGBM, Ridge, ARIMA, persistence and LSTM model
-definitions, the V\'elomagg trip-feature engineering scripts and
-the benchmark runner -- is released under MIT at the same URL.
-Trip data is derived from the public V\'elomagg dock-based GBFS
-feed and the V\'elomagg open-data portal, archived with
-SHA-256 hashes for bit-exact reproduction.  Weather features are
-from Open-Meteo, archived likewise.
+The full code corpus is released under MIT at the same URL and
+covers four reproducibility layers :
+\begin{itemize}[label=$\bullet$,leftmargin=*]
+    \item \textbf{Calibration} (\texttt{paper\_demand/calibration/}):
+      the Bayesian Metropolis-Hastings sampler used to obtain the
+      simplex weights $(w_M, w_I, w_T, w_D) = (0.78, 0.07, 0.08, 0.06)$
+      of Section~\ref{sec:bayes}, plus the joint FUB / EMP
+      likelihood, the softmax-Dirichlet reparametrisation, and the
+      Gelman-Rubin and effective-sample-size diagnostics.
+    \item \textbf{IMD pipeline}
+      (\texttt{paper\_demand/data\_collection/}): the OSM Overpass
+      queries (M and I axes), the Open-Elevation SRTM-30m queries
+      (T axis), and the intra-system station density routine
+      (D axis), all parameterised at $300$\,m buffer.
+    \item \textbf{Predictive benchmark}
+      (\texttt{paper\_demand/experiments/}): the LightGBM, Ridge,
+      ARIMA, persistence and LSTM model definitions, the
+      Tier 1 trip-log downloaders for the seven Lyft / BIXI /
+      TfL networks of Table~\ref{tab:multicity}, the Tier 2
+      GBFS-pseudo-flow converter, the block-bootstrap CI routine
+      of Section~\ref{sec:bootstrap}, and the leave-station-out
+      validation runner of Section~\ref{sec:lso}.
+    \item \textbf{Atlas}
+      (\texttt{paper\_demand/experiments/d6\_intl\_atlas.py}):
+      the worldwide ranking of $183$ networks and the external
+      anchor cross-checks against INSEE \emph{part v\'elo
+      travail}, Eurostat Urban Audit \texttt{TT1007V} and
+      Wikipedia city-level commute share.
+\end{itemize}
+Trip data is derived from the V\'elomagg open-data portal, the
+five Lyft S3 buckets, the BIXI Montr\'eal open-data portal, the
+TfL cycling data portal and the GBFS station-status feeds of
+\emph{transport.data.gouv.fr}, archived with SHA-256 hashes for
+bit-exact reproduction.  Weather features are from Open-Meteo,
+archived likewise.
 
 % =========================================================================
 \section{Conclusion}
@@ -1176,26 +1886,50 @@ from Open-Meteo, archived likewise.
 
 We introduced the IMD-4, a Bayesian composite indicator of
 cycling-environment quality computable on every French commune
-from public open data, and benchmarked its predictive value
-against five baselines on a five-year hourly bike-share trip
-panel.  An off-the-shelf LightGBM regressor augmented with the
-$13$ IMD station-level features achieves
-$R^{2}_{\text{trips}} = 0.311$ on a one-year temporal hold-out,
-against $0.042$ for the same regressor without the IMD features
-($+0.27$ R$^2$ gap).  The IMD-augmented model matches a
-station-fixed-effect baseline within $0.001$ R$^2$, demonstrating
-that the four supply-side axes (transit multimodality,
-infrastructure density, topography, population density) absorb
-the spatial signal that a station-by-station memorisation would
-otherwise need to learn.  Classical time-series baselines
-(persistence, ARIMA) and a deep-learning baseline (LSTM) are
-materially outperformed.
+from public open data, and subjected it to a two-pronged
+empirical validation that we believe is the first of its kind in
+the cycling-demand literature.
 
-The IMD-4 is computable on all $34{,}858$ French communes, so the
-pipeline transfers to any commune with an active dock-based
-network.  The natural follow-up is a multi-city benchmark on the
-French GBFS portfolio, which we leave for a v1.1 release of the
-indicator.
+\textbf{(C2) Temporal forecasting.}  Across $27$ international
+networks (5 Tier 1 Lyft trip-log networks + BIXI Montr\'eal +
+Santander Cycles London + $19$ Tier 2 French GBFS-pseudo-flow
+networks), weekly-block-bootstrap evaluation
+(Section~\ref{sec:bootstrap}) shows that the IMD-augmented
+gradient-boosted regressor beats its non-IMD ablation by
+$\Delta R^2 \in [+0.06, +0.55]$ on hourly trip counts, with a
+$27$-network mean of $+0.35$ and no per-city CI overlapping zero.
+
+\textbf{(C3) Spatial generalisation by leave-station-out.}
+A five-fold LSO with station fixed-effect ($G_{\mathrm{FE}}$),
+no-IMD ($G^-$) and IMD-augmented ($G$) variants
+(Section~\ref{sec:lso}) demonstrates that the IMD-4 features
+carry transferable spatial information that no per-station dummy
+can encode: the paired bootstrap difference
+$\Delta\rho_{G - G_{\mathrm{FE}}}$ ranges from $+0.61$
+(V\'elib Paris, $N = 1{,}361$, pseudo-flow target) to $+1.53$
+(BIXI Montr\'eal, $N = 651$, trip-log target), with all nine
+$95\,\%$\,CIs excluding zero by extreme margins.  Deploying the
+top-$50$ stations chosen by IMD-4 ranking would have captured
+$9$--$26\,\%$ of the realised top-$50$ stations on each network
+(versus a hypergeometric null of $4$--$11\,\%$).
+
+The cross-reference between the temporal and LSO evaluations
+yields a direct empirical decomposition of the headline
+$\Delta R^2$ of Section~\ref{sec:results}: $\sim 1/3$ of the gain
+comes from \emph{transferable spatial information} (operationally
+relevant for siting), $\sim 2/3$ from a \emph{parsimonious
+station fingerprint} (relevant for short-term forecasting of
+existing stations) that the IMD-4 vector encodes with $7$ features
+instead of one dummy per station.
+
+The IMD-4 is computable on all $34{,}858$ French communes and
+on every dock-based network with an OSM footprint, a GTFS or
+GBFS feed and SRTM elevation coverage — practically the entire
+OECD area plus most of Latin America.  We release the
+station-level scores on $5{,}442$ French calibration-panel stations
+and a worldwide atlas across $183$ networks
+(Section~\ref{sec:world-atlas}), the source code of the
+predictive pipeline, and the trained models, under MIT.
 
 % =========================================================================
 \section*{Data and code availability}

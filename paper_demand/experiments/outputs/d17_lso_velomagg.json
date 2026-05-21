@@ -1,0 +1,57 @@
+{
+  "n_stations_evaluated": 53,
+  "n_folds": 5,
+  "global_spearman_rho_imd": -0.08095468472826964,
+  "global_spearman_rho_no_imd": -0.24076761812610867,
+  "global_kendall_tau_imd": -0.06386066763425255,
+  "global_kendall_tau_no_imd": -0.169811320754717,
+  "precision_at_k": {
+    "K5": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.09433962264150944
+    },
+    "K10": {
+      "precision_imd": 0.1,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.18867924528301888
+    },
+    "K20": {
+      "precision_imd": 0.4,
+      "precision_no_imd": 0.3,
+      "precision_random_null": 0.37735849056603776
+    }
+  },
+  "per_fold": [
+    {
+      "fold": 1,
+      "n_holdout": 11,
+      "r2_hourly_no_imd": 0.05473650705368083,
+      "r2_hourly_imd": 0.0010351127669960825
+    },
+    {
+      "fold": 2,
+      "n_holdout": 11,
+      "r2_hourly_no_imd": -0.05942844896716637,
+      "r2_hourly_imd": -0.0800373762405826
+    },
+    {
+      "fold": 3,
+      "n_holdout": 11,
+      "r2_hourly_no_imd": 0.0017485550143084838,
+      "r2_hourly_imd": -0.01704111014743681
+    },
+    {
+      "fold": 4,
+      "n_holdout": 10,
+      "r2_hourly_no_imd": 0.07114086161446431,
+      "r2_hourly_imd": 0.047298875015128194
+    },
+    {
+      "fold": 5,
+      "n_holdout": 10,
+      "r2_hourly_no_imd": 0.03687233120161704,
+      "r2_hourly_imd": -0.0325602259110358
+    }
+  ]
+}

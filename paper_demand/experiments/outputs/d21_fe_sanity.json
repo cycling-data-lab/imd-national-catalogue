@@ -1,0 +1,10 @@
+{
+  "velomagg_temporal_holdout_clean_spec": {
+    "G_FE_r2_trips": 0.14866653161749876,
+    "Gminus_r2_trips": 0.009865571706864085,
+    "G_FE_minus_Gminus_delta_r2": 0.13880095991063468,
+    "expected_clean_FE_r2": 0.15,
+    "expected_within_tolerance": true,
+    "interpretation": "G_FE on a seen-station temporal hold-out should match G_IMD in the same clean spec (no network state, LSO setup). The match within bootstrap noise confirms LightGBM's per-station categorical handling correctly learns each station's effect during training. The dramatic collapse of G_FE on unseen stations in LSO is therefore not an implementation artefact but the structural property of fixed-effects."
+  }
+}

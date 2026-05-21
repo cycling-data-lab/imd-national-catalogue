@@ -1,0 +1,30 @@
+{
+  "city": "london_tfl",
+  "tier": 1,
+  "target": "trips",
+  "n_total": 3171759,
+  "n_stations": 794,
+  "n_train": 2537407,
+  "n_test": 634352,
+  "no_imd": {
+    "model": "london_tfl_G_minus_temporal",
+    "n_test": 634352,
+    "n_features": 3,
+    "r2_log": 0.10040140052139068,
+    "r2_trips": 0.08026659113826495,
+    "mae_trips": 1.3701063409647247,
+    "rmse_trips": 2.4421226484576732
+  },
+  "imd_augmented": {
+    "model": "london_tfl_G_plus_imd",
+    "n_test": 634352,
+    "n_features": 10,
+    "r2_log": 0.3154563962247625,
+    "r2_trips": 0.41778139495537847,
+    "mae_trips": 1.1941566490924331,
+    "rmse_trips": 1.943030106461399
+  },
+  "delta_r2_trips": 0.3375148038171135,
+  "delta_mae_trips": 0.1759496918722916,
+  "wall_time_s": 99.9
+}

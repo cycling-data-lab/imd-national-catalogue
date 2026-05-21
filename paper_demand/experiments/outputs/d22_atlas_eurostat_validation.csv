@@ -1,0 +1,18 @@
+atlas_city,atlas_country,atlas_imd4,eurostat_city,eurostat_pct,eurostat_year
+milan_bikemi,IT,1.800578586657744,Milano (greater city),4.75,2011.0
+nextbike_kassel,DE,1.0872979321615093,Kassel,8.7,2016.0
+nextbike_praha,CZ,0.9580719343602552,Praha,0.3,2001.0
+velo_antwerpen,BE,0.7949897061673192,Antwerpen (greater city),13.04,2008.0
+swabi_augsburg,DE,0.4680568284271005,Augsburg,13.9,2016.0
+city_bike_linz,AT,0.439953754598522,Linz (greater city),2.25,2001.0
+v_lhop_strasbourg,FR,0.4306151966671893,Strasbourg (greater city),15.8,2020.0
+nextbike_berlin,DE,0.2746745965239248,Berlin,12.8,2016.0
+lev_lo_marseille,FR,0.1589245538137358,Marseille (greater city),2.0,2020.0
+v_locit_mulhouse,FR,0.0792486897928782,Mulhouse (greater city),3.3,2020.0
+bergen_city_bike,NO,0.0616989339963592,Bergen,5.0,2009.0
+v_l_toulouse,FR,-0.0955763174857191,Toulouse (greater city),7.9,2020.0
+verona_bike,IT,-0.3704306689447104,Verona,6.38,2011.0
+moxsi_las_palmas_de_gran_canaria,ES,-0.3782371571062228,"Palmas de Gran Canaria, Las",0.22,2008.0
+optymo_belfort,FR,-0.4051693370716496,Belfort (greater city),4.0,2020.0
+valladolid,ES,-0.4294168273761695,Valladolid (greater city),0.66,2008.0
+stadtrad_greifswald,DE,-0.4329895077511949,Greifswald,38.1,2016.0

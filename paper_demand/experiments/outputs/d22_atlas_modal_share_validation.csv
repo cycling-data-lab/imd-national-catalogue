@@ -1,0 +1,7 @@
+key,country,modal_share,year,imd4,atlas_name
+berlin,DE,18.0,2023,0.2746745965239248,nextbike_berlin
+bilbao,ES,0.9,2021,0.2948839413061476,bilbao_bizi
+bogot,CO,7.0,2019,-0.4272573215799307,bogot
+dublin,IE,4.5,2016,0.1711033423748309,dublinbikes
+milan,IT,10.0,2014,1.800578586657744,milan_bikemi
+santiago,CL,4.0,2012,-0.3346230334094699,bike_ita_santiago

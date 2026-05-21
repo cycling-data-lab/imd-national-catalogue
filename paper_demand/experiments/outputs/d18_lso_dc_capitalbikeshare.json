@@ -1,0 +1,69 @@
+{
+  "city": "dc_capitalbikeshare",
+  "n_stations_evaluated": 776,
+  "n_folds": 5,
+  "wall_time_s": 752.7,
+  "global_spearman_rho_imd": 0.7460289440469021,
+  "global_spearman_rho_no_imd": -0.515531969805332,
+  "global_kendall_tau_imd": 0.5361090788160957,
+  "global_kendall_tau_no_imd": -0.37456601263717987,
+  "precision_at_k": {
+    "K5": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.006443298969072165
+    },
+    "K10": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.01288659793814433
+    },
+    "K20": {
+      "precision_imd": 0.1,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.02577319587628866
+    },
+    "K50": {
+      "precision_imd": 0.24,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.06443298969072164
+    }
+  },
+  "per_fold": [
+    {
+      "fold": 1,
+      "n_holdout": 156,
+      "n_test": 1374393,
+      "r2_hourly_no_imd": 0.04144636211573638,
+      "r2_hourly_imd": 0.12586219777797214
+    },
+    {
+      "fold": 2,
+      "n_holdout": 155,
+      "n_test": 1384222,
+      "r2_hourly_no_imd": 0.03338756467018156,
+      "r2_hourly_imd": 0.13868752211052549
+    },
+    {
+      "fold": 3,
+      "n_holdout": 155,
+      "n_test": 1320344,
+      "r2_hourly_no_imd": 0.05364693866629522,
+      "r2_hourly_imd": 0.13816637019779388
+    },
+    {
+      "fold": 4,
+      "n_holdout": 155,
+      "n_test": 1338729,
+      "r2_hourly_no_imd": 0.019868809629391637,
+      "r2_hourly_imd": 0.12436528384664103
+    },
+    {
+      "fold": 5,
+      "n_holdout": 155,
+      "n_test": 1228426,
+      "r2_hourly_no_imd": 0.029279707827644663,
+      "r2_hourly_imd": 0.15566494936670472
+    }
+  ]
+}

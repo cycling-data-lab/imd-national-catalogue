@@ -1,0 +1,69 @@
+{
+  "city": "chicago_divvy",
+  "n_stations_evaluated": 1336,
+  "n_folds": 5,
+  "wall_time_s": 690.8,
+  "global_spearman_rho_imd": 0.49275237363203306,
+  "global_spearman_rho_no_imd": -0.32432459004853864,
+  "global_kendall_tau_imd": 0.3402300382955772,
+  "global_kendall_tau_no_imd": -0.23998522115800003,
+  "precision_at_k": {
+    "K5": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.0037425149700598802
+    },
+    "K10": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.0074850299401197605
+    },
+    "K20": {
+      "precision_imd": 0.15,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.014970059880239521
+    },
+    "K50": {
+      "precision_imd": 0.24,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.0374251497005988
+    }
+  },
+  "per_fold": [
+    {
+      "fold": 1,
+      "n_holdout": 268,
+      "n_test": 1226556,
+      "r2_hourly_no_imd": 0.023466720725967893,
+      "r2_hourly_imd": 0.1093545096638876
+    },
+    {
+      "fold": 2,
+      "n_holdout": 267,
+      "n_test": 1148753,
+      "r2_hourly_no_imd": 0.10157220459670713,
+      "r2_hourly_imd": 0.0027180357975984393
+    },
+    {
+      "fold": 3,
+      "n_holdout": 267,
+      "n_test": 1072039,
+      "r2_hourly_no_imd": 0.07903034731240066,
+      "r2_hourly_imd": 0.10281924984103008
+    },
+    {
+      "fold": 4,
+      "n_holdout": 267,
+      "n_test": 1317056,
+      "r2_hourly_no_imd": 0.040929417472446605,
+      "r2_hourly_imd": 0.1183357387358478
+    },
+    {
+      "fold": 5,
+      "n_holdout": 267,
+      "n_test": 1060366,
+      "r2_hourly_no_imd": 0.0766708602300642,
+      "r2_hourly_imd": 0.13740479825953622
+    }
+  ]
+}

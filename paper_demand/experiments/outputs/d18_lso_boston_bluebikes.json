@@ -1,0 +1,69 @@
+{
+  "city": "boston_bluebikes",
+  "n_stations_evaluated": 496,
+  "n_folds": 5,
+  "wall_time_s": 340.7,
+  "global_spearman_rho_imd": 0.7880020101055993,
+  "global_spearman_rho_no_imd": -0.6764830429301124,
+  "global_kendall_tau_imd": 0.5873411534701858,
+  "global_kendall_tau_no_imd": -0.4908439231019876,
+  "precision_at_k": {
+    "K5": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.010080645161290322
+    },
+    "K10": {
+      "precision_imd": 0.1,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.020161290322580645
+    },
+    "K20": {
+      "precision_imd": 0.05,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.04032258064516129
+    },
+    "K50": {
+      "precision_imd": 0.4,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.10080645161290322
+    }
+  },
+  "per_fold": [
+    {
+      "fold": 1,
+      "n_holdout": 100,
+      "n_test": 744169,
+      "r2_hourly_no_imd": 0.044435568783573465,
+      "r2_hourly_imd": 0.21198261750994973
+    },
+    {
+      "fold": 2,
+      "n_holdout": 99,
+      "n_test": 845567,
+      "r2_hourly_no_imd": 0.018744509604610382,
+      "r2_hourly_imd": 0.1644408948309567
+    },
+    {
+      "fold": 3,
+      "n_holdout": 99,
+      "n_test": 725684,
+      "r2_hourly_no_imd": 0.08747426727782037,
+      "r2_hourly_imd": 0.23667865465132598
+    },
+    {
+      "fold": 4,
+      "n_holdout": 99,
+      "n_test": 882337,
+      "r2_hourly_no_imd": 0.03844064147005455,
+      "r2_hourly_imd": 0.14916051682105347
+    },
+    {
+      "fold": 5,
+      "n_holdout": 99,
+      "n_test": 740017,
+      "r2_hourly_no_imd": 0.05159899863013473,
+      "r2_hourly_imd": 0.22491707018278173
+    }
+  ]
+}

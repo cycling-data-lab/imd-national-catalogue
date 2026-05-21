@@ -1,0 +1,69 @@
+{
+  "city": "sf_baywheels",
+  "n_stations_evaluated": 560,
+  "n_folds": 5,
+  "wall_time_s": 354.9,
+  "global_spearman_rho_imd": 0.6545556358825853,
+  "global_spearman_rho_no_imd": -0.41231825629910446,
+  "global_kendall_tau_imd": 0.45513672374137487,
+  "global_kendall_tau_no_imd": -0.28945821620240225,
+  "precision_at_k": {
+    "K5": {
+      "precision_imd": 0.0,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.008928571428571428
+    },
+    "K10": {
+      "precision_imd": 0.1,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.017857142857142856
+    },
+    "K20": {
+      "precision_imd": 0.1,
+      "precision_no_imd": 0.0,
+      "precision_random_null": 0.03571428571428571
+    },
+    "K50": {
+      "precision_imd": 0.32,
+      "precision_no_imd": 0.02,
+      "precision_random_null": 0.08928571428571429
+    }
+  },
+  "per_fold": [
+    {
+      "fold": 1,
+      "n_holdout": 112,
+      "n_test": 891806,
+      "r2_hourly_no_imd": 0.049803668952790425,
+      "r2_hourly_imd": 0.10902561271558953
+    },
+    {
+      "fold": 2,
+      "n_holdout": 112,
+      "n_test": 890889,
+      "r2_hourly_no_imd": 0.018906391724655913,
+      "r2_hourly_imd": 0.10346156585766486
+    },
+    {
+      "fold": 3,
+      "n_holdout": 112,
+      "n_test": 893356,
+      "r2_hourly_no_imd": 0.048147012503330755,
+      "r2_hourly_imd": 0.06412713312835794
+    },
+    {
+      "fold": 4,
+      "n_holdout": 112,
+      "n_test": 1003650,
+      "r2_hourly_no_imd": 0.058617858518958066,
+      "r2_hourly_imd": 0.11969602562442228
+    },
+    {
+      "fold": 5,
+      "n_holdout": 112,
+      "n_test": 881387,
+      "r2_hourly_no_imd": 0.03948446255016591,
+      "r2_hourly_imd": 0.09017870955831053
+    }
+  ]
+}

@@ -46,6 +46,7 @@ PRETTY = {
     "capcotentin": "Cap Cotentin",
     "le_velo_star": "Le Vélo Star Rennes",
     "montreal_bixi": "BIXI Montréal",
+    "london_tfl": "Santander Cycles London",
 }
 
 
