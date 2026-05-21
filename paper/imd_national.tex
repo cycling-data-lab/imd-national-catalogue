@@ -566,13 +566,19 @@ within a single high-IMD city ?
 We test this on the \emph{V\'elomagg} dock-based network of
 Montpellier M\'editerran\'ee M\'etropole, which sits at rank
 \#2 of the national IMD-4 calibration panel and exposes five
-years of trip records on $53$ stations.  Three findings are
+years of trip records on $53$ stations.  A full predictive
+benchmark of the IMD-4 against the same V\'elomagg panel plus
+$26$ additional international networks is the focus of the
+sibling paper \citet{FossePallares2026bikeshareDemand}; we
+restrict the present section to the qualitative co-variation
+checks that validate the IMD-4 components at the sub-commune
+scale.  Three findings are
 informative.  First, a per-station \emph{network-vulnerability
 index} ($V_i$ = product of GBFS-derived betweenness centrality
 on the inter-station trip graph and surrounding-population
 exposure computed on a $500$\,m buffer ; full definition in
 the source pipeline at
-\url{https://github.com/rohanfosse/bikeshare-data-explorer})
+\url{https://github.com/cycling-data-lab/bikeshare-demand-forecasting})
 co-varies negatively with the M and I components evaluated at
 the station's $300\,$m buffer : stations with weak heavy-transit
 access and low cycling-infrastructure density concentrate the
@@ -717,7 +723,15 @@ We define a \emph{cycling-poverty desert} as a commune
 simultaneously below the national IMD-4 33rd percentile and
 above the national poverty rate 66th percentile.  Both thresholds
 together identify \textbf{362 communes} out of the $4{,}408$ with
-both indicators -- $8.2\,\%$ of the panel.
+both indicators -- $8.2\,\%$ of the panel.  A separate
+mobility-justice paper \citep{FossePallares2026cyclingPoverty}
+extends this double-penalty list to a \emph{triple-penalty}
+intersection that adds a structural-deprivation layer (lowest
+national income tertile or overseas \emph{d\'epartement}) and
+reports the operational priority subset, threshold-sensitivity
+diagnostics and a $90$-commune metropolitan-extreme blind spot;
+we restrict the present section to the original double-penalty
+specification that motivates the IES residual.
 
 The top 15 deserts by population are dominated by overseas
 \emph{d\'epartements}, in particular La R\'eunion : Saint-Paul
@@ -995,7 +1009,12 @@ $k$-fold splits.  Communes within the same r\'egion share
 infrastructure-supply heritage and commuter flows, so the
 $+0.42$ figure should be read as the \emph{upper bound} of the
 out-of-sample correlation rather than as the spatially-blocked
-estimate that a hostile reviewer would prefer.  A leave-one-
+estimate that a hostile reviewer would prefer.  A formal
+graph-signal-processing treatment of the
+station-proximity-graph spectral concentration of demand, and
+the resulting upper bound on what any linear combination of the
+IMD axes can recover, is developed in the sibling paper
+\citet{FossePallares2026gsp}.  A leave-one-
 r\'egion-out variant ($K = 13$ metropolitan r\'egions) and a
 leave-one-d\'epartement-out variant ($K \approx 30$ on the
 calibration panel) \citep{Roberts2017,Pohjankukka2017} are the
@@ -1060,7 +1079,7 @@ data.
 The full pipeline (collection, calibration, validation, national
 application, IES and binding-axis diagnostic) is released under
 the MIT licence at
-\url{https://github.com/rohanfosse/imd-national-catalogue}.  The
+\url{https://github.com/cycling-data-lab/imd-national-catalogue}.  The
 per-commune IMD-4 score and the four standardised components
 ($M^z$, $I^z$, $T^z$, $D^z$) for the $34{,}858$ French communes
 are released as a versioned Parquet dataset and a companion CSV.
