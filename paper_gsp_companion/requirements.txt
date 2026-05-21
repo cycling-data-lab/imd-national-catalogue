@@ -1,0 +1,18 @@
+# Core stack
+numpy>=1.26
+pandas>=2.2
+scipy>=1.13
+scikit-learn>=1.5
+
+# Gradient boosting (primary model)
+lightgbm>=4.3
+
+# I/O
+pyarrow>=15.0
+requests>=2.32
+
+# Optional, for some experiments
+matplotlib>=3.9
+pulp>=2.8           # MCLP / k-median (d33)
+geopy>=2.4          # haversine geometry
+torch>=2.2          # LSTM baseline (d2)

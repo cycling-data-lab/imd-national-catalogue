@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+title: "IMD-Augmented Bike-Share Demand Forecasting"
+message: >-
+  If you use this code or the paper, please cite both the paper
+  (note + URL below) and this repository.
+type: software
+authors:
+  - family-names: Fossé
+    given-names: Rohan
+    email: rfosse@cesi.fr
+    affiliation: CESI École d'Ingénieurs, Montpellier, France
+    orcid: "https://orcid.org/0009-0002-2195-0198"
+  - family-names: Pallares
+    given-names: Gaël
+    affiliation: CESI LINEACT (EA 7527), Montpellier, France
+    orcid: "https://orcid.org/0009-0002-8680-604X"
+repository-code: "https://github.com/cycling-data-lab/bikeshare-demand-forecasting"
+url: "https://github.com/cycling-data-lab/bikeshare-demand-forecasting"
+abstract: >-
+  Code, data and reproducible LaTeX for the paper "From
+  cycling-environment supply to bike-share demand: an
+  IMD-augmented spatio-temporal forecasting benchmark for French
+  networks". The IMD-4 (Indice de Mobilité Douce à quatre
+  composantes) is a Bayesian composite of transit multimodality,
+  cycling-infrastructure density, topography and population density,
+  computed from open data on every French commune. The repo
+  benchmarks the IMD-augmented LightGBM regressor against six
+  baselines on 27 dock-based networks across two continents and
+  evaluates spatial generalisation via leave-station-out on nine
+  networks with paired station-bootstrap CIs.
+keywords:
+  - bike-sharing
+  - demand forecasting
+  - composite indicator
+  - cycling environment
+  - leave-station-out cross-validation
+  - gradient boosting
+  - GBFS
+license: MIT
+version: "2.3-split"
+date-released: "2026-05-21"
