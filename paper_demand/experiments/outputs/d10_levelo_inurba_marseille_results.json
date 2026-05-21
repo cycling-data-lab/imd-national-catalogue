@@ -1,0 +1,31 @@
+{
+  "city": "levelo_inurba_marseille",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 30041,
+  "n_stations": 228,
+  "n_train": 24032,
+  "n_test": 6009,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "levelo_inurba_marseille_G_minus_temporal",
+    "n_test": 6009,
+    "r2_log": 0.21592850532857433,
+    "r2_trips": 0.06755338421535251,
+    "mae_trips": 2.7226920909584544,
+    "rmse_trips": 4.389542414310156,
+    "fit_seconds": 4.4
+  },
+  "imd_augmented": {
+    "model": "levelo_inurba_marseille_G_plus_imd",
+    "n_test": 6009,
+    "r2_log": 0.5937952515892728,
+    "r2_trips": 0.5210583526271199,
+    "mae_trips": 1.9191929306223419,
+    "rmse_trips": 3.1459264372854006,
+    "fit_seconds": 4.8
+  },
+  "delta_r2_trips": 0.45350496841176735,
+  "delta_mae_trips": 0.8034991603361126,
+  "wall_time_s": 10.2
+}

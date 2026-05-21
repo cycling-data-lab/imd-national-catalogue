@@ -1,0 +1,31 @@
+{
+  "city": "amiens",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 6061,
+  "n_stations": 46,
+  "n_train": 4848,
+  "n_test": 1213,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "amiens_G_minus_temporal",
+    "n_test": 1213,
+    "r2_log": 0.3223064100957783,
+    "r2_trips": 0.20162034910659876,
+    "mae_trips": 1.3173075711474684,
+    "rmse_trips": 2.173193414047482,
+    "fit_seconds": 4.5
+  },
+  "imd_augmented": {
+    "model": "amiens_G_plus_imd",
+    "n_test": 1213,
+    "r2_log": 0.4808313456601947,
+    "r2_trips": 0.44706002742847883,
+    "mae_trips": 1.1200596725495695,
+    "rmse_trips": 1.8085588451324754,
+    "fit_seconds": 5.6
+  },
+  "delta_r2_trips": 0.24543967832188007,
+  "delta_mae_trips": 0.19724789859789893,
+  "wall_time_s": 10.3
+}

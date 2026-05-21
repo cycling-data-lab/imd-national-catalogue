@@ -1,0 +1,31 @@
+{
+  "city": "velo-tbm-bordeaux",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 30041,
+  "n_stations": 228,
+  "n_train": 24032,
+  "n_test": 6009,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "velo-tbm-bordeaux_G_minus_temporal",
+    "n_test": 6009,
+    "r2_log": 0.1776640877187151,
+    "r2_trips": 0.07954241212542956,
+    "mae_trips": 1.285736907887763,
+    "rmse_trips": 2.209966318225843,
+    "fit_seconds": 4.4
+  },
+  "imd_augmented": {
+    "model": "velo-tbm-bordeaux_G_plus_imd",
+    "n_test": 6009,
+    "r2_log": 0.5265906266895126,
+    "r2_trips": 0.4727292634807626,
+    "mae_trips": 0.9508214556096793,
+    "rmse_trips": 1.6726327576053723,
+    "fit_seconds": 4.9
+  },
+  "delta_r2_trips": 0.39318685135533304,
+  "delta_mae_trips": 0.3349154522780836,
+  "wall_time_s": 10.1
+}

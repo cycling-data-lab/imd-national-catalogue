@@ -1,0 +1,31 @@
+{
+  "city": "nancy",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 5126,
+  "n_stations": 39,
+  "n_train": 4100,
+  "n_test": 1026,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "nancy_G_minus_temporal",
+    "n_test": 1026,
+    "r2_log": 0.244243233701258,
+    "r2_trips": 0.08748316167012005,
+    "mae_trips": 1.341415883629173,
+    "rmse_trips": 2.2518631581528115,
+    "fit_seconds": 4.6
+  },
+  "imd_augmented": {
+    "model": "nancy_G_plus_imd",
+    "n_test": 1026,
+    "r2_log": 0.4404944795060213,
+    "r2_trips": 0.3231920920360194,
+    "mae_trips": 1.1381580733592884,
+    "rmse_trips": 1.9393413808057713,
+    "fit_seconds": 5.8
+  },
+  "delta_r2_trips": 0.23570893036589935,
+  "delta_mae_trips": 0.20325781026988454,
+  "wall_time_s": 10.6
+}

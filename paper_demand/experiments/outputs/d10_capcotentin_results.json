@@ -1,0 +1,31 @@
+{
+  "city": "capcotentin",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 6370,
+  "n_stations": 49,
+  "n_train": 5096,
+  "n_test": 1274,
+  "polling_span_h": 1885.0,
+  "no_imd": {
+    "model": "capcotentin_G_minus_temporal",
+    "n_test": 1274,
+    "r2_log": 0.16567172246810669,
+    "r2_trips": 0.04456792960776357,
+    "mae_trips": 1.8281097543722442,
+    "rmse_trips": 3.307095992744558,
+    "fit_seconds": 3.6
+  },
+  "imd_augmented": {
+    "model": "capcotentin_G_plus_imd",
+    "n_test": 1274,
+    "r2_log": 0.28455957728011916,
+    "r2_trips": 0.18352634365918985,
+    "mae_trips": 1.6321116312081656,
+    "rmse_trips": 3.057158686084494,
+    "fit_seconds": 3.4
+  },
+  "delta_r2_trips": 0.13895841405142628,
+  "delta_mae_trips": 0.1959981231640786,
+  "wall_time_s": 7.2
+}

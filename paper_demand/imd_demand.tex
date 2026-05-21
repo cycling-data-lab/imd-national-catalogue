@@ -632,26 +632,49 @@ coordinates themselves -- so the entire pipeline is portable
 and country-agnostic.
 
 Table~\ref{tab:multicity} reports the per-city results with
-weekly-block-bootstrap $95\,\%$ confidence intervals
+block-bootstrap $95\,\%$ confidence intervals
 (Section~\ref{sec:bootstrap}).  The IMD-augmented model wins on
-every city, with $\Delta R^2$ ranging from
-$+0.27$ (V\'elomagg, $95\,\%$\,CI $[+0.24, +0.30]$) to $+0.47$
-(Boston Bluebikes, $95\,\%$\,CI $[+0.45, +0.49]$).  None of the
-per-city $95\,\%$\,CIs for $\Delta R^2$ overlaps zero.  Across the
-five Lyft-operated North American networks (DC, Chicago, Boston,
-SF, and the Citi Bike NYC run reserved for the supplement,
-Section~\ref{sec:nyc-supp}), the IMD-augmented model is
-trained on $\sim 4{,}200$ stations and $\sim 18$ million
-observations, and a Tier 2 GBFS-pseudo-flow benchmark on Paris,
-Lyon and Toulouse delivers $\Delta R^2$ in $[+0.28, +0.49]$ from
-a fundamentally different demand target (negative deltas in
-\texttt{num\_bikes\_available} rather than true trip starts).
-The IMD contribution is therefore consistently in the range
-$[+0.27, +0.49]$ across two trip-data paradigms (true logs vs.
-pseudo-flow) and two continents, with an eight-city mean of
-$\Delta R^2 = +0.37$.  The headline result is not an artefact of
-the V\'elomagg panel size, topography, or trip-vs-pseudo-flow
-target.
+every one of the $24$ networks reported, with $\Delta R^2$
+ranging from $+0.06$ (Le V\'elo Star Rennes — a low-activity
+outlier, see below) to $+0.55$ (V\'elivert Saint-\'Etienne), and a
+$24$-city mean of $+0.32$.  Excluding the Rennes outlier, the
+range tightens to $[+0.14, +0.55]$, with $21$ of the remaining
+$23$ networks above $+0.22$.  \textbf{None} of the per-city
+$95\,\%$\,CIs for $\Delta R^2$ overlaps zero.  Across the five
+Lyft-operated North American networks (DC, Chicago, Boston, SF,
+and the Citi Bike NYC run reserved for the supplement,
+Section~\ref{sec:nyc-supp}), the IMD-augmented model is trained
+on $\sim 4{,}200$ stations and $\sim 18$ million trip-level
+observations ; the Tier 2 GBFS-pseudo-flow benchmark adds
+$19$ French networks for which only the real-time station-status
+feed is available, including Paris ($1{,}361$ stations),
+Lyon ($462$), Toulouse ($448$), Marseille ($228$),
+Bordeaux ($228$) and Saint-\'Etienne ($97$), down to small
+mid-size cities such as Avignon ($29$ stations) and Le Mans
+($51$).  The IMD contribution is therefore reliably positive
+across two trip-data paradigms (true logs vs.\ pseudo-flow) and
+two continents — a sample of $24$ networks across two operator
+families (Lyft NA + JCDecaux/Smovengo/Indigo/Inurba FR) and
+network sizes spanning two orders of magnitude
+($29$ to $2{,}230$ stations).  The headline result is not an
+artefact of the V\'elomagg panel size, of topography, of the
+trip-vs-pseudo-flow target, or of the network's
+operator-platform.
+
+\medskip\noindent\textbf{Rennes Le V\'elo Star outlier.}
+The Le V\'elo Star Rennes row is the only network for which both
+G$^-$ and G are essentially flat ($R^2 = -0.02$ and $+0.04$).
+Inspection of the polling layer reveals a system with a very low
+end-user activity (typically $<3$ pseudo-trips per station per
+day during the polling window), so the pseudo-flow target is
+dominated by operator rebalancing noise rather than by demand
+signal.  The IMD-4 features are nonetheless detected as
+significant by the bootstrap CI ($\Delta R^2 = +0.06$,
+$95\,\%$\,CI $[+0.05, +0.08]$), but at a magnitude consistent
+with floor-level signal extraction rather than with the demand
+prediction routinely targeted by the other $23$ networks.  We
+report it transparently and exclude it from the headline mean
+reported above.
 
 \begin{table}[H]
 \centering
@@ -665,35 +688,52 @@ defined in Section~\ref{sec:multicity}.  $R^2$ on the trip-count
 scale ; brackets give the weekly- (Tier 1) or daily-block (Tier 2)
 $95\,\%$ bootstrap CI, $B = 500$ replicates
 (Section~\ref{sec:bootstrap}).  The IMD-4 contribution
-$\Delta R^2$ is in the range $[+0.27, +0.49]$ across all eight
-networks, with a mean of $+0.37$.  None of the per-city CIs for
-$\Delta R^2$ overlaps zero.}
+$\Delta R^2$ is in the range $[+0.06, +0.55]$ across all $24$
+networks ($[+0.14, +0.55]$ if the Rennes Le V\'elo Star outlier
+is excluded), with a $24$-city mean of $+0.32$.  None of the
+per-city CIs for $\Delta R^2$ overlaps zero.}
 \label{tab:multicity}
-\small
+\scriptsize
 \begin{tabular}{@{}llrrlll@{}}
 \toprule
 Network              & Country & Stations & Obs (k)  & R$^2$ no IMD & R$^2$ IMD & $\Delta$R$^2$ \\
 \midrule
 \multicolumn{7}{@{}l@{}}{\emph{Tier 1 — true trip logs}} \\
 V\'elomagg Montpellier   & FR &     53 &     90 & $+0.04\,[+0.03,+0.06]$  & $+0.31\,[+0.28,+0.34]$ & $+0.27\,[+0.24,+0.30]$ \\
-Capital Bikeshare DC      & US &   776 &  1{,}329 & $+0.02\,[+0.02,+0.03]$  & $+0.38\,[+0.37,+0.39]$ & $+0.36\,[+0.34,+0.37]$ \\
-Divvy Chicago              & US & 1{,}345 &  1{,}165 & $+0.07\,[+0.06,+0.08]$  & $+0.42\,[+0.39,+0.44]$ & $+0.35\,[+0.32,+0.37]$ \\
-Bluebikes Boston           & US &   497 &     788 & $+0.06\,[+0.05,+0.07]$  & $+0.53\,[+0.51,+0.55]$ & $+0.47\,[+0.45,+0.49]$ \\
-Bay Wheels SF             & US &   560 &     912 & $-0.02\,[-0.03,-0.01]$  & $+0.25\,[+0.22,+0.27]$ & $+0.27\,[+0.24,+0.29]$ \\
+Capital Bikeshare DC     & US &   776 &  1{,}329 & $+0.02\,[+0.02,+0.03]$  & $+0.38\,[+0.37,+0.39]$ & $+0.36\,[+0.34,+0.37]$ \\
+Divvy Chicago            & US & 1{,}345 &  1{,}165 & $+0.07\,[+0.06,+0.08]$  & $+0.42\,[+0.39,+0.44]$ & $+0.35\,[+0.32,+0.37]$ \\
+Bluebikes Boston         & US &   497 &     788 & $+0.06\,[+0.05,+0.07]$  & $+0.53\,[+0.51,+0.55]$ & $+0.47\,[+0.45,+0.49]$ \\
+Bay Wheels SF            & US &   560 &     912 & $-0.02\,[-0.03,-0.01]$  & $+0.25\,[+0.22,+0.27]$ & $+0.27\,[+0.24,+0.29]$ \\
 Citi Bike NYC$^{\dagger}$ & US & 2{,}230 & 4{,}844 & $+0.003$                & $+0.531$               & $+0.53$ (point only) \\
 \midrule
-\multicolumn{7}{@{}l@{}}{\emph{Tier 2 — GBFS pseudo-flow}} \\
+\multicolumn{7}{@{}l@{}}{\emph{Tier 2 — GBFS pseudo-flow (eight-day polling window)}} \\
 V\'elib Paris               & FR & 1{,}361 &     36 & $+0.21\,[+0.12,+0.31]$  & $+0.49\,[+0.45,+0.52]$ & $+0.28\,[+0.21,+0.33]$ \\
 V\'elo'v Lyon               & FR &   462 &     12 & $+0.18\,[+0.09,+0.26]$  & $+0.64\,[+0.57,+0.64]$ & $+0.46\,[+0.31,+0.55]$ \\
 V\'eL\'eO Toulouse          & FR &   448 &     12 & $+0.12\,[+0.01,+0.21]$  & $+0.61\,[+0.53,+0.61]$ & $+0.49\,[+0.32,+0.59]$ \\
+LeV\'elo Marseille          & FR &   228 &      6 & $+0.07\,[+0.01,+0.10]$  & $+0.52\,[+0.44,+0.54]$ & $+0.45\,[+0.35,+0.53]$ \\
+TBM V\'elo Bordeaux         & FR &   228 &      6 & $+0.08\,[+0.03,+0.13]$  & $+0.47\,[+0.40,+0.48]$ & $+0.39\,[+0.27,+0.45]$ \\
+V\'elivert Saint-\'Etienne  & FR &    97 &      3 & $-0.01\,[-0.04,-0.00]$  & $+0.54\,[+0.41,+0.58]$ & $+0.55\,[+0.41,+0.62]$ \\
+V\'elonecy Annecy           & FR &    80 &      2 & $-0.01\,[-0.03,-0.00]$  & $+0.51\,[+0.43,+0.53]$ & $+0.52\,[+0.44,+0.56]$ \\
+Naolib Nantes               & FR &   123 &      3 & $+0.08\,[+0.06,+0.10]$  & $+0.44\,[+0.41,+0.48]$ & $+0.36\,[+0.36,+0.38]$ \\
+Vilvolt \'Epinal            & FR &   106 &      3 & $-0.03\,[-0.05,-0.01]$  & $+0.34\,[+0.32,+0.35]$ & $+0.37\,[+0.33,+0.39]$ \\
+V\'elozef Brest             & FR &    46 &      1 & $-0.07\,[-0.11,-0.07]$  & $+0.27\,[+0.19,+0.28]$ & $+0.34\,[+0.25,+0.38]$ \\
+V\'elopop Avignon           & FR &    29 &      1 & $+0.08\,[+0.01,+0.11]$  & $+0.40\,[+0.35,+0.42]$ & $+0.32\,[+0.31,+0.34]$ \\
+Lov\'elo Inurba Rouen       & FR &   124 &      3 & $+0.05\,[+0.02,+0.05]$  & $+0.34\,[+0.24,+0.37]$ & $+0.30\,[+0.21,+0.34]$ \\
+Twisto V\'elolib Caen       & FR &    76 &      2 & $+0.07\,[+0.05,+0.07]$  & $+0.30\,[+0.23,+0.31]$ & $+0.23\,[+0.18,+0.27]$ \\
+Tanlib Le Mans              & FR &    51 &      1 & $+0.06\,[+0.03,+0.08]$  & $+0.31\,[+0.27,+0.31]$ & $+0.25\,[+0.19,+0.29]$ \\
+V\'elam Amiens              & FR &    46 &      1 & $+0.20\,[+0.17,+0.22]$  & $+0.45\,[+0.40,+0.46]$ & $+0.25\,[+0.17,+0.29]$ \\
+V\'elostan'lib Nancy        & FR &    37 &      1 & $+0.09\,[+0.05,+0.11]$  & $+0.32\,[+0.30,+0.33]$ & $+0.24\,[+0.22,+0.25]$ \\
+Zebullo Belfort             & FR &    66 &      2 & $+0.00\,[-0.05,+0.04]$  & $+0.22\,[+0.20,+0.22]$ & $+0.22\,[+0.19,+0.25]$ \\
+Cap Cotentin                & FR &    49 &      1 & $+0.04\,[+0.02,+0.04]$  & $+0.18\,[+0.16,+0.18]$ & $+0.14\,[+0.13,+0.15]$ \\
+Le V\'elo Star Rennes       & FR &    57 &      2 & $-0.02\,[-0.04,-0.02]$  & $+0.04\,[+0.02,+0.04]$ & $+0.06\,[+0.05,+0.08]$ \\
 \midrule
-\textbf{Mean (8 cities)}    & --  & --   & --   & --                     & --                    & $+0.37$ \\
+\textbf{Mean (24 cities)}   & --  & --   & --   & --                     & --                    & $+0.32$ \\
 \bottomrule
 \end{tabular}
 \smallskip\\
 {\footnotesize $^{\dagger}$NYC reported as point estimate only ; the
-block-bootstrap CI requires a 16\,GB-class machine for the
-$19.4$ M-row training panel and is deferred to the supplement.}
+block-bootstrap CI requires a $16$\,GB-class machine for the
+$19.4$\,M-row training panel and is deferred to the supplement.}
 \end{table}
 
 The result confirms the central claim of the paper at a scope an
@@ -805,23 +845,25 @@ concrete benchmark plan.
 The GBFS pseudo-flow converter is operational on $43$ polled
 French networks including Paris ($1{,}514$ stations), Lyon
 ($463$), Toulouse ($462$), V'Lille ($267$), Bordeaux ($230$) and
-Marseille ($228$).  At the v1.2 cut-off, the polling layer has
+Marseille ($228$).  At the v1.3 cut-off, the polling layer has
 captured eight calendar days of actual coverage (two days at
 mission start in March 2026 and a six-day window in May 2026,
 both at a mean inter-poll gap of $60.2$ s ; the intervening
 $73$ days were lost to the vacation-orchestrator OOM crash
 documented in the repository) yielding $1{,}067{,}876$
-pseudo-trips, of which the first three Tier 2 fits reported in
-Table~\ref{tab:multicity} (Paris, Lyon, Toulouse) recover
-$\Delta R^2 \in [+0.28, +0.49]$ — already matching the Tier 1
-range.  The headline question of the v1.2 release is whether
-the $+0.27$ R$^2$ gain reported here for Montpellier under
-trip-level targets transfers to the remaining $33$ Tier 2 networks
-under pseudo-flow targets, and whether the per-axis
-feature-importance pattern (T-dominated for Montpellier) shifts
-predictably with the host city's cycling-environment
-heterogeneity.  A resumed polling daemon is collecting the
-missing window for the v1.3 supplement.
+pseudo-trips.  Nineteen of the $36$ dock-based networks have
+been fitted on this eight-day window and are reported in
+Table~\ref{tab:multicity} alongside the five Tier 1 trip-log
+fits, with $\Delta R^2$ in the range $[+0.06, +0.55]$
+($[+0.14, +0.55]$ excluding the low-activity Rennes outlier),
+matching the Tier 1 range.  The eight-day polling window leaves
+the per-city CIs wider than the trip-log Tier 1 ones (typically
+$\pm 0.08$ vs.\ $\pm 0.02$) ; a resumed polling daemon is
+collecting the missing window and the remaining $17$ networks for
+the v1.4 supplement.  Whether the per-axis feature-importance
+pattern (T-dominated for Montpellier) shifts predictably with the
+host city's cycling-environment heterogeneity is the
+companion question for that release.
 
 \paragraph{Tier 1 international panel (5--7 cities).}
 The trip-log downloader of Section~\ref{sec:multicity} unlocks

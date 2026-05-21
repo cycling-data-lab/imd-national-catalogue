@@ -1,0 +1,31 @@
+{
+  "city": "le_velo_star",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 7524,
+  "n_stations": 57,
+  "n_train": 6019,
+  "n_test": 1505,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "le_velo_star_G_minus_temporal",
+    "n_test": 1505,
+    "r2_log": 0.09045729971525196,
+    "r2_trips": -0.02134827492822744,
+    "mae_trips": 1.2515534546379545,
+    "rmse_trips": 2.9447887245716027,
+    "fit_seconds": 3.9
+  },
+  "imd_augmented": {
+    "model": "le_velo_star_G_plus_imd",
+    "n_test": 1505,
+    "r2_log": 0.18643264055927156,
+    "r2_trips": 0.03569616473185733,
+    "mae_trips": 1.172022656954283,
+    "rmse_trips": 2.8613709174132813,
+    "fit_seconds": 4.2
+  },
+  "delta_r2_trips": 0.05704443966008477,
+  "delta_mae_trips": 0.07953079768367144,
+  "wall_time_s": 8.4
+}

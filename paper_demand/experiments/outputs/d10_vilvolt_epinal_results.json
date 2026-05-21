@@ -1,0 +1,31 @@
+{
+  "city": "vilvolt_epinal",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 13771,
+  "n_stations": 106,
+  "n_train": 11016,
+  "n_test": 2755,
+  "polling_span_h": 1885.0,
+  "no_imd": {
+    "model": "vilvolt_epinal_G_minus_temporal",
+    "n_test": 2755,
+    "r2_log": 0.08659497284518647,
+    "r2_trips": -0.030567263884663465,
+    "mae_trips": 1.1775543548154652,
+    "rmse_trips": 2.3344507496838496,
+    "fit_seconds": 4.2
+  },
+  "imd_augmented": {
+    "model": "vilvolt_epinal_G_plus_imd",
+    "n_test": 2755,
+    "r2_log": 0.3930676400027877,
+    "r2_trips": 0.33633702379837327,
+    "mae_trips": 0.9538771942520375,
+    "rmse_trips": 1.8733561037266797,
+    "fit_seconds": 4.4
+  },
+  "delta_r2_trips": 0.36690428768303673,
+  "delta_mae_trips": 0.22367716056342768,
+  "wall_time_s": 9.0
+}

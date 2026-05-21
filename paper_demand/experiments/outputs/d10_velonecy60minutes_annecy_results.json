@@ -1,0 +1,31 @@
+{
+  "city": "velonecy60minutes_annecy",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 10560,
+  "n_stations": 80,
+  "n_train": 8448,
+  "n_test": 2112,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "velonecy60minutes_annecy_G_minus_temporal",
+    "n_test": 2112,
+    "r2_log": 0.05768521602391408,
+    "r2_trips": -0.013832046763937456,
+    "mae_trips": 1.3056035026099564,
+    "rmse_trips": 2.2291752337475272,
+    "fit_seconds": 4.3
+  },
+  "imd_augmented": {
+    "model": "velonecy60minutes_annecy_G_plus_imd",
+    "n_test": 2112,
+    "r2_log": 0.4976244709758215,
+    "r2_trips": 0.5079273435350873,
+    "mae_trips": 0.9092028442795124,
+    "rmse_trips": 1.5530156002482836,
+    "fit_seconds": 4.4
+  },
+  "delta_r2_trips": 0.5217593902990247,
+  "delta_mae_trips": 0.396400658330444,
+  "wall_time_s": 9.1
+}

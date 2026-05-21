@@ -1,0 +1,31 @@
+{
+  "city": "velivert_saint_etienne",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 12804,
+  "n_stations": 97,
+  "n_train": 10243,
+  "n_test": 2561,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "velivert_saint_etienne_G_minus_temporal",
+    "n_test": 2561,
+    "r2_log": 0.10713581033462438,
+    "r2_trips": -0.011369183929077709,
+    "mae_trips": 2.107796689083008,
+    "rmse_trips": 3.7690688256852107,
+    "fit_seconds": 4.3
+  },
+  "imd_augmented": {
+    "model": "velivert_saint_etienne_G_plus_imd",
+    "n_test": 2561,
+    "r2_log": 0.5629854683630879,
+    "r2_trips": 0.5371145535628521,
+    "mae_trips": 1.4217441755517026,
+    "rmse_trips": 2.5498578669617356,
+    "fit_seconds": 4.4
+  },
+  "delta_r2_trips": 0.5484837374919298,
+  "delta_mae_trips": 0.6860525135313054,
+  "wall_time_s": 9.2
+}

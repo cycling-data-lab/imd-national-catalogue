@@ -14,7 +14,7 @@
     "r2_trips": 0.12005466060712922,
     "mae_trips": 2.6642005361045387,
     "rmse_trips": 4.334927790986154,
-    "fit_seconds": 4.3
+    "fit_seconds": 6.2
   },
   "imd_augmented": {
     "model": "toulouse_G_plus_imd",
@@ -23,9 +23,9 @@
     "r2_trips": 0.6130034539887648,
     "mae_trips": 1.8044318300126212,
     "rmse_trips": 2.8747995246186773,
-    "fit_seconds": 6.1
+    "fit_seconds": 6.3
   },
   "delta_r2_trips": 0.49294879338163555,
   "delta_mae_trips": 0.8597687060919175,
-  "wall_time_s": 11.9
+  "wall_time_s": 14.3
 }

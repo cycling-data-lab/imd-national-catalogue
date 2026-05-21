@@ -1,0 +1,31 @@
+{
+  "city": "velozef",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 6017,
+  "n_stations": 46,
+  "n_train": 4813,
+  "n_test": 1204,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "velozef_G_minus_temporal",
+    "n_test": 1204,
+    "r2_log": 0.04489173659516166,
+    "r2_trips": -0.06800818731967873,
+    "mae_trips": 1.5937015056173884,
+    "rmse_trips": 2.484214950517539,
+    "fit_seconds": 3.6
+  },
+  "imd_augmented": {
+    "model": "velozef_G_plus_imd",
+    "n_test": 1204,
+    "r2_log": 0.3121041195532853,
+    "r2_trips": 0.2676274340189855,
+    "mae_trips": 1.3053134397297574,
+    "rmse_trips": 2.0571592552391533,
+    "fit_seconds": 4.3
+  },
+  "delta_r2_trips": 0.3356356213386642,
+  "delta_mae_trips": 0.288388065887631,
+  "wall_time_s": 8.1
+}

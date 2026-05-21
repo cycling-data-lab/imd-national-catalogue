@@ -47,12 +47,27 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Map polling-dir slug -> IMD parquet stem (world_fr_*.parquet without the .parquet)
 CITY_TO_IMD = {
-    "Paris":                  "world_fr_v_lib_metropole",
-    "lyon":                   "world_fr_v_lo_v",
-    "toulouse":               "world_fr_v_l_toulouse",
-    "v_lille":                "world_fr_v_lib_o",
-    "velo-tbm-bordeaux":      "world_fr_le_v_lo_par_tbm",
-    "levelo_inurba_marseille":"world_fr_lev_lo_marseille",
+    "Paris":                    "world_fr_v_lib_metropole",
+    "lyon":                     "world_fr_v_lo_v",
+    "toulouse":                 "world_fr_v_l_toulouse",
+    # v_lille: no IMD parquet available — polling slug has 267 stations
+    # with numeric IDs that match no existing world_fr_*.parquet
+    "velo-tbm-bordeaux":        "world_fr_le_v_lo_par_tbm",
+    "levelo_inurba_marseille":  "world_fr_lev_lo_marseille",
+    "velivert_saint_etienne":   "world_fr_v_livert",
+    "nantes":                   "world_fr_naolib",
+    "twisto_velolib_caen":      "world_fr_twisto_v_lolib",
+    "inurba-rouen":             "world_fr_lovelo_libre_service",
+    "velonecy60minutes_annecy": "world_fr_v_lonecy",
+    "vilvolt_epinal":           "world_fr_vilvolt",
+    "velozef":                  "world_fr_v_lozef",
+    "velopop":                  "world_fr_v_lopop",
+    "le_velo_star":             "world_fr_le_v_lo_star",
+    "tanlib":                   "world_fr_v_lo_tanlib",
+    "capcotentin":              "world_fr_capcotentin",
+    "zebullo":                  "world_fr_zebullo",
+    "nancy":                    "world_fr_v_lostan_lib",
+    "amiens":                   "world_fr_velam",
 }
 
 FEATS_T = ["hour", "day_of_week", "month"]

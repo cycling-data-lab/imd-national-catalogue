@@ -1,0 +1,31 @@
+{
+  "city": "twisto_velolib_caen",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 9871,
+  "n_stations": 76,
+  "n_train": 7896,
+  "n_test": 1975,
+  "polling_span_h": 1885.0,
+  "no_imd": {
+    "model": "twisto_velolib_caen_G_minus_temporal",
+    "n_test": 1975,
+    "r2_log": 0.15941991899289298,
+    "r2_trips": 0.06864211577033008,
+    "mae_trips": 1.3642757945470874,
+    "rmse_trips": 2.1385212501836475,
+    "fit_seconds": 5.3
+  },
+  "imd_augmented": {
+    "model": "twisto_velolib_caen_G_plus_imd",
+    "n_test": 1975,
+    "r2_log": 0.338766082012548,
+    "r2_trips": 0.29965481477962974,
+    "mae_trips": 1.1675234443693565,
+    "rmse_trips": 1.8544338499706126,
+    "fit_seconds": 4.3
+  },
+  "delta_r2_trips": 0.23101269900929966,
+  "delta_mae_trips": 0.19675235017773085,
+  "wall_time_s": 9.9
+}

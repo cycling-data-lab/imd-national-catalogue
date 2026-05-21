@@ -1,0 +1,31 @@
+{
+  "city": "velopop",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 3770,
+  "n_stations": 29,
+  "n_train": 3016,
+  "n_test": 754,
+  "polling_span_h": 1885.0,
+  "no_imd": {
+    "model": "velopop_G_minus_temporal",
+    "n_test": 754,
+    "r2_log": 0.20533135638306654,
+    "r2_trips": 0.07903233847938851,
+    "mae_trips": 2.2726363766501927,
+    "rmse_trips": 3.4870025141976217,
+    "fit_seconds": 2.7
+  },
+  "imd_augmented": {
+    "model": "velopop_G_plus_imd",
+    "n_test": 754,
+    "r2_log": 0.40065243793678984,
+    "r2_trips": 0.3984747726535407,
+    "mae_trips": 1.8849050122221218,
+    "rmse_trips": 2.818103848667653,
+    "fit_seconds": 4.1
+  },
+  "delta_r2_trips": 0.3194424341741522,
+  "delta_mae_trips": 0.3877313644280709,
+  "wall_time_s": 7.0
+}

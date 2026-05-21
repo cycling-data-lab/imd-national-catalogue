@@ -1,0 +1,31 @@
+{
+  "city": "nantes",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 16225,
+  "n_stations": 123,
+  "n_train": 12980,
+  "n_test": 3245,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "nantes_G_minus_temporal",
+    "n_test": 3245,
+    "r2_log": 0.21928679233480464,
+    "r2_trips": 0.08218422824465155,
+    "mae_trips": 1.1981572999494163,
+    "rmse_trips": 2.4462981689862606,
+    "fit_seconds": 4.3
+  },
+  "imd_augmented": {
+    "model": "nantes_G_plus_imd",
+    "n_test": 3245,
+    "r2_log": 0.44386520674810503,
+    "r2_trips": 0.44403879343528463,
+    "mae_trips": 1.0075458997940592,
+    "rmse_trips": 1.9039427109894063,
+    "fit_seconds": 3.7
+  },
+  "delta_r2_trips": 0.3618545651906331,
+  "delta_mae_trips": 0.19061140015535716,
+  "wall_time_s": 8.5
+}

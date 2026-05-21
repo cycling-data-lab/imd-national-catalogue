@@ -1,0 +1,31 @@
+{
+  "city": "inurba-rouen",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 16368,
+  "n_stations": 124,
+  "n_train": 13094,
+  "n_test": 3274,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "inurba-rouen_G_minus_temporal",
+    "n_test": 3274,
+    "r2_log": 0.13588170642138164,
+    "r2_trips": 0.048525567389314794,
+    "mae_trips": 0.9028407742961976,
+    "rmse_trips": 1.6433496771898548,
+    "fit_seconds": 4.4
+  },
+  "imd_augmented": {
+    "model": "inurba-rouen_G_plus_imd",
+    "n_test": 3274,
+    "r2_log": 0.40791801890244206,
+    "r2_trips": 0.34500752905721466,
+    "mae_trips": 0.7112981779105814,
+    "rmse_trips": 1.3634825256559049,
+    "fit_seconds": 4.4
+  },
+  "delta_r2_trips": 0.29648196166789986,
+  "delta_mae_trips": 0.19154259638561622,
+  "wall_time_s": 9.3
+}

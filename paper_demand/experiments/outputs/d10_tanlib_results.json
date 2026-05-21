@@ -1,0 +1,31 @@
+{
+  "city": "tanlib",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 7468,
+  "n_stations": 58,
+  "n_train": 5974,
+  "n_test": 1494,
+  "polling_span_h": 1885.0,
+  "no_imd": {
+    "model": "tanlib_G_minus_temporal",
+    "n_test": 1494,
+    "r2_log": 0.10081045374608333,
+    "r2_trips": 0.061152548719822786,
+    "mae_trips": 1.6895756184102513,
+    "rmse_trips": 3.289439607099446,
+    "fit_seconds": 3.9
+  },
+  "imd_augmented": {
+    "model": "tanlib_G_plus_imd",
+    "n_test": 1494,
+    "r2_log": 0.3411858033180495,
+    "r2_trips": 0.3081127514092653,
+    "mae_trips": 1.4447679904155817,
+    "rmse_trips": 2.823852868305733,
+    "fit_seconds": 4.3
+  },
+  "delta_r2_trips": 0.24696020268944252,
+  "delta_mae_trips": 0.2448076279946696,
+  "wall_time_s": 8.5
+}
