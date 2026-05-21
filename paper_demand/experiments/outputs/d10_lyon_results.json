@@ -1,0 +1,31 @@
+{
+  "city": "lyon",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 60874,
+  "n_stations": 462,
+  "n_train": 48699,
+  "n_test": 12175,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "lyon_G_minus_temporal",
+    "n_test": 12175,
+    "r2_log": 0.35672776857979316,
+    "r2_trips": 0.1806744198907344,
+    "mae_trips": 3.3095813797486877,
+    "rmse_trips": 5.143882190444132,
+    "fit_seconds": 5.2
+  },
+  "imd_augmented": {
+    "model": "lyon_G_plus_imd",
+    "n_test": 12175,
+    "r2_log": 0.7237830543700813,
+    "r2_trips": 0.6369771313511384,
+    "mae_trips": 2.10592602857677,
+    "rmse_trips": 3.423968404986146,
+    "fit_seconds": 4.4
+  },
+  "delta_r2_trips": 0.456302711460404,
+  "delta_mae_trips": 1.2036553511719177,
+  "wall_time_s": 10.8
+}

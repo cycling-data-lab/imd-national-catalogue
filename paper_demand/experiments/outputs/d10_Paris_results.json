@@ -1,0 +1,31 @@
+{
+  "city": "Paris",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 179630,
+  "n_stations": 1361,
+  "n_train": 143704,
+  "n_test": 35926,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "Paris_G_minus_temporal",
+    "n_test": 35926,
+    "r2_log": 0.34237482600886293,
+    "r2_trips": 0.21010862400967822,
+    "mae_trips": 1.9526861858098554,
+    "rmse_trips": 3.1525380214378957,
+    "fit_seconds": 6.4
+  },
+  "imd_augmented": {
+    "model": "Paris_G_plus_imd",
+    "n_test": 35926,
+    "r2_log": 0.5881763610019353,
+    "r2_trips": 0.49110053555873556,
+    "mae_trips": 1.534207886631196,
+    "rmse_trips": 2.530420188813282,
+    "fit_seconds": 8.3
+  },
+  "delta_r2_trips": 0.28099191154905734,
+  "delta_mae_trips": 0.41847829917865953,
+  "wall_time_s": 20.5
+}

@@ -1,0 +1,31 @@
+{
+  "city": "toulouse",
+  "tier": 2,
+  "target": "pseudo_flow",
+  "n_total": 58971,
+  "n_stations": 448,
+  "n_train": 47176,
+  "n_test": 11795,
+  "polling_span_h": 1888.0,
+  "no_imd": {
+    "model": "toulouse_G_minus_temporal",
+    "n_test": 11795,
+    "r2_log": 0.3232197342930192,
+    "r2_trips": 0.12005466060712922,
+    "mae_trips": 2.6642005361045387,
+    "rmse_trips": 4.334927790986154,
+    "fit_seconds": 4.3
+  },
+  "imd_augmented": {
+    "model": "toulouse_G_plus_imd",
+    "n_test": 11795,
+    "r2_log": 0.65793531439995,
+    "r2_trips": 0.6130034539887648,
+    "mae_trips": 1.8044318300126212,
+    "rmse_trips": 2.8747995246186773,
+    "fit_seconds": 6.1
+  },
+  "delta_r2_trips": 0.49294879338163555,
+  "delta_mae_trips": 0.8597687060919175,
+  "wall_time_s": 11.9
+}

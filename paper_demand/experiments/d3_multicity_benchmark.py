@@ -64,24 +64,41 @@ def list_trip_files(city: str) -> list[Path]:
     return files
 
 
+def _sniff_schema(zfile: zipfile.ZipFile, csv_name: str) -> tuple[str, str]:
+    """Return (started_col, station_col) for the trip-log CSV; supports
+    both the modern Lyft schema and the older Hubway-style schema."""
+    with zfile.open(csv_name) as f:
+        head = pd.read_csv(f, nrows=0)
+    cols = set(head.columns)
+    if "started_at" in cols and "start_station_id" in cols:
+        return "started_at", "start_station_id"
+    if "starttime" in cols and "start station id" in cols:
+        return "starttime", "start station id"
+    raise ValueError(f"Unknown schema in {csv_name}: cols={sorted(cols)}")
+
+
 def load_trip_zip(zip_path: Path) -> pd.DataFrame:
     """Return a DataFrame with (datetime_hour, station_id, demande) bins
-    from a single trip-log zip. Uses started_at for the demand-out side."""
+    from a single trip-log zip. Auto-detects Lyft vs Hubway schema per CSV."""
     frames = []
     with zipfile.ZipFile(zip_path) as z:
         for name in z.namelist():
             if name.startswith("__MACOSX") or not name.endswith(".csv"):
                 continue
+            try:
+                started_col, station_col = _sniff_schema(z, name)
+            except ValueError as e:
+                print(f"        ! skip {name}: {e}"); continue
             with z.open(name) as f:
                 for chunk in pd.read_csv(
                     f, chunksize=300_000,
-                    usecols=["started_at", "start_station_id"],
+                    usecols=[started_col, station_col],
                     low_memory=False,
                 ):
-                    chunk = chunk.dropna(subset=["start_station_id"])
-                    chunk["station_id"] = chunk["start_station_id"].astype(str)
+                    chunk = chunk.dropna(subset=[station_col])
+                    chunk["station_id"] = chunk[station_col].astype(str)
                     chunk["datetime_hour"] = pd.to_datetime(
-                        chunk["started_at"], errors="coerce").dt.floor("h")
+                        chunk[started_col], errors="coerce").dt.floor("h")
                     chunk = chunk.dropna(subset=["datetime_hour"])
                     grouped = (chunk.groupby(["station_id", "datetime_hour"])
                                .size().reset_index(name="demande"))
@@ -208,12 +225,24 @@ def run_city_benchmark(city: str, train_cutoff_frac: float = 0.8):
 
     # No-IMD model (temporal only)
     print(f"  Training G- (no-IMD) ...")
-    m_no, _ = model_lgb(train, test, FEATS_T, f"{city}_G_minus_temporal")
+    m_no, mdl_no = model_lgb(train, test, FEATS_T, f"{city}_G_minus_temporal")
+    pred_no = mdl_no.predict(_encode(train, test, FEATS_T)[1])
 
     # IMD-augmented model
     print(f"  Training G+ (IMD-augmented) ...")
     m_imd, mdl_imd = model_lgb(train, test, FEATS_T + FEATS_IMD,
                                 f"{city}_G_plus_imd")
+    pred_imd = mdl_imd.predict(_encode(train, test, FEATS_T + FEATS_IMD)[1])
+
+    # Save test-set predictions for downstream bootstrap CI (d11)
+    pred_df = pd.DataFrame({
+        "datetime_hour": test["datetime_hour"].values,
+        "station_id":    test["station_id"].values,
+        "y_true_log":    test["log_demand"].values,
+        "y_pred_no_imd": pred_no,
+        "y_pred_imd":    pred_imd,
+    })
+    pred_df.to_parquet(OUT_DIR / f"d3_{city}_predictions.parquet", index=False)
 
     summary = {
         "city": city,

@@ -163,7 +163,7 @@ def train_lgb(train, test, features, target="log_demand", model_name="model"):
     fi = pd.DataFrame({"feature": features, "importance": model.booster_.feature_importance(importance_type="gain")})
     fi = fi.sort_values("importance", ascending=False)
 
-    return metrics, fi
+    return metrics, fi, y_pred
 
 
 def main():
@@ -178,18 +178,28 @@ def main():
 
     print("[3/5] Training Model A (Temporal+weather+network only, NO spatial)...")
     feats_A = FEATURES_TEMPORAL + FEATURES_NETWORK_BASELINE
-    metrics_A, fi_A = train_lgb(train, test, feats_A, model_name="A_temporal_only")
+    metrics_A, fi_A, pred_A = train_lgb(train, test, feats_A, model_name="A_temporal_only")
     print(f"      R²_trips = {metrics_A['r2_trips']:.4f}  MAE = {metrics_A['mae_trips']:.3f}")
 
     print("[4/5] Training Model B (Temporal + Station fixed effect)...")
     feats_B = FEATURES_TEMPORAL + FEATURES_NETWORK_BASELINE + ["station"]
-    metrics_B, fi_B = train_lgb(train, test, feats_B, model_name="B_temporal_plus_station_FE")
+    metrics_B, fi_B, pred_B = train_lgb(train, test, feats_B, model_name="B_temporal_plus_station_FE")
     print(f"      R²_trips = {metrics_B['r2_trips']:.4f}  MAE = {metrics_B['mae_trips']:.3f}")
 
     print("[5/5] Training Model C (Temporal + IMD components, NO station FE)...")
     feats_C = FEATURES_TEMPORAL + FEATURES_NETWORK_BASELINE + FEATURES_IMD
-    metrics_C, fi_C = train_lgb(train, test, feats_C, model_name="C_imd_augmented")
+    metrics_C, fi_C, pred_C = train_lgb(train, test, feats_C, model_name="C_imd_augmented")
     print(f"      R²_trips = {metrics_C['r2_trips']:.4f}  MAE = {metrics_C['mae_trips']:.3f}")
+
+    # Save test-set predictions for bootstrap CI (d11)
+    pred_df = pd.DataFrame({
+        "datetime_hour": test["datetime"].values,
+        "station_id":    test["station"].astype(str).values,
+        "y_true_log":    test["log_demand"].values,
+        "y_pred_no_imd": pred_A,   # A = temporal-only baseline = G^-
+        "y_pred_imd":    pred_C,   # C = IMD-augmented            = G
+    })
+    pred_df.to_parquet(OUT_DIR / "d1_velomagg_predictions.parquet", index=False)
 
     # Save
     summary = {

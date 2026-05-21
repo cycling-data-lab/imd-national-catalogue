@@ -1,28 +1,28 @@
 {
   "city": "chicago_divvy",
-  "n_total": 2348822,
+  "n_total": 5825603,
   "n_stations": 1345,
-  "n_train": 1879057,
-  "n_test": 469765,
+  "n_train": 4660482,
+  "n_test": 1165121,
   "no_imd": {
     "model": "chicago_divvy_G_minus_temporal",
-    "n_test": 469765,
-    "r2_log": 0.07500677451084214,
-    "r2_trips": 0.06202717447304007,
-    "mae_trips": 1.215304009412281,
-    "rmse_trips": 2.144098739583716,
-    "fit_seconds": 11.4
+    "n_test": 1165121,
+    "r2_log": 0.1231186966645571,
+    "r2_trips": 0.07099667511967633,
+    "mae_trips": 1.3558440167273609,
+    "rmse_trips": 2.532143816938169,
+    "fit_seconds": 25.9
   },
   "imd_augmented": {
     "model": "chicago_divvy_G_plus_imd",
-    "n_test": 469765,
-    "r2_log": 0.36877314253811544,
-    "r2_trips": 0.41130152045746726,
-    "mae_trips": 1.0011267200982403,
-    "rmse_trips": 1.6986195193615934,
-    "fit_seconds": 18.3
+    "n_test": 1165121,
+    "r2_log": 0.4231651111506398,
+    "r2_trips": 0.41698402628726583,
+    "mae_trips": 1.1067966331144194,
+    "rmse_trips": 2.0059493421978023,
+    "fit_seconds": 36.5
   },
-  "delta_r2_trips": 0.3492743459844272,
-  "delta_mae_trips": 0.21417728931404056,
-  "wall_time_s": 54.5
+  "delta_r2_trips": 0.3459873511675895,
+  "delta_mae_trips": 0.24904738361294143,
+  "wall_time_s": 151.8
 }

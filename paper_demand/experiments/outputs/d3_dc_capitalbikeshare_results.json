@@ -1,28 +1,28 @@
 {
   "city": "dc_capitalbikeshare",
-  "n_total": 3695205,
+  "n_total": 6646114,
   "n_stations": 776,
-  "n_train": 2956164,
-  "n_test": 739041,
+  "n_train": 5316891,
+  "n_test": 1329223,
   "no_imd": {
     "model": "dc_capitalbikeshare_G_minus_temporal",
-    "n_test": 739041,
-    "r2_log": 0.0992804988096675,
-    "r2_trips": 0.05122262295891589,
-    "mae_trips": 1.5638613942400177,
-    "rmse_trips": 2.5385408152450504,
-    "fit_seconds": 18.5
+    "n_test": 1329223,
+    "r2_log": 0.08999679834285113,
+    "r2_trips": 0.022579542476923065,
+    "mae_trips": 1.5777221557046905,
+    "rmse_trips": 2.595501964568542,
+    "fit_seconds": 26.5
   },
   "imd_augmented": {
     "model": "dc_capitalbikeshare_G_plus_imd",
-    "n_test": 739041,
-    "r2_log": 0.46248839157371924,
-    "r2_trips": 0.4531484901341054,
-    "mae_trips": 1.2029134222747095,
-    "rmse_trips": 1.927243980646522,
-    "fit_seconds": 34.8
+    "n_test": 1329223,
+    "r2_log": 0.42983534826072556,
+    "r2_trips": 0.37960840505004,
+    "mae_trips": 1.2502778475335865,
+    "rmse_trips": 2.0678241461555356,
+    "fit_seconds": 43.6
   },
-  "delta_r2_trips": 0.4019258671751895,
-  "delta_mae_trips": 0.36094797196530815,
-  "wall_time_s": 111.7
+  "delta_r2_trips": 0.35702886257311695,
+  "delta_mae_trips": 0.32744430817110404,
+  "wall_time_s": 140.9
 }

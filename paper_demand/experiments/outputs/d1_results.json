@@ -18,7 +18,7 @@
       "rmse_trips": 1.7501851402899105,
       "mean_true": 1.960509043985138,
       "mean_pred": 1.6588559221778418,
-      "fit_seconds": 8.3,
+      "fit_seconds": 16.8,
       "n_features": 16
     },
     {
@@ -30,7 +30,7 @@
       "rmse_trips": 1.4824589395609202,
       "mean_true": 1.960509043985138,
       "mean_pred": 1.6939630388174898,
-      "fit_seconds": 9.2,
+      "fit_seconds": 13.1,
       "n_features": 17
     },
     {
@@ -42,7 +42,7 @@
       "rmse_trips": 1.4840162591392922,
       "mean_true": 1.960509043985138,
       "mean_pred": 1.6930853070351974,
-      "fit_seconds": 9.9,
+      "fit_seconds": 12.1,
       "n_features": 29
     }
   ],
