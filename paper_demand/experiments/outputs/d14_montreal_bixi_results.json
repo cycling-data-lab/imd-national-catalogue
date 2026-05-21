@@ -1,0 +1,30 @@
+{
+  "city": "montreal_bixi",
+  "tier": 1,
+  "target": "trips",
+  "n_total": 2216791,
+  "n_stations": 741,
+  "n_train": 1773432,
+  "n_test": 443359,
+  "no_imd": {
+    "model": "montreal_bixi_G_minus_temporal",
+    "n_test": 443359,
+    "n_features": 3,
+    "r2_log": 0.02434629700151747,
+    "r2_trips": 0.08962172630825582,
+    "mae_trips": 2.5703219556065187,
+    "rmse_trips": 3.931235324702141
+  },
+  "imd_augmented": {
+    "model": "montreal_bixi_G_plus_imd",
+    "n_test": 443359,
+    "n_features": 10,
+    "r2_log": 0.27694124547526067,
+    "r2_trips": 0.37284334428503496,
+    "mae_trips": 2.1977956363777666,
+    "rmse_trips": 3.2629176792425865
+  },
+  "delta_r2_trips": 0.28322161797677914,
+  "delta_mae_trips": 0.372526319228752,
+  "wall_time_s": 377.2
+}

@@ -62,13 +62,16 @@ def main():
     rng = np.random.default_rng(SEED)
     pred_files = sorted(list(OUT.glob("d1_*_predictions.parquet")) +
                         list(OUT.glob("d3_*_predictions.parquet")) +
-                        list(OUT.glob("d10_*_predictions.parquet")))
+                        list(OUT.glob("d10_*_predictions.parquet")) +
+                        list(OUT.glob("d14_*_predictions.parquet")))
     rows = []
     for pf in pred_files:
         if pf.name.startswith("d1_"):
             tier, city = 1, pf.stem.replace("d1_", "").replace("_predictions", "")
         elif pf.name.startswith("d3_"):
             tier, city = 1, pf.stem.replace("d3_", "").replace("_predictions", "")
+        elif pf.name.startswith("d14_"):
+            tier, city = 1, pf.stem.replace("d14_", "").replace("_predictions", "")
         else:
             tier, city = 2, pf.stem.replace("d10_", "").replace("_predictions", "")
         df = pd.read_parquet(pf)
